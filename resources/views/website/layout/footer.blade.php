@@ -51,10 +51,11 @@
                  <h5>संपर्क</h5>
                  <p>📍 {{ $navbar->address ?? 'पंचायत समिती' }}</p>
                  <p>📧 {{ $navbar && $navbar->email_id != 'dummy@gmail.com' ? $navbar->email_id : '' }}</p>
-                 <p>📞 @if ($navbar->contact_number == '0000000')
-                         {{ '  ' }}
+                 <p>📞
+                     @if (optional($navbar)->contact_number == '0000000')
+                         {{ '' }}
                      @else
-                         {{ $navbar->contact_number ?? '1234567890' }}
+                         {{ optional($navbar)->contact_number ?? '1234567890' }}
                      @endif
                  </p>
              </div>
