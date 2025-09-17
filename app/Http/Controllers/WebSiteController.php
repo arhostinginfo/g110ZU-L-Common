@@ -35,13 +35,13 @@ class WebSiteController extends Controller
 
         $officerData =  Officers::where('is_deleted',0)
                 ->where('is_active', 1)
-                ->where('type', 'Officer')
+                ->where('type', '=',  'Officer')
                 ->orderBy('sequence_officer', 'asc')
                 ->get();
         $sadsyaAll  =Officers::where('is_deleted',0)
                 ->where('is_active', 1)
-                ->where('type', 'Sadsya')
-                ->orderBy('sequence_sadsya', 'asc')
+                ->where('type', '=',  'Sadsya')
+                ->orderBy('sequence_general', 'asc')
                 ->get();
 
 
