@@ -28,13 +28,21 @@ class WebSiteController extends Controller
                 ->orderBy('id', 'desc')
                 ->first();
 
-        $officers = Officers::where('is_deleted',0)
-                ->where('is_active', 1)
-                ->orderBy('id', 'desc')
-                ->get();
+        // $officers = Officers::where('is_deleted',0)
+        //         ->where('is_active', 1)
+        //         ->orderBy('id', 'desc')
+        //         ->get();
 
-        $officerData = $officers->where('type', 'Officer')->sortBy('sequence_officer');
-        $sadsyaAll  = $officers->where('type', 'Sadsya')->sortBy('sequence_sadsya');
+        $officerData =  Officers::where('is_deleted',0)
+                ->where('is_active', 1)
+                ->where('type', 'Officer')
+                ->orderBy('sequence_officer', 'asc')
+                ->get();
+        $sadsyaAll  =Officers::where('is_deleted',0)
+                ->where('is_active', 1)
+                ->where('type', 'Sadsya')
+                ->orderBy('sequence_sadsya', 'asc')
+                ->get();
 
 
 
