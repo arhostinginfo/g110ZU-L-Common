@@ -125,7 +125,7 @@
          </div>
 
 
-       
+
 
 
 
@@ -178,8 +178,20 @@
                                  <td>{{ $i + 1 }}</td>
                                  <td>{{ $sadsya->designation ?? 'designation' }}</td>
                                  <td>{{ $sadsya->name ?? 'name' }}</td>
-                                 <td> {{ $sadsya->mobile ?? 'mobile' }}</td>
-                                 <td>@if($sadsya->email == 'dummy@gmail.com') {{'  ' }} @else {{ $sadsya->email ?? 'email' }} @endif</td>
+                                 <td>
+                                     @if ($sadsya->email == '0000000')
+                                         {{ '  ' }}
+                                     @else
+                                         {{ $sadsya->mobile ?? 'mobile' }}
+                                     @endif
+                                 </td>
+                                 <td>
+                                     @if ($sadsya->email == 'dummy@gmail.com')
+                                         {{ '  ' }}
+                                     @else
+                                         {{ $sadsya->email ?? 'email' }}
+                                     @endif
+                                 </td>
                              </tr>
                          @endforeach
                      </tbody>
@@ -211,8 +223,20 @@
                                  <td>{{ $i + 1 }}</td>
                                  <td>{{ $officer->designation ?? 'designation' }}</td>
                                  <td>{{ $officer->name ?? 'name' }}</td>
-                                 <td> {{ $officer->mobile ?? 'mobile' }}</td>
-                                 <td>@if($officer->email == 'dummy@gmail.com') {{'  ' }} @else {{ $officer->email ?? 'email' }} @endif</td>
+                                 <td>
+                                     @if ($officer->email == '0000000')
+                                         {{ '  ' }}
+                                     @else
+                                         {{ $officer->mobile ?? 'mobile' }}
+                                     @endif
+                                 </td>
+                                 <td>
+                                     @if ($officer->email == 'dummy@gmail.com')
+                                         {{ '  ' }}
+                                     @else
+                                         {{ $officer->email ?? 'email' }}
+                                     @endif
+                                 </td>
                              </tr>
                          @endforeach
                      </tbody>
