@@ -50,12 +50,7 @@
              <div class="col-md-4 mb-3">
                  <h5>संपर्क</h5>
                  <p>📍 {{ $navbar->address ?? 'पंचायत समिती' }}</p>
-                 <p>📧 @if ($navbar->email_id == 'dummy@gmail.com')
-                         {{ '  ' }}
-                     @else
-                         {{ $navbar->email_id ?? 'email' }}
-                     @endif
-                 </p>
+                 <p>📧 {{ $navbar && $navbar->email_id != 'dummy@gmail.com' ? $navbar->email_id : '' }}</p>
                  <p>📞 @if ($navbar->contact_number == '0000000')
                          {{ '  ' }}
                      @else
