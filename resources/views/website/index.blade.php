@@ -200,6 +200,32 @@
          </section>
 
 
+          <!-- Sadysay Photo -->
+         <section id="places_new" class="card-section" data-aos="fade-up">
+             <div class="container">
+                 <div class="section-title">
+                 </div>
+
+                 <div
+                     class="col-12 col-sm-6 col-lg-12 d-flex justify-content-center align-items-center text-center place-card">
+                     @foreach ($sadsyaAll as $i => $sadsya_photo)
+                         <div class="hovereffect w-100">
+                             <img src="{{ asset('storage/' . ($sadsya_photo->photo ?? 'default.jpg')) }}"
+                                 alt="{{ $locations->name ?? 'name' }}" class="rounded-circle mb-2"
+                                 style="width:80px; height:80px; object-fit:cover;">
+                             <h5 class=" section-title mb-2">{{ $sadsya_photo->name ?? 'name' }}</h5>
+                             <div class="overlay">
+                                 <h2 class=" section-title one_rem">{{ $sadsya_photo->designation ?? 'designation' }}
+                                 </h2>
+                             </div>
+                         </div>
+                     @endforeach
+                 </div>
+
+             </div>
+         </section>
+
+
 
 
          <!-- Officers Contact Details -->
