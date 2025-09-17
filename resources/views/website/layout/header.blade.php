@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="{{ asset('storage/' . ($navbar->logo ?? 'default.jpg')) }}">
-  
+
     <title>{{ $navbar->name ?? 'Website Name' }}</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -255,7 +255,7 @@
 
         .accordion-button:not(.collapsed) {
             color: var(--bs-accordion-active-color);
-            background-color:  var(--primary);
+            background-color: var(--primary);
             box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color);
         }
 
@@ -386,6 +386,11 @@
         .data-table tr:nth-child(even) {
             background-color: #fafafa;
         }
+
+        .galarysetting {
+            height: 150px;
+            width: 237px;
+        }
     </style>
     <style>
         .one_rem {
@@ -403,7 +408,7 @@
         <!--<span class="settings ms-2" role="button" title="Theme & color" onclick="toggleColorPicker()">⚙️</span>-->
         <span class="theme-toggle ms-2" role="button" title="Dark / Light" onclick="toggleDark()">🌙</span>
     </div>
-    
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid justify-content-center" style="max-width:var(--container-max);">

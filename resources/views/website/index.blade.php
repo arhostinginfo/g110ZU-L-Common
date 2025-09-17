@@ -97,7 +97,7 @@
                                  <h6 class="mt-2">{{ $gallay_photo->name ?? 'शीर्षक उपलब्ध नाही' }}</h6>
                                  <div class="photo-wrapper">
                                      <img src="{{ asset('storage/' . ($gallay_photo->attachment ?? 'default.jpg')) }}"
-                                         class="img-fluid rounded shadow-sm cursor-pointer"
+                                         class="galarysetting img-fluid rounded shadow-sm cursor-pointer"
                                          alt="{{ $gallay_photo->name ?? 'name of image' }}" data-bs-toggle="modal"
                                          data-bs-target="#photoModal"
                                          data-bs-image="{{ asset('storage/' . ($gallay_photo->attachment ?? 'default.jpg')) }}">
