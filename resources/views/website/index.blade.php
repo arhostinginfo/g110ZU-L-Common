@@ -179,7 +179,7 @@
                                  <td>{{ $sadsya->designation ?? 'designation' }}</td>
                                  <td>{{ $sadsya->name ?? 'name' }}</td>
                                  <td> {{ $sadsya->mobile ?? 'mobile' }}</td>
-                                 <td>{{ $sadsya->email ?? 'email' }}</td>
+                                 <td>@if($sadsya->email == 'dummy@gmail.com') {{' - ' }} @else {{ $sadsya->email ?? 'email' }} @endif</td>
                              </tr>
                          @endforeach
                      </tbody>
