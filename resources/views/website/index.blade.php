@@ -200,23 +200,26 @@
          </section>
 
 
-          <!-- Sadysay Photo -->
+         <!-- Sadysay Photo -->
          <section id="places_new" class="card-section" data-aos="fade-up">
              <div class="container">
-                 <div class="section-title">
-                 </div>
+                 <div class="section-title"></div>
 
-                 <div
-                     class="col-12 col-sm-6 col-lg-12 d-flex justify-content-center align-items-center text-center place-card">
+                 <div class="row">
                      @foreach ($sadsyaAll as $i => $sadsya_photo)
-                         <div class="hovereffect w-100">
-                             <img src="{{ asset('storage/' . ($sadsya_photo->photo ?? 'default.jpg')) }}"
-                                 alt="{{ $locations->name ?? 'name' }}" class="rounded-circle mb-2"
-                                 style="width:88px; height:105px; object-fit:cover;">
-                             <h5 class=" section-title mb-2">{{ $sadsya_photo->name ?? 'name' }}</h5>
-                             <div class="overlay">
-                                 <h2 class=" section-title one_rem">{{ $sadsya_photo->designation ?? 'designation' }}
-                                 </h2>
+                         <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center mb-4">
+                             <div class="hovereffect text-center">
+                                 <img src="{{ asset('storage/' . ($sadsya_photo->photo ?? 'default.jpg')) }}"
+                                     alt="{{ $sadsya_photo->name ?? 'name' }}" class="rounded-circle mb-2"
+                                     style="width: 120px; height: 120px; object-fit: cover;">
+
+                                 <h5 class="section-title mb-1">{{ $sadsya_photo->name ?? 'name' }}</h5>
+
+                                 <div class="overlay">
+                                     <h2 class="section-title one_rem">
+                                         {{ $sadsya_photo->designation ?? 'designation' }}
+                                     </h2>
+                                 </div>
                              </div>
                          </div>
                      @endforeach
@@ -277,22 +280,22 @@
                  <div class="section-title">
                  </div>
 
-                 <div
-                     class="col-12 col-sm-6 col-lg-12 d-flex justify-content-center align-items-center text-center place-card">
+                 <div class="row justify-content-center">
                      @foreach ($officerData as $i => $officer_photo)
-                         <div class="hovereffect w-100">
-                             <img src="{{ asset('storage/' . ($officer_photo->photo ?? 'default.jpg')) }}"
-                                 alt="{{ $locations->name ?? 'name' }}" class="rounded-circle mb-2"
-                                 style="width:88px; height:105px; object-fit:cover;">
-                             <h5 class=" section-title mb-2">{{ $officer_photo->name ?? 'name' }}</h5>
-                             <div class="overlay">
-                                 <h2 class=" section-title one_rem">{{ $officer_photo->designation ?? 'designation' }}
-                                 </h2>
+                         <div class="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
+                             <div class="hovereffect text-center w-100">
+                                 <img src="{{ asset('storage/' . ($officer_photo->photo ?? 'default.jpg')) }}"
+                                     alt="{{ $officer_photo->name ?? 'name' }}" class="rounded-circle mb-2"
+                                     style="width:88px; height:105px; object-fit:cover;">
+                                 <h5 class="section-title mb-2">{{ $officer_photo->name ?? 'name' }}</h5>
+                                 <div class="overlay">
+                                     <h2 class="section-title one_rem">{{ $officer_photo->designation ?? 'designation' }}
+                                     </h2>
+                                 </div>
                              </div>
                          </div>
                      @endforeach
                  </div>
-
              </div>
          </section>
 
