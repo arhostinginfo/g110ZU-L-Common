@@ -8,15 +8,28 @@ use App\Models\District;
 use App\Models\Taluka;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Crypt;
 
 
 class AdminGPController extends Controller
 {
     public function list()
     {
-        $gpdetails = Gpdetails::where('is_deleted', 0)
-            ->orderBy('id', 'desc')
+        $gpdetails = Gpdetails::leftJoin('districts', 'gpdetails.gp_under_district', '=', 'districts.id')
+            ->leftJoin('talukas', 'gpdetails.gp_under_taluka', '=', 'talukas.id')
+            ->where('gpdetails.is_deleted', 0)
+            ->orderBy('gpdetails.id', 'desc')
+            ->select(
+                'gpdetails.*',
+                'districts.district_name',
+                'talukas.taluka_name'
+            )
             ->get();
+
+        $gpdetails->map(function ($gp) {
+            $gp->employee_password = Crypt::decryptString($gp->employee_password);
+            return $gp;
+        });
 
         return view('superadmin.grampanchayat.list', compact('gpdetails'));
     }
@@ -45,7 +58,8 @@ class AdminGPController extends Controller
         ]);
 
         // Hash password before saving
-        $data['employee_password'] = bcrypt($data['employee_password']);
+        // $data['employee_password'] = bcrypt($data['employee_password']);
+        $data['employee_password'] = Crypt::encryptString($data['employee_password']);
 
         // Set defaults for missing fields
         $data['is_active'] = $request->has('is_active') ? 1 : 0;

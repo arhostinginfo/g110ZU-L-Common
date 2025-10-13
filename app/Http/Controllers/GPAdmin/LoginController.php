@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Gpdetails;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Crypt;
 
 class LoginController extends Controller
 {
@@ -30,7 +31,7 @@ class LoginController extends Controller
          ->where('is_active', 1)
          ->first();
       if ($result) {
-         if (Hash::check($pass, $result->employee_password)) {
+         if ($pass== Crypt::decryptString($result->employee_password)) {
 
             Session::put('gp_name_in_url', $result->gp_name_in_url);
             Session::put('gp_name', $result->gp_name);

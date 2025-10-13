@@ -10,17 +10,21 @@
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>GP Details</h3>
-                        <a href="{{ route('superadmin.admin-gp.add') }}" class="btn btn-sm btn-outline-primary">Add GP Details</a>
+                        <a href="{{ route('superadmin.admin-gp.add') }}" class="btn btn-sm btn-outline-primary">Add GP
+                            Details</a>
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table id="sliderTable" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>GP Name</th>
                                     <th>District</th>
                                     <th>Taluka</th>
+                                    <th>GP Name</th>
+                                    <th>GP Name In URL</th>
+                                    <th>Email</th>
+                                    <th>Password</th>
                                     <th>Valid Till</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -30,9 +34,12 @@
                                 @foreach ($gpdetails as $i => $gp)
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
+                                        <td>{{ $gp->district_name }}</td>
+                                        <td>{{ $gp->taluka_name }}</td>
                                         <td>{{ $gp->gp_name }}</td>
-                                        <td>{{ $gp->gp_under_district }}</td>
-                                        <td>{{ $gp->gp_under_taluka }}</td>
+                                        <td>{{ $gp->gp_name_in_url }}</td>
+                                        <td>{{ $gp->employee_email }}</td>
+                                        <td>{{ $gp->employee_password }}</td>
                                         <td>{{ $gp->gp_valid_till }}</td>
                                         <td>
                                             <span class="badge {{ $gp->is_active ? 'bg-success' : 'bg-secondary' }}">
@@ -55,8 +62,9 @@
                                 @endforeach
                             </tbody>
                         </table>
-
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -69,9 +77,10 @@
             $('#sliderTable').DataTable({
                 responsive: true,
                 paging: true,
-                searching: false,
+                searching: true,
                 lengthChange: false,
                 pageLength: 10,
+                ordering: true, // Enable sorting
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/mr.json"
                 }
