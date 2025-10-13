@@ -46,7 +46,7 @@
                                             <small class="text-muted"> {{ $gp->days_pending }}</small>
                                         </td>
                                         <td>
-                                            <span class="badge {{ $gp->is_active ? 'bg-success' : 'bg-secondary' }}">
+                                            <span class="badge {{ $gp->is_active ? 'text-green' : 'text-red' }}">
                                                 {{ $gp->is_active ? 'Active' : 'Inactive' }}
                                             </span>
                                         </td>
