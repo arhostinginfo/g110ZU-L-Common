@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('gallaries', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('gp_name_in_url');
+            $table->string('gp_user_id');
             $table->string('name');
             $table->string('type_attachment');
             $table->string('attachment')->nullable(); 

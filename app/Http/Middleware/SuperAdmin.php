@@ -15,8 +15,8 @@ class SuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!($request->session()->has('user_id'))) {
-            return redirect()->route('login');
+        if (!($request->session()->has('super_user_id'))) {
+            return redirect()->route('adminlogin');
         }
 
         return $next($request);

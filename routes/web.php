@@ -1,42 +1,75 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Superadm\LoginController;
-use App\Http\Controllers\Superadm\DashboardController;
-use App\Http\Controllers\Superadm\ChangePasswordController;
+use App\Http\Controllers\GPAdmin\LoginController;
+use App\Http\Controllers\GPAdmin\DashboardController;
+use App\Http\Controllers\GPAdmin\ChangePasswordController;
+
+use App\Http\Controllers\GPAdmin\OfficerController;
+use App\Http\Controllers\GPAdmin\NavbarController; 
+use App\Http\Controllers\GPAdmin\FamousLocationController; 
+use App\Http\Controllers\GPAdmin\YojnaController; 
+use App\Http\Controllers\GPAdmin\AbhiyansController; 
+use App\Http\Controllers\GPAdmin\SliderController;  
+use App\Http\Controllers\GPAdmin\GallaryController;  
+use App\Http\Controllers\GPAdmin\MarqueeController;  
+use App\Http\Controllers\GPAdmin\WelcomeNoteController;  
 
 
-use App\Http\Controllers\Superadm\OfficerController;
-use App\Http\Controllers\Superadm\NavbarController; 
-use App\Http\Controllers\Superadm\FamousLocationController; 
-use App\Http\Controllers\Superadm\YojnaController; 
-use App\Http\Controllers\Superadm\AbhiyansController; 
-use App\Http\Controllers\Superadm\SliderController;  
-use App\Http\Controllers\Superadm\GallaryController;  
-use App\Http\Controllers\Superadm\MarqueeController;  
-use App\Http\Controllers\Superadm\WelcomeNoteController;  
 use App\Http\Controllers\WebSiteController;
 use App\Http\Controllers\FrontwebsitecontactController;
 
+use App\Http\Controllers\SuperAdmin\SuperAdminDashboardController;
+use App\Http\Controllers\SuperAdmin\SuperAdminChangePasswordController;
+use App\Http\Controllers\SuperAdmin\AdminLoginController;
+use App\Http\Controllers\SuperAdmin\AdminGPController;
 
 use Illuminate\Support\Facades\Artisan;
 
-Route::get('/storage-link', function () {
+Route::get('/link', function () {
     Artisan::call('storage:link');
     return 'Storage link created successfully!';
 });
 
 
+Route::get('/clear', function () {
+    Artisan::call('optimize:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+    // Artisan::call('route:cache');
+    Artisan::call('view:cache');
+    Artisan::call('event:cache');
+
+    return "All optimized and cleared!";
+});
+
+
 Route::post('/frontwebsitecontact', [FrontwebsitecontactController::class, 'store'])->name('frontwebsitecontact.store');
 
-Route::get('/', [WebSiteController::class, 'index'])->name('/');
+
+
+// Route::resource('talukas', [TalukaController::class, 'loginsuper'])->name('adminlogin');
+
+
+Route::get('adminlogin', [AdminLoginController::class, 'loginsuper'])->name('adminlogin');
+Route::post('adminlogin', [AdminLoginController::class, 'validateSuperLogin'])->name('adminlogin');
+
 
 Route::get('login', [LoginController::class, 'loginsuper'])->name('login');
-Route::post('superlogin', [LoginController::class, 'validateSuperLogin'])->name('superlogin');
+Route::post('gplogin', [LoginController::class, 'validateSuperLogin'])->name('gplogin');
 
-Route::group(['middleware' => ['SuperAdmin']], function () {        
+Route::get('/{gpname}', [WebSiteController::class, 'index'])->name('/');
 
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Route::group(['prefix' => 'gpadmin','middleware' => ['GPAdmin']], function () {   
+Route::group([
+    'prefix' => 'gpadmin',
+    'as' => 'gpadmin.',
+    'middleware' => ['GPAdmin']
+], function () {
+    
+    
+   
+    Route::get('dashboard-gp', [DashboardController::class, 'gplogin'])->name('dashboard-gp');
 
     Route::get('/change-password', [ChangePasswordController::class, 'index'])->name('change-password');
     Route::post('/update-password', [ChangePasswordController::class, 'updatePassword'])->name('update-password');
@@ -120,5 +153,29 @@ Route::group(['middleware' => ['SuperAdmin']], function () {
 
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+});
+
+Route::group([
+    'prefix' => 'superadmin',
+    'as' => 'superadmin.',
+    'middleware' => ['SuperAdmin']
+], function () {
+    
+    
+    Route::get('/admin-gp/list', [AdminGPController::class, 'list'])->name('admin-gp.list');
+    Route::get('/admin-gp/add', [AdminGPController::class, 'add'])->name('admin-gp.add');
+    Route::post('/admin-gp/add', [AdminGPController::class, 'save'])->name('admin-gp.save');
+    Route::get('/admin-gp/edit/{encodedId}', [AdminGPController::class, 'edit'])->name('admin-gp.edit');
+    Route::post('/admin-gp/update/', [AdminGPController::class, 'update'])->name('admin-gp.update');
+    Route::post('/admin-gp/delete', [AdminGPController::class, 'delete'])->name('admin-gp.delete');
+    Route::post('/admin-gp/update-status', [AdminGPController::class, 'updateStatus'])->name('admin-gp.updatestatus');
+
+    Route::get('dashboard-admin', [SuperAdminDashboardController::class, 'admin'])->name('dashboard-admin');
+
+    Route::get('/change-password', [SuperAdminChangePasswordController::class, 'index'])->name('change-password');
+    Route::post('/update-password', [SuperAdminChangePasswordController::class, 'updatePassword'])->name('update-password');
+
+    Route::get('logout', [AdminLoginController::class, 'logout'])->name('logout');
 
 });

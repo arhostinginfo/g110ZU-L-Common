@@ -20,25 +20,41 @@ use Illuminate\Support\Facades\Storage;
 
 class WebSiteController extends Controller
 {
-    public function index()
+    public function index($gpname)
     {
 
-        $welcomenote = WelcomeNote::where('is_deleted', 0)
-                ->where('is_active', 1)
-                ->orderBy('id', 'desc')
-                ->first();
+        $welcomenote = WelcomeNote::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
+                                ->where('is_active', 1)
+                                ->orderBy('id', 'desc')
+                                ->first();
 
-        // $officers = Officers::where('is_deleted',0)
+        // $officers = Officers::where([
+					// 'is_deleted'=>0,
+					// 'gp_name_in_url'=>$gpname,
+					// 
+				// ])
         //         ->where('is_active', 1)
         //         ->orderBy('id', 'desc')
         //         ->get();
 
-        $officerData =  Officers::where('is_deleted',0)
+        $officerData =  Officers::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
                 ->where('is_active', 1)
                 ->where('type', '=',  'Officer')
                 ->orderBy('sequence_officer', 'asc')
                 ->get();
-        $sadsyaAll  =Officers::where('is_deleted',0)
+        $sadsyaAll  =Officers::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
                 ->where('is_active', 1)
                 ->where('type', '=',  'Sadsya')
                 ->orderBy('sequence_general', 'asc')
@@ -46,7 +62,11 @@ class WebSiteController extends Controller
 
 
 
-        $gallaries = Gallary::where('is_deleted',0)
+        $gallaries = Gallary::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
                 ->where('is_active', 1)
                 ->orderBy('id', 'desc')
                 ->get();
@@ -65,37 +85,61 @@ class WebSiteController extends Controller
         $gallay_videos  = $gallaries->where('type_attachment', 'Video');
 
 
-        $navbar =  Navbars::where('is_deleted',0)
-                ->where('is_active', 1)
-                ->orderBy('id', 'desc')
-                ->first();
+        $navbar =  Navbars::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
+                                ->where('is_active', 1)
+                                ->orderBy('id', 'desc')
+                                ->first();
 
-        $slider = Slider::where('is_deleted',0)
-                ->where('is_active', 1)        
-                ->orderBy('id', 'desc')
-                ->get();
+        $slider = Slider::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
+                                ->where('is_active', 1)        
+                                ->orderBy('id', 'desc')
+                                ->get();
 
-       $marquee = Marquees::where('is_deleted', 0)
-                    ->where('is_active', 1)       
-                    ->orderBy('id', 'asc')
-                    ->pluck('message')   // get only the message column
-                    ->implode(' | ');    // join with |
+       $marquee = Marquees::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
+                                ->where('is_active', 1)       
+                                ->orderBy('id', 'asc')
+                                ->pluck('message')   // get only the message column
+                                ->implode(' | ');    // join with |
 
-        $yojna_all = Yojna::where('is_deleted',0)
-                ->where('is_active', 1)
-                ->orderBy('id', 'desc')
-                ->get();
+        $yojna_all = Yojna::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
+                                ->where('is_active', 1)
+                                ->orderBy('id', 'desc')
+                                ->get();
 
 
-        $AbhiyanAll = Abhiyans::where('is_deleted',0)
-                ->where('is_active', 1)        
-                ->orderBy('id', 'desc')
-                ->get();
+        $AbhiyanAll = Abhiyans::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
+                                ->where('is_active', 1)        
+                                ->orderBy('id', 'desc')
+                                ->get();
 
-         $famouslocations = Famouslocations::where('is_deleted',0)
-                ->where('is_active', 1)
-                ->orderBy('id', 'desc')
-                ->get();                    
+         $famouslocations = Famouslocations::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
+                                ->where('is_active', 1)
+                                ->orderBy('id', 'desc')
+                                ->get();                    
         return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll'));
     }
 

@@ -19,6 +19,7 @@ class Navbars extends Model
               'name',
               'logo',
               'lat',
-              'lon',
-            ];
+              'lon'
+             ,'gp_name_in_url',
+              'gp_user_id'];
 }

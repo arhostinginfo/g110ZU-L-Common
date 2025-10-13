@@ -10,6 +10,8 @@ class Frontwebsitecontact extends Model
     public $table = 'frontwebsitecontacts';
     public $timestamps = true;
 
-    protected $fillable = ['name', 'email', 'message','mobile_no'];
+    protected $fillable = ['name', 'email', 'message','mobile_no'
+                            ,'gp_name_in_url',
+                            'gp_user_id'];
 
 }

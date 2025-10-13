@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('marquees', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('gp_name_in_url');
+            $table->string('gp_user_id');
             $table->string('message');
             $table->boolean('is_active')->default(true);
             $table->boolean('is_deleted')->default(false);
