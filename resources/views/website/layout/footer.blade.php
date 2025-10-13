@@ -37,8 +37,8 @@
      <div class="container">
          <div class="row">
              <div class="col-md-4 mb-3">
-                 <h5>{{ $navbar->name ?? 'पंचायत समिती' }}</h5>
-                 <p>{{ $navbar->footer_desc ?? 'पंचायत समिती' }}</p>
+                 <h5>{{ $navbar->name ?? 'Grampanchayat' }}</h5>
+                 <p>{{ $navbar->footer_desc ?? 'Grampanchayat' }}</p>
              </div>
              <div class="col-md-4 mb-3">
                  <h5>झटपट दुवे</h5>
@@ -49,7 +49,7 @@
              </div>
              <div class="col-md-4 mb-3">
                  <h5>संपर्क</h5>
-                 <p>📍 {{ $navbar->address ?? 'पंचायत समिती' }}</p>
+                 <p>📍 {{ $navbar->address ?? 'Grampanchayat' }}</p>
                  <p>📧 {{ $navbar && $navbar->email_id != 'dummy@gmail.com' ? $navbar->email_id : '' }}</p>
                  <p>📞
                      @if (optional($navbar)->contact_number == '0000000')
@@ -61,7 +61,7 @@
              </div>
          </div>
          <div class="text-center mt-3">
-             © {{ $navbar->name ?? 'पंचायत समिती' }} • <span id="year"></span>
+             © {{ $navbar->name ?? 'Grampanchayat' }} • <span id="year"></span>
          </div>
      </div>
  </footer>
