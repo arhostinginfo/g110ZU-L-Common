@@ -9,6 +9,7 @@ use App\Models\Taluka;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Crypt;
+use Carbon\Carbon;
 
 
 class AdminGPController extends Controller
@@ -26,8 +27,21 @@ class AdminGPController extends Controller
             )
             ->get();
 
+
+
         $gpdetails->map(function ($gp) {
             $gp->employee_password = Crypt::decryptString($gp->employee_password);
+
+
+            $validTill = Carbon::parse($gp->gp_valid_till);
+            $today = Carbon::today();
+
+            if ($validTill->greaterThanOrEqualTo($today)) {
+                $gp->days_pending = $validTill->diffInDays($today);
+            } else {
+                $gp->days_pending = 0; // Or negative or expired
+            }
+
             return $gp;
         });
 
