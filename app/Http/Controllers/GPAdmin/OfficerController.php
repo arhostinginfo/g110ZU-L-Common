@@ -52,7 +52,7 @@ class OfficerController extends Controller
 
         if ($request->hasFile('photo')) {
             // Save file to storage/app/public/officers
-            $data['photo'] = $request->file('photo')->store('officers', 'public');
+            $data['photo'] = $request->file('photo')->store($this->gp_name_in_url.'/officers', 'public');
         }
 
         $data['gp_name_in_url']= $this->gp_name_in_url;
@@ -103,7 +103,7 @@ class OfficerController extends Controller
             if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
                 Storage::disk('public')->delete($officer->photo);
             }
-            $data['photo'] = $request->file('photo')->store('officers', 'public');
+            $data['photo'] = $request->file('photo')->store($this->gp_name_in_url.'/officers', 'public');
         }
 
         $officer->update($data);

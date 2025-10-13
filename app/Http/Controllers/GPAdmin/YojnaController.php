@@ -55,7 +55,7 @@ class YojnaController extends Controller
                 'attachment' => 'nullable|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx|max:3072',
             ]);
 
-            $data['attachment'] = $request->file('attachment')->store('yojna', 'public');
+            $data['attachment'] = $request->file('attachment')->store($this->gp_name_in_url.'/yojna', 'public');
         }
         $data['gp_name_in_url']= $this->gp_name_in_url;
         $data['gp_user_id']= $this->gp_user_id;
@@ -98,7 +98,7 @@ class YojnaController extends Controller
             if ($officer->attachment && Storage::disk('public')->exists($officer->attachment)) {
                 Storage::disk('public')->delete($officer->attachment);
             }
-            $data['attachment'] = $request->file('attachment')->store('yojna', 'public');
+            $data['attachment'] = $request->file('attachment')->store($this->gp_name_in_url.'/yojna', 'public');
         }
 
         $officer->update($data);

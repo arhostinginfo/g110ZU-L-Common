@@ -56,7 +56,7 @@ class GallaryController extends Controller
                 'attachment' => 'nullable|mimes:jpeg,jpg,png,gif,mp4,mov,avi,mkv,webm|max:102400',
             ]);
 
-            $data['attachment'] = $request->file('attachment')->store('gallay', 'public');
+            $data['attachment'] = $request->file('attachment')->store($this->gp_name_in_url.'/gallary', 'public');
         }
         $data['gp_name_in_url']= $this->gp_name_in_url;
         $data['gp_user_id']= $this->gp_user_id;
@@ -97,7 +97,7 @@ class GallaryController extends Controller
             if ($officer->attachment && Storage::disk('public')->exists($officer->attachment)) {
                 Storage::disk('public')->delete($officer->attachment);
             }
-            $data['attachment'] = $request->file('attachment')->store('gallay', 'public');
+            $data['attachment'] = $request->file('attachment')->store($this->gp_name_in_url.'/gallary',  'public');
         }
 
         $officer->update($data);

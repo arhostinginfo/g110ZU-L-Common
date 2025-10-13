@@ -46,7 +46,7 @@ class SliderController extends Controller
 
         if ($request->hasFile('photo')) {
             // Save file to storage/app/public/Slider
-            $data['photo'] = $request->file('photo')->store('slider', 'public');
+            $data['photo'] = $request->file('photo')->store($this->gp_name_in_url.'/slider', 'public');
             $data['name'] = $request->input('name');
         }
         $data['gp_name_in_url']= $this->gp_name_in_url;
@@ -89,7 +89,7 @@ class SliderController extends Controller
             if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
                 Storage::disk('public')->delete($officer->photo);
             }
-            $data['photo'] = $request->file('photo')->store('slider', 'public');
+            $data['photo'] = $request->file('photo')->store($this->gp_name_in_url.'/slider', 'public');
         }
 
         $data['gp_name_in_url']= $this->gp_name_in_url;

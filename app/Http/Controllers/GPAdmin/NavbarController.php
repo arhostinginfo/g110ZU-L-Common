@@ -53,7 +53,7 @@ class NavbarController extends Controller
 
         if ($request->hasFile('logo')) {
             // Save file to storage/app/public/Slider
-            $data['logo'] = $request->file('logo')->store('navbar', 'public');
+            $data['logo'] = $request->file('logo')->store($this->gp_name_in_url.'/navbar', 'public');
             $data['name'] = $request->input('name');
 
             $data['footer_desc'] = $request->input('footer_desc');
@@ -116,7 +116,7 @@ class NavbarController extends Controller
             if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
                 Storage::disk('public')->delete($officer->photo);
             }
-            $data['photo'] = $request->file('photo')->store('navbar', 'public');
+            $data['photo'] = $request->file('photo')->store($this->gp_name_in_url.'/navbar', 'public');
         }
 
         $officer->update($data);

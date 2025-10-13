@@ -46,7 +46,7 @@ class FamousLocationController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('famouslocations', 'public');
+            $data['photo'] = $request->file('photo')->store($this->gp_name_in_url.'/famouslocations', 'public');
             $data['name'] = $request->input('name');
             $data['desc'] = $request->input('desc');
         }
@@ -95,7 +95,7 @@ class FamousLocationController extends Controller
             if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
                 Storage::disk('public')->delete($officer->photo);
             }
-            $data['photo'] = $request->file('photo')->store('famouslocations', 'public');
+            $data['photo'] = $request->file('photo')->store($this->gp_name_in_url.'/famouslocations', 'public');
         }
 
         $officer->update($data);
