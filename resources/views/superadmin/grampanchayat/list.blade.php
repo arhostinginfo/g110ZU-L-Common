@@ -21,6 +21,7 @@
                                     <th>#</th>
                                     <th>District</th>
                                     <th>Taluka</th>
+                                    <th>GP Details</th>
                                     <th>GP Name</th>
                                     <th>GP Name In URL</th>
                                     <th>Email</th>
@@ -39,6 +40,20 @@
                                         <td>{{ $i + 1 }}</td>
                                         <td>{{ $gp->district_name }}</td>
                                         <td>{{ $gp->taluka_name }}</td>
+                                        <td>
+                                            <div id="gp-info-{{ $gp->id }}">
+                                                <strong>GP Website Link:</strong> {{ env('APP_URL') . $gp->gp_name_in_url }}<br>
+                                                <strong>GP Admin Login Link:</strong> {{ env('APP_URL') }}/login<br>
+                                                <strong>GP Admin Username:</strong> {{ $gp->employee_email }}<br>
+                                                <strong>GP Admin Password:</strong> {{ $gp->employee_password }}
+                                            </div>
+
+                                            <!-- Copy Icon/Button -->
+                                            <button class="btn btn-sm btn-outline-secondary mt-1 copy-btn" data-target="gp-info-{{ $gp->id }}">
+                                                📋 Copy
+                                            </button>
+                                        </td>
+
                                         <td>{{ $gp->gp_name }}</td>
                                         <td>{{ $gp->gp_name_in_url }}</td>
                                         <td>{{ $gp->employee_email }}</td>
