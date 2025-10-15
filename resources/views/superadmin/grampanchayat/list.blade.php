@@ -25,6 +25,8 @@
                                     <th>GP Name In URL</th>
                                     <th>Email</th>
                                     <th>Password</th>
+                                    <th>GP Link</th>
+                                    <th>GP Login</th>
                                     <th>Valid Till</th>
                                     <th>Days Pending</th>
                                     <th>Status</th>
@@ -41,6 +43,8 @@
                                         <td>{{ $gp->gp_name_in_url }}</td>
                                         <td>{{ $gp->employee_email }}</td>
                                         <td>{{ $gp->employee_password }}</td>
+                                        <td>{{ env('APP_URL')}}/{{ $gp->gp_name_in_url }} </td>
+                                        <td>Click </td>
                                         <td>{{ \Carbon\Carbon::parse($gp->gp_valid_till)->format('d-m-Y') }}</td>
                                         <td>
                                             <small class="text-muted"> {{ $gp->days_pending }}</small>
