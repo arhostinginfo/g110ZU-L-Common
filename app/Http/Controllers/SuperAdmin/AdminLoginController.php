@@ -61,6 +61,36 @@ class AdminLoginController extends Controller
       );
    }
 
+
+   public function supergpautologin(Request $req)
+   {
+      $this->gpautologin($req);
+      $gp_id = $req->input('gp_id');
+      $result = Gpdetails::where('id', $gp_id)
+         ->where('is_deleted', 0)
+         ->where('is_active', 1)
+         ->first();
+
+            Session::put('gp_name_in_url', $result->gp_name_in_url);
+            Session::put('gp_name', $result->gp_name);
+            Session::put('gp_user_id', $result->id);
+            Session::put('email_id', $result->email);
+            return redirect('gpadmin/dashboard-gp');
+   }
+
+     public function gpautologin(Request $req)
+   {
+      $req->validate(
+         [
+            'gp_id.required'
+         ],
+         [
+            'gp_id.required' => 'GP id required',
+         ]
+
+      );
+   }
+
    public function logOut(Request $req)
    {
       $req->session()->flush();

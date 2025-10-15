@@ -178,4 +178,6 @@ Route::group([
 
     Route::get('logout', [AdminLoginController::class, 'logout'])->name('logout');
 
+    Route::get('supergpautologin', [AdminLoginController::class, 'supergpautologin'])->name('supergpautologin');
+
 });
