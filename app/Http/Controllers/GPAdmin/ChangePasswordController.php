@@ -13,7 +13,7 @@ class ChangePasswordController extends Controller
  {
     public function index()
  {
-        return view( 'superadm.change-password' );
+        return view( 'gpadmin.change-password' );
     }
 
     public function updatePassword( Request $request )
