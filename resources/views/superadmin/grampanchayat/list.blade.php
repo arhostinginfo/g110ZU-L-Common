@@ -43,7 +43,7 @@
                                         <td>
                                             <div id="gp-info-{{ $gp->id }}">
                                                 <strong>GP Website Link:</strong> {{ env('APP_URL') . $gp->gp_name_in_url }}<br>
-                                                <strong>GP Admin Login Link:</strong> {{ env('APP_URL') }}/login<br>
+                                                <strong>GP Admin Login Link:</strong> {{ env('APP_URL') }}login<br>
                                                 <strong>GP Admin Username:</strong> {{ $gp->employee_email }}<br>
                                                 <strong>GP Admin Password:</strong> {{ $gp->employee_password }}
                                             </div>
