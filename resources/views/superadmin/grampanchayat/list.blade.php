@@ -19,8 +19,8 @@
                         <a href="{{ route('superadmin.admin-gp.add') }}" class="btn btn-sm btn-outline-primary">Add GP
                             Details</a>
                     </div>
-<div style="overflow-x: auto;">
-    <table id="sliderTable" class="table table-bordered" style="min-width: 1200px;">
+                    <div style="overflow-x: auto;">
+                        <table id="sliderTable" class="table table-bordered" style="min-width: 1200px;">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -46,19 +46,36 @@
                                         <td>{{ $gp->district_name }}</td>
                                         <td>{{ $gp->taluka_name }}</td>
                                         <td>
+
                                             <div id="gp-info-{{ $gp->id }}">
                                                 <strong>GP Website Link:</strong>
-                                                {{ env('APP_URL') . $gp->gp_name_in_url }}<br>
-                                                <strong>GP Admin Login Link:</strong> {{ env('APP_URL') }}login<br>
+                                                <a href="{{ env('APP_URL') . $gp->gp_name_in_url }}" target="_blank">
+                                                    {{ env('APP_URL') . $gp->gp_name_in_url }}
+                                                </a><br>
+
+                                                <strong>GP Admin Login Link:</strong>
+                                                <a href="{{ env('APP_URL') }}login" target="_blank">
+                                                    {{ env('APP_URL') }}login
+                                                </a><br>
                                                 <strong>GP Admin Username:</strong> {{ $gp->employee_email }}<br>
                                                 <strong>GP Admin Password:</strong> {{ $gp->employee_password }}
                                             </div>
 
-                                            <!-- Copy Button -->
+                                            <!-- Clean text for copying -->
+                                            @php
+                                                $copyText =
+                                                    'GP Website Link: ' . env('APP_URL') . $gp->gp_name_in_url . "\n";
+                                                $copyText .= 'GP Admin Login Link: ' . env('APP_URL') . "login\n";
+                                                $copyText .= 'GP Admin Username: ' . $gp->employee_email . "\n";
+                                                $copyText .= 'GP Admin Password: ' . $gp->employee_password;
+                                            @endphp
+
                                             <button class="btn btn-sm btn-outline-secondary mt-1 copy-btn"
-                                                data-target="gp-info-{{ $gp->id }}">
+                                                data-copy="{{ $copyText }}">
                                                 📋 Copy
                                             </button>
+
+
                                         </td>
 
                                         <td>{{ $gp->gp_name }}</td>
@@ -112,7 +129,6 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
     <script>
@@ -121,6 +137,8 @@
             $('#sliderTable').DataTable({
                 responsive: true,
                 paging: true,
+                scrollX: true, // Enables horizontal scrolling
+
                 searching: true,
                 lengthChange: false,
                 pageLength: 10,
@@ -139,9 +157,7 @@
 
             // Copy button handler
             $('.copy-btn').on('click', function() {
-                const targetId = $(this).data('target');
-                const element = document.getElementById(targetId);
-                const text = element ? element.textContent : '';
+                const text = $(this).data('copy');
 
                 if (!text) {
                     alert('No text found to copy.');
@@ -158,26 +174,27 @@
                 } else {
                     fallbackCopyText(text);
                 }
+
+                function fallbackCopyText(text) {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    textarea.style.position = 'fixed';
+                    document.body.appendChild(textarea);
+                    textarea.focus();
+                    textarea.select();
+
+                    try {
+                        const successful = document.execCommand('copy');
+                        alert(successful ? 'Copied!' : 'Copy failed.');
+                    } catch (err) {
+                        console.error('Fallback copy error:', err);
+                        alert('Copy failed. Please copy manually.');
+                    }
+
+                    document.body.removeChild(textarea);
+                }
             });
 
-            function fallbackCopyText(text) {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                textarea.style.position = 'fixed'; // Prevent scrolling
-                document.body.appendChild(textarea);
-                textarea.focus();
-                textarea.select();
-
-                try {
-                    const successful = document.execCommand('copy');
-                    alert(successful ? 'Copied!' : 'Copy failed.');
-                } catch (err) {
-                    console.error('Fallback copy error:', err);
-                    alert('Copy failed. Please copy manually.');
-                }
-
-                document.body.removeChild(textarea);
-            }
         });
     </script>
 
