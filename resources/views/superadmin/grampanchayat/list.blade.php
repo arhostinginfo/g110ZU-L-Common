@@ -10,8 +10,7 @@
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>GP Details</h3>
-                        <a href="{{ route('superadmin.admin-gp.add') }}" class="btn btn-sm btn-outline-primary">Add GP
-                            Details</a>
+                        <a href="{{ route('superadmin.admin-gp.add') }}" class="btn btn-sm btn-outline-primary">Add GP Details</a>
                     </div>
 
                     <div class="table-responsive">
@@ -48,7 +47,7 @@
                                                 <strong>GP Admin Password:</strong> {{ $gp->employee_password }}
                                             </div>
 
-                                            <!-- Copy Icon/Button -->
+                                            <!-- Copy Button -->
                                             <button class="btn btn-sm btn-outline-secondary mt-1 copy-btn" data-target="gp-info-{{ $gp->id }}">
                                                 📋 Copy
                                             </button>
@@ -80,14 +79,11 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('superadmin.admin-gp.edit', base64_encode($gp->id)) }}"
-                                                class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <a href="{{ route('superadmin.admin-gp.edit', base64_encode($gp->id)) }}" class="btn btn-sm btn-outline-primary">Edit</a>
 
-                                            <form action="{{ route('superadmin.admin-gp.delete') }}" method="POST"
-                                                class="d-inline delete-form">
+                                            <form action="{{ route('superadmin.admin-gp.delete') }}" method="POST" class="d-inline delete-form">
                                                 @csrf
-                                                <input type="hidden" name="encodedId"
-                                                    value="{{ base64_encode($gp->id) }}">
+                                                <input type="hidden" name="encodedId" value="{{ base64_encode($gp->id) }}">
                                                 <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                                             </form>
                                         </td>
@@ -97,7 +93,6 @@
                         </table>
                     </div>
 
-
                 </div>
             </div>
         </div>
@@ -105,43 +100,56 @@
 @endsection
 
 @push('scripts')
+    <!-- Include jQuery and DataTables if not already included -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
     <script>
         $(document).ready(function() {
+            // Initialize DataTable
             $('#sliderTable').DataTable({
                 responsive: true,
                 paging: true,
                 searching: true,
                 lengthChange: false,
                 pageLength: 10,
-                ordering: true, // Enable sorting
+                ordering: true,
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/mr.json"
                 }
             });
 
-            // simple delete confirm
+            // Delete confirmation
             $('.delete-form').on('submit', function(e) {
                 if (!confirm('तुम्हाला हा अधिकारी नक्की हटवायचा आहे का?')) {
                     e.preventDefault();
                 }
             });
 
+            // Copy to clipboard using modern Clipboard API
+            $('.copy-btn').on('click', function() {
+                const targetId = $(this).data('target');
+                const text = document.getElementById(targetId).innerText;
 
-           // Modern Copy to Clipboard
-$('.copy-btn').on('click', function () {
-    const targetId = $(this).data('target');
-    const textToCopy = document.getElementById(targetId).innerText;
-
-    // Use Clipboard API
-    navigator.clipboard.writeText(textToCopy).then(function () {
-        alert('Copied!');
-    }).catch(function (err) {
-        console.error('Copy failed', err);
-        alert('Failed to copy!');
-    });
-});
-
-            
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(function() {
+                        alert('Copied!');
+                    }).catch(function(err) {
+                        console.error('Clipboard error:', err);
+                        alert('Copy failed. Try manually.');
+                    });
+                } else {
+                    // Fallback for old browsers
+                    const tempInput = document.createElement('textarea');
+                    tempInput.value = text;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    alert('Copied (fallback)!');
+                }
+            });
         });
     </script>
 @endpush
