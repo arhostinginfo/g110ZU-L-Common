@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Crypt;
 use Carbon\Carbon;
-use App\Models\Gpdetails;
 
 class AdminGPController extends Controller
 {
