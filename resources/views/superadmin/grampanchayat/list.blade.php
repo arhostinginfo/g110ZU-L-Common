@@ -25,7 +25,7 @@
                                     <th>GP Name In URL</th>
                                     <th>Email</th>
                                     <th>Password</th>
-                                    <th>GP Link</th>
+                                    <th>Check Website</th>
                                     <th>GP Login</th>
                                     <th>Valid Till</th>
                                     <th>Days Pending</th>
@@ -43,8 +43,18 @@
                                         <td>{{ $gp->gp_name_in_url }}</td>
                                         <td>{{ $gp->employee_email }}</td>
                                         <td>{{ $gp->employee_password }}</td>
-                                        <td>{{ env('APP_URL')}}/{{ $gp->gp_name_in_url }} </td>
-                                        <td>Click </td>
+                                        <td>
+                                            <a href="{{ env('APP_URL') . $gp->gp_name_in_url }}" target="_blank">
+                                                Click
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('superadmin.supergpautologin') }}" method="POST" target="_blank">
+                                                @csrf
+                                                <input type="hidden" name="gp_id" value="{{ $gp->id }}">
+                                                <button type="submit" class="btn btn-sm btn-link p-0">Click</button>
+                                            </form>
+                                        </td>
                                         <td>{{ \Carbon\Carbon::parse($gp->gp_valid_till)->format('d-m-Y') }}</td>
                                         <td>
                                             <small class="text-muted"> {{ $gp->days_pending }}</small>
