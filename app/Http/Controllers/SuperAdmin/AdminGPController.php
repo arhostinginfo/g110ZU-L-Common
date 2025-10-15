@@ -131,7 +131,7 @@ class AdminGPController extends Controller
         // If password provided, hash and update it
         if ($request->filled('employee_password')) {
             // $data['employee_password'] = bcrypt($request->employee_password);
-            $data['employee_password'] = Crypt::encryptString($data['employee_password']);
+            $data['employee_password'] = Crypt::encryptString($request->employee_password);
         }
 
         $gpdetail->update($data);
