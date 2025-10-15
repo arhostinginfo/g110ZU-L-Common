@@ -127,22 +127,20 @@
             });
 
 
-            // Copy button logic
-            $('.copy-btn').on('click', function () {
-                const targetId = $(this).data('target');
-                const textToCopy = document.getElementById(targetId).innerText;
+           // Modern Copy to Clipboard
+$('.copy-btn').on('click', function () {
+    const targetId = $(this).data('target');
+    const textToCopy = document.getElementById(targetId).innerText;
 
-                // Create temporary textarea
-                const tempInput = document.createElement('textarea');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
+    // Use Clipboard API
+    navigator.clipboard.writeText(textToCopy).then(function () {
+        alert('Copied!');
+    }).catch(function (err) {
+        console.error('Copy failed', err);
+        alert('Failed to copy!');
+    });
+});
 
-                // Optional: show tooltip or alert
-                alert('Copied!');
-            });
             
         });
     </script>
