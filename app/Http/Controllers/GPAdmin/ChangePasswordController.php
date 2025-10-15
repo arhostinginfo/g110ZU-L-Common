@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Session;
 use Validator;
 use App\Models\Gpdetails;
+use Illuminate\Support\Facades\Crypt;
 
 class ChangePasswordController extends Controller
  {
@@ -39,7 +40,7 @@ class ChangePasswordController extends Controller
             return redirect()->back()->withErrors( $validator )->withInput();
         }
 
-        $userId = Session::get( 'user_id' );
+        $userId = Session::get( 'gp_user_id' );
         if ( !$userId ) {
             return redirect()->back()->with( 'error', 'Password not updated!' );
         }
@@ -49,7 +50,7 @@ class ChangePasswordController extends Controller
             return redirect()->back()->with( 'error', 'Password not updated!' );
         }
         Gpdetails::where( 'id', $userId )->update( [
-            'employee_password' => bcrypt( $request->new_password ),
+            'employee_password' =>  Crypt::encryptString( $request->new_password ),
         ] );
             Session::flush(); 
             auth()->logout();

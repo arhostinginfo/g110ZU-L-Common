@@ -15,9 +15,9 @@ class GPAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // if (!($request->session()->has('gp_user_id'))) {
-        //     return redirect()->route('login');
-        // }
+        if (!($request->session()->has('gp_user_id'))) {
+            return redirect()->route('login');
+        }
 
         return $next($request);
     }
