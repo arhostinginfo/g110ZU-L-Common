@@ -24,7 +24,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Employee Email</label>
-                            <input type="email" name="employee_email" value="{{ old('employee_email') }}"
+                            <input type="email" name="employee_email" id="employee_email" value="{{ old('employee_email') }}"
                                 class="form-control @error('employee_email') is-invalid @enderror">
                             @error('employee_email')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -33,7 +33,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Employee Password</label>
-                            <input type="password" name="employee_password"
+                            <input type="password" name="employee_password" id="employee_password"
                                 class="form-control @error('employee_password') is-invalid @enderror">
                             @error('employee_password')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -78,7 +78,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">GP Name</label>
-                            <input type="text" name="gp_name" value="{{ old('gp_name') }}"
+                            <input type="text" name="gp_name" id="gp_name" value="{{ old('gp_name') }}"
                                 class="form-control @error('gp_name') is-invalid @enderror">
                             @error('gp_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -87,7 +87,7 @@
 
                           <div class="mb-3">
                             <label class="form-label">GP Name In URL</label>
-                            <input type="text" name="gp_name_in_url" value="{{ old('gp_name_in_url') }}"
+                            <input type="text" name="gp_name_in_url" id="gp_name_in_url" value="{{ old('gp_name_in_url') }}"
                                 class="form-control @error('gp_name_in_url') is-invalid @enderror">
                             @error('gp_name_in_url')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -96,8 +96,9 @@
 
                         <div class="mb-3">
                             <label class="form-label">Valid Till</label>
-                            <input type="date" name="gp_valid_till" value="{{ old('gp_valid_till') }}"
-                                class="form-control @error('gp_valid_till') is-invalid @enderror">
+                            <input type="date" name="gp_valid_till" id="gp_valid_till" 
+                            value="{{ old('gp_valid_till', '2026-10-30') }}"
+                            class="form-control @error('gp_valid_till') is-invalid @enderror">
                             @error('gp_valid_till')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -120,4 +121,45 @@
             </div>
         </div>
     </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const gpUrlInput = document.getElementById("gp_name_in_url");
+        const emailInput = document.getElementById("employee_email");
+        const passwordInput = document.getElementById("employee_password");
+        const gpNameInput = document.getElementById("gp_name");
+
+        function toTitleCase(str) {
+            return str.replace(/\w\S*/g, function (txt) {
+                return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
+            });
+        }
+
+
+        function generatePassword(length = 12) {
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@";
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            return password;
+        }
+
+        gpUrlInput.addEventListener("input", function () {
+            let urlText = gpUrlInput.value.toLowerCase().replace(/\s+/g, '');
+
+            // Update URL field in lowercase
+            gpUrlInput.value = urlText;
+
+            // Set email
+            emailInput.value = `${urlText}@gmail.com`;
+
+            // Set GP Name (you can use capitalize here if needed)
+            gpNameInput.value = toTitleCase(urlText.replace(/-/g, ' '));
+
+            // Set password
+            passwordInput.value = generatePassword();
+        });
+    });
+</script>
 @endsection

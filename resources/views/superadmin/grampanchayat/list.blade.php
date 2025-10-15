@@ -3,6 +3,12 @@
 @section('title', 'GP Details')
 
 @section('content')
+    <!-- DataTables Core CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <!-- DataTables Responsive Extension CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -10,11 +16,11 @@
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>GP Details</h3>
-                        <a href="{{ route('superadmin.admin-gp.add') }}" class="btn btn-sm btn-outline-primary">Add GP Details</a>
+                        <a href="{{ route('superadmin.admin-gp.add') }}" class="btn btn-sm btn-outline-primary">Add GP
+                            Details</a>
                     </div>
-
-                    <div class="table-responsive">
-                        <table id="sliderTable" class="table table-bordered">
+<div style="overflow-x: auto;">
+    <table id="sliderTable" class="table table-bordered" style="min-width: 1200px;">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -41,14 +47,16 @@
                                         <td>{{ $gp->taluka_name }}</td>
                                         <td>
                                             <div id="gp-info-{{ $gp->id }}">
-                                                <strong>GP Website Link:</strong> {{ env('APP_URL') . $gp->gp_name_in_url }}<br>
+                                                <strong>GP Website Link:</strong>
+                                                {{ env('APP_URL') . $gp->gp_name_in_url }}<br>
                                                 <strong>GP Admin Login Link:</strong> {{ env('APP_URL') }}login<br>
                                                 <strong>GP Admin Username:</strong> {{ $gp->employee_email }}<br>
                                                 <strong>GP Admin Password:</strong> {{ $gp->employee_password }}
                                             </div>
 
                                             <!-- Copy Button -->
-                                            <button class="btn btn-sm btn-outline-secondary mt-1 copy-btn" data-target="gp-info-{{ $gp->id }}">
+                                            <button class="btn btn-sm btn-outline-secondary mt-1 copy-btn"
+                                                data-target="gp-info-{{ $gp->id }}">
                                                 📋 Copy
                                             </button>
                                         </td>
@@ -63,7 +71,8 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <form action="{{ route('superadmin.supergpautologin') }}" method="POST" target="_blank">
+                                            <form action="{{ route('superadmin.supergpautologin') }}" method="POST"
+                                                target="_blank">
                                                 @csrf
                                                 <input type="hidden" name="gp_id" value="{{ $gp->id }}">
                                                 <button type="submit" class="btn btn-sm btn-link p-0">Click</button>
@@ -79,11 +88,14 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a href="{{ route('superadmin.admin-gp.edit', base64_encode($gp->id)) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <a href="{{ route('superadmin.admin-gp.edit', base64_encode($gp->id)) }}"
+                                                class="btn btn-sm btn-outline-primary">Edit</a>
 
-                                            <form action="{{ route('superadmin.admin-gp.delete') }}" method="POST" class="d-inline delete-form">
+                                            <form action="{{ route('superadmin.admin-gp.delete') }}" method="POST"
+                                                class="d-inline delete-form">
                                                 @csrf
-                                                <input type="hidden" name="encodedId" value="{{ base64_encode($gp->id) }}">
+                                                <input type="hidden" name="encodedId"
+                                                    value="{{ base64_encode($gp->id) }}">
                                                 <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                                             </form>
                                         </td>
@@ -91,23 +103,21 @@
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
 
-@push('scripts')
-    <!-- Include jQuery and DataTables if not already included -->
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="//cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            // Initialize DataTable
+        document.addEventListener("DOMContentLoaded", function() {
+            // DataTable initialization
             $('#sliderTable').DataTable({
                 responsive: true,
                 paging: true,
@@ -127,29 +137,48 @@
                 }
             });
 
-            // Copy to clipboard using modern Clipboard API
+            // Copy button handler
             $('.copy-btn').on('click', function() {
                 const targetId = $(this).data('target');
-                const text = document.getElementById(targetId).innerText;
+                const element = document.getElementById(targetId);
+                const text = element ? element.textContent : '';
 
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(text).then(function() {
-                        alert('Copied!');
-                    }).catch(function(err) {
-                        console.error('Clipboard error:', err);
-                        alert('Copy failed. Try manually.');
+                if (!text) {
+                    alert('No text found to copy.');
+                    return;
+                }
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('Copied to clipboard!');
+                    }).catch(err => {
+                        console.error('Copy failed:', err);
+                        fallbackCopyText(text);
                     });
                 } else {
-                    // Fallback for old browsers
-                    const tempInput = document.createElement('textarea');
-                    tempInput.value = text;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
-                    alert('Copied (fallback)!');
+                    fallbackCopyText(text);
                 }
             });
+
+            function fallbackCopyText(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed'; // Prevent scrolling
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+
+                try {
+                    const successful = document.execCommand('copy');
+                    alert(successful ? 'Copied!' : 'Copy failed.');
+                } catch (err) {
+                    console.error('Fallback copy error:', err);
+                    alert('Copy failed. Please copy manually.');
+                }
+
+                document.body.removeChild(textarea);
+            }
         });
     </script>
-@endpush
+
+@endsection
