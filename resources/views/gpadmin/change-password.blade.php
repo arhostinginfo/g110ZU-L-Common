@@ -13,7 +13,7 @@
                 <div class="col-12 grid-margin">
                     <div class="card">
                         <div class="card-body">
-                            <form class="forms-sample" action="{{ url('update-password') }}" method="POST"
+                            <form class="forms-sample" action="{{ url('gpadmin/update-password') }}" method="POST"
                                 enctype="multipart/form-data" id="regForm">
                                 @csrf
                                 <div class="row">
