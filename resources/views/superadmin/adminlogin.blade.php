@@ -36,7 +36,7 @@
     <div class="card-body">
         <div class="text-center mb-4">
             <img src="{{ asset('asset/default.jpg') }}"" alt="Logo" style="height: 60px;">
-            <h4 class="mt-2">Admin Login</h4>
+            <h4 class="mt-2">Super Admin Login</h4>
         </div>
 
         @if (session('error'))
