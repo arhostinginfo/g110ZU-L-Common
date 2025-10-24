@@ -8,7 +8,8 @@ use App\Models\District;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
+// use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +23,8 @@ class DatabaseSeeder extends Seeder
         Admin::create(
             [
                 'employee_email' => 'BJAsrkasjUYTz7n52353n48arQMwtngu@gmail.com',
-                'employee_password' => Hash::make('iQaKJASLIjsiouraiosuIUIO3wHgw9tm'),
+                'employee_password' => Crypt::encryptString("Commonadmin@0987")
+                //Hash::make('iQaKJASLIjsiouraiosuIUIO3wHgw9tm'),
             ]
 
         );
