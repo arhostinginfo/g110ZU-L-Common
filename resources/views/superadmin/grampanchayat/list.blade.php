@@ -13,7 +13,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    
+
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>GP Details</h3>
@@ -22,8 +22,9 @@
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        
-                            <button class="btn btn-sm btn-outline-primary" onclick="copyTableToClipboard()">📋 Copy to Excel</button>
+
+                        <button class="btn btn-sm btn-outline-primary" onclick="copyTableToClipboard()">📋 Copy to
+                            Excel</button>
                     </div>
                     <div style="overflow-x: auto;">
                         <table id="sliderTable" class="table table-bordered" style="min-width: 1200px;">
