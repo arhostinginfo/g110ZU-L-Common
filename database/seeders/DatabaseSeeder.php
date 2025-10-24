@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         Admin::create(
             [
-                'employee_email' => 'BJAsrkasjUYTz7n52353n48arQMwtngu@gmail.com',
+                'employee_email' => 'common@gmail.com',
                 'employee_password' => Crypt::encryptString("Commonadmin@0987")
                 //Hash::make('iQaKJASLIjsiouraiosuIUIO3wHgw9tm'),
             ]
