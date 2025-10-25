@@ -88,8 +88,7 @@
                      </div>
                  </div>
              @else
-                 <div class="container"
-                     style="background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                 <div class="container">
                      <h4 style="color: #0056b3; border-bottom: 3px solid #0056b3; padding-bottom: 5px; margin-top: 20px;">
                          ग्रामपंचायतमध्ये आपले स्वागत आहे.</h4>
 
@@ -1029,6 +1028,46 @@
                      </div>
                  </div>
              </div>
+         </section>
+
+         <section class="max-w-screen-xl mx-auto my-6 overflow-hidden relative bg-white py-5 mb-5">
+             <marquee behavior="scroll" direction="left" scrollamount="7" class="flex space-x-16 px-5">
+                 <!-- Logo 1 -->
+                 <a href="https://data.gov.in/" target="_blank" rel="noopener">
+                     <img src="{{ asset('asset/dummy_images/other_logo/mygov.webp') }}" alt="data.gov.in"
+                         class="h-12 object-contain">
+                 </a>
+
+                 <!-- Logo 2 -->
+                 <a href="https://www.makeinindia.com/" target="_blank" rel="noopener">
+                     <img src="{{ asset('asset/dummy_images/other_logo/makeinindia.webp') }}" alt="Make in India"
+                         class="h-12 object-contain">
+                 </a>
+
+                 <!-- Logo 3 -->
+                 <a href="https://www.incredibleindia.org/" target="_blank" rel="noopener">
+                     <img src="{{ asset('asset/dummy_images/other_logo/incredible.webp') }}" alt="Incredible India"
+                         class="h-12 object-contain">
+                 </a>
+
+                 <!-- Logo 4 -->
+                 <a href="https://www.india.gov.in/" target="_blank" rel="noopener">
+                     <img src="{{ asset('asset/dummy_images/other_logo/indiagovin.webp') }}" alt="india.gov.in"
+                         class="h-12 object-contain">
+                 </a>
+
+                 <!-- Logo 5 -->
+                 <a href="https://www.digitalindia.gov.in/" target="_blank" rel="noopener">
+                     <img src="{{ asset('asset/dummy_images/other_logo/digitalindia.webp') }}" alt="Digital India"
+                         class="h-12 object-contain">
+                 </a>
+
+                 <!-- Logo 6 -->
+                 <a href="https://www.pmindia.gov.in/" target="_blank" rel="noopener">
+                     <img src="{{ asset('asset/dummy_images/other_logo/pmindia.webp') }}" alt="PM India"
+                         class="h-12 object-contain">
+                 </a>
+             </marquee>
          </section>
 
          <!-- Map Section -->

@@ -53,16 +53,101 @@
         }
 
         /* Utility bar */
+
+
+
+
         .utility-bar {
-            background: #eee;
+
             padding: 6px 12px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 8px;
-            position: relative;
             z-index: 10;
+
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            /* helps on small screens */
+            gap: 10px;
+            background: #eee;
         }
+
+        header {
+            margin: 20px !important;
+            margin-bottom: 0px !important;
+            margin-top: 0px !important;
+        }
+
+        .newheader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            /* helps on small screens */
+            gap: 10px;
+
+        }
+
+        /* Equal image sizing */
+        .header-icon {
+            width: 45px;
+            height: 75px;
+            object-fit: cover;
+        }
+
+        .header-icon-gp {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+        }
+
+        /* Text styles */
+        .site-title {
+            font-size: 1.1rem;
+            line-height: 1.2;
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+
+        /* Medium devices (tablets, <= 768px) */
+        @media (max-width: 768px) {
+            .header-icon {
+                width: 25px;
+                height: 45px;
+            }
+
+            .site-title {
+                font-size: 1rem;
+            }
+
+            .newheader {
+                padding: 0.5rem 0;
+            }
+        }
+
+        /* Small devices (mobiles, <= 576px) */
+        @media (max-width: 576px) {
+            .newheader {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .utility-bar-left,
+            .utility-bar-right {
+                margin: 5px 0;
+            }
+
+            .header-icon {
+                width: 25px;
+                height: 40px;
+            }
+
+            .site-title {
+                font-size: 0.95rem;
+            }
+        }
+
 
         .color-picker {
             display: none;
@@ -125,6 +210,9 @@
             .carousel-inner img {
                 height: 220px;
             }
+
+
+
         }
 
         /* Marquee */
@@ -399,25 +487,83 @@
     </style>
 </head>
 
+<div class="utility-bar">
+    <div class="utility-bar-left">
+        <div class="d-flex align-items-center">
+            <div class="flex space-x-2 items-center mb-1 sm:mb-0">
+                <span id="gov-label" data-key="govLabel" class="font-semibold text-[0.85rem] mr-marathi">Government of
+                    Maharashtra</span>
+                <span class="text-xs text-[#647064] hidden sm:inline">|</span>
+                <span id="gov-label-en" data-key="govLabelEn" class="font-semibold  text-[0.85rem]">MAHARASHTRA
+                    STATE</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="utility-bar-right">
+        <div class="d-flex align-items-center">
+            <div class="utility-bar">
+                <button id="increaseFont" class="btn btn-sm btn-outline-secondary">A+</button>
+                <button id="resetFont" class="btn btn-sm btn-outline-secondary">A</button>
+                <button id="decreaseFont" class="btn btn-sm btn-outline-secondary">A-</button>
+                <!-- Language Toggle -->
+                <button id="lang-toggle"
+                    class="px-2 py-0.5 rounded-md font-bold bg-yellow-400 text-black hover:bg-yellow-500">मराठी</button>
+                <span class="theme-toggle ms-2" role="button" title="Dark / Light" onclick="toggleDark()">🌙</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<header class="bg-white shadow py-2 px-3">
+    <div class="newheader">
+        <!-- Left Side -->
+        <div class="utility-bar-left">
+            <div class="d-flex align-items-center">
+                <div class="d-flex flex-column align-items-center me-3">
+                    <img src="{{ asset('asset/dummy_images/gov.svg') }}" alt="Maharashtra emblem" class="header-icon">
+                    <p class="text-xs mt-1 font-bold mr-marathi select-none mb-0" style="font-size: 0.8rem;"
+                        data-key="motto">सत्यमेव जयते</p>
+                </div>
+                <div>
+                    <h1 class="mb-0 font-bold mr-marathi site-title" data-key="siteTitle">
+                        {{ $navbar->name ?? 'ग्रामपंचायत' }}
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="utility-bar-right d-flex align-items-center">
+            <div class="d-flex flex-column align-items-center">
+                @if ($navbar)
+                    <img src="{{ asset('storage/' . ($navbar->logo ?? 'default.jpg')) }}"
+                        alt="{{ $navbar->name ?? 'Default_Logo' }}" class="header-icon-gp rounded-circle" />
+                @else
+                    <img src="{{ asset('asset/dummy_images/person.jpg') }}" alt="ग्रामपंचायत"
+                        class="header-icon-gp rounded-circle" />
+                @endif
+            </div>
+        </div>
+    </div>
+</header>
+
+
 <body>
-    <!-- Utility bar -->
+    <!-- Utility bar
     <div class="utility-bar">
         <button id="increaseFont" class="btn btn-sm btn-outline-secondary">A+</button>
         <button id="resetFont" class="btn btn-sm btn-outline-secondary">A</button>
         <button id="decreaseFont" class="btn btn-sm btn-outline-secondary">A-</button>
-        <!--<span class="settings ms-2" role="button" title="Theme & color" onclick="toggleColorPicker()">⚙️</span>-->
-        <span class="theme-toggle ms-2" role="button" title="Dark / Light" onclick="toggleDark()">🌙</span>
+        
+    <span class="theme-toggle ms-2" role="button" title="Dark / Light" onclick="toggleDark()">🌙</span>
     </div>
-
+    -->
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid justify-content-center" style="max-width:var(--container-max);">
-            <a class="navbar-brand d-flex align-items-center" href="#" style="gap:10px;">
-                <img src="{{ asset('storage/' . ($navbar->logo ?? 'default.jpg')) }}"
-                    alt="{{ $navbar->name ?? 'Default_Logo' }}" class="rounded-circle"
-                    style="height: 30px;width: 30px;" />
-                <span>{{ $navbar->name ?? 'Website Name' }}</span>
-            </a>
+           
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu"
                 aria-controls="navmenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
