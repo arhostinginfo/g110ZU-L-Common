@@ -322,117 +322,118 @@
          </section>
 
 
+         @if (Str::contains(url()->current(), 'aapligrampanchayat.com'))
 
-         <!-- पंचायत समिती सदस्य -->
-         <section id="committee_members" class="card-section" data-aos="fade-up">
-             <h3 class="section-title">समिती सदस्य तपशील</h3>
-             @if (count($sadsyaAll))
-                 <div class="table-responsive">
-                     <table class="newsTable display table table-striped" style="width:100%">
-                         <thead>
-                             <tr>
-                                 <th>क्र. नं.</th>
-                                 <th>पदनाम</th>
-                                 <th>नाव</th>
-                                 <th>मोबाईल नंबर</th>
-                                 <th>ई-मेल आयडी</th>
-                             </tr>
-                         </thead>
-                         <tbody>
-                             @foreach ($sadsyaAll as $i => $sadsya)
+             <!-- पंचायत समिती सदस्य -->
+             <section id="committee_members" class="card-section" data-aos="fade-up">
+                 <h3 class="section-title">समिती सदस्य तपशील</h3>
+                 @if (count($sadsyaAll))
+                     <div class="table-responsive">
+                         <table class="newsTable display table table-striped" style="width:100%">
+                             <thead>
                                  <tr>
-                                     <td>{{ $i + 1 }}</td>
-                                     <td>{{ $sadsya->designation ?? 'designation' }}</td>
-                                     <td>{{ $sadsya->name ?? 'name' }}</td>
+                                     <th>क्र. नं.</th>
+                                     <th>पदनाम</th>
+                                     <th>नाव</th>
+                                     <th>मोबाईल नंबर</th>
+                                     <th>ई-मेल आयडी</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 @foreach ($sadsyaAll as $i => $sadsya)
+                                     <tr>
+                                         <td>{{ $i + 1 }}</td>
+                                         <td>{{ $sadsya->designation ?? 'designation' }}</td>
+                                         <td>{{ $sadsya->name ?? 'name' }}</td>
+                                         <td>
+                                             @if ($sadsya->email == '0000000')
+                                                 {{ '  ' }}
+                                             @else
+                                                 {{ $sadsya->mobile ?? 'mobile' }}
+                                             @endif
+                                         </td>
+                                         <td>
+                                             @if ($sadsya->email == 'dummy@gmail.com')
+                                                 {{ '  ' }}
+                                             @else
+                                                 {{ $sadsya->email ?? 'email' }}
+                                             @endif
+                                         </td>
+                                     </tr>
+                                 @endforeach
+                             </tbody>
+                         </table>
+                     </div>
+                 @else
+                     <div class="table-responsive">
+                         <table class="newsTable display table table-striped" style="width:100%">
+                             <thead>
+                                 <tr>
+                                     <th>क्र. नं.</th>
+                                     <th>पदनाम</th>
+                                     <th>नाव</th>
+                                     <th>मोबाईल नंबर</th>
+                                     <th>ई-मेल आयडी</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <tr>
+                                     <td>1</td>
+                                     <td>सरपंच</td>
+                                     <td>सरपंच नाव</td>
                                      <td>
-                                         @if ($sadsya->email == '0000000')
-                                             {{ '  ' }}
-                                         @else
-                                             {{ $sadsya->mobile ?? 'mobile' }}
-                                         @endif
+                                         00000000
                                      </td>
                                      <td>
-                                         @if ($sadsya->email == 'dummy@gmail.com')
-                                             {{ '  ' }}
-                                         @else
-                                             {{ $sadsya->email ?? 'email' }}
-                                         @endif
+                                         dummy@gmail.com
                                      </td>
                                  </tr>
+                             </tbody>
+                         </table>
+                     </div>
+                 @endif
+             </section>
+
+             <!-- Sadysay Photo -->
+             <section id="places" class="card-section" data-aos="fade-up">
+                 <div class="container">
+                     <div class="section-title">
+                     </div>
+
+                     <div class="row justify-content-center">
+                         @if (count($sadsyaAll))
+                             @foreach ($sadsyaAll as $i => $sadsya_photo)
+                                 <div class="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
+                                     <div class="hovereffect text-center w-100">
+                                         <img src="{{ asset('storage/' . ($sadsya_photo->photo ?? 'default.jpg')) }}"
+                                             alt="{{ $sadsya_photo->name ?? 'name' }}" class="rounded-circle mb-2"
+                                             style="width:88px; height:105px; object-fit:cover;">
+                                         <h5 class="section-title mb-2">{{ $sadsya_photo->name ?? 'name' }}</h5>
+                                         <div class="overlay">
+                                             <h2 class="section-title one_rem">
+                                                 {{ $sadsya_photo->designation ?? 'designation' }}
+                                             </h2>
+                                         </div>
+                                     </div>
+                                 </div>
                              @endforeach
-                         </tbody>
-                     </table>
-                 </div>
-             @else
-                 <div class="table-responsive">
-                     <table class="newsTable display table table-striped" style="width:100%">
-                         <thead>
-                             <tr>
-                                 <th>क्र. नं.</th>
-                                 <th>पदनाम</th>
-                                 <th>नाव</th>
-                                 <th>मोबाईल नंबर</th>
-                                 <th>ई-मेल आयडी</th>
-                             </tr>
-                         </thead>
-                         <tbody>
-                             <tr>
-                                 <td>1</td>
-                                 <td>सरपंच</td>
-                                 <td>सरपंच नाव</td>
-                                 <td>
-                                     00000000
-                                 </td>
-                                 <td>
-                                     dummy@gmail.com
-                                 </td>
-                             </tr>
-                         </tbody>
-                     </table>
-                 </div>
-             @endif
-         </section>
-
-         <!-- Sadysay Photo -->
-         <section id="places" class="card-section" data-aos="fade-up">
-             <div class="container">
-                 <div class="section-title">
-                 </div>
-
-                 <div class="row justify-content-center">
-                     @if (count($sadsyaAll))
-                         @foreach ($sadsyaAll as $i => $sadsya_photo)
+                         @else
                              <div class="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
                                  <div class="hovereffect text-center w-100">
-                                     <img src="{{ asset('storage/' . ($sadsya_photo->photo ?? 'default.jpg')) }}"
-                                         alt="{{ $sadsya_photo->name ?? 'name' }}" class="rounded-circle mb-2"
-                                         style="width:88px; height:105px; object-fit:cover;">
-                                     <h5 class="section-title mb-2">{{ $sadsya_photo->name ?? 'name' }}</h5>
+                                     <img src="{{ asset('asset/dummy_images/person.jpg') }}" alt="सरपंच"
+                                         class="rounded-circle mb-2" style="width:88px; height:105px; object-fit:cover;">
+                                     <h5 class="section-title mb-2">सरपंच नाव</h5>
                                      <div class="overlay">
-                                         <h2 class="section-title one_rem">
-                                             {{ $sadsya_photo->designation ?? 'designation' }}
+                                         <h2 class="section-title one_rem">सरपंच
                                          </h2>
                                      </div>
                                  </div>
                              </div>
-                         @endforeach
-                     @else
-                         <div class="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
-                             <div class="hovereffect text-center w-100">
-                                 <img src="{{ asset('asset/dummy_images/person.jpg') }}" alt="सरपंच"
-                                     class="rounded-circle mb-2" style="width:88px; height:105px; object-fit:cover;">
-                                 <h5 class="section-title mb-2">सरपंच नाव</h5>
-                                 <div class="overlay">
-                                     <h2 class="section-title one_rem">सरपंच
-                                     </h2>
-                                 </div>
-                             </div>
-                         </div>
-                     @endif
+                         @endif
+                     </div>
                  </div>
-             </div>
-         </section>
-
+             </section>
+         @endif
 
          <!-- Officers Contact Details -->
          <section id="officers_details" class="card-section" data-aos="fade-up">
