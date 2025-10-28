@@ -537,7 +537,7 @@
         <!-- Right Side -->
         <div class="utility-bar-right d-flex align-items-center">
             <div class="d-flex flex-column align-items-center">
-                @if ($navbar)
+                @if(!empty($navbar->logo) && file_exists(storage_path('app/public/' . $navbar->logo)))
                     <img src="{{ asset('storage/' . ($navbar->logo ?? 'default.jpg')) }}"
                         alt="{{ $navbar->name ?? 'Default_Logo' }}" class="header-icon-gp rounded-circle" />
                 @else
