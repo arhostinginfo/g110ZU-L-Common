@@ -35,6 +35,7 @@
                                     <th>Taluka</th>
                                     <th>GP Name In URL</th>
                                     <th>GP Name</th>
+                                    <th>GP Login</th>
                                     <th>GP Website Link</th>
                                     <th>GP Details</th>
                                     <th>GP Name</th>
@@ -42,7 +43,6 @@
                                     <th>Email</th>
                                     <th>Password</th>
                                     <th>Check Website</th>
-                                    <th>GP Login</th>
                                     <th>Valid Till</th>
                                     <th>Days Pending</th>
                                     <th>Status</th>
@@ -57,6 +57,14 @@
                                         <td>{{ $gp->taluka_name }}</td>
                                         <td>{{ $gp->gp_name_in_url }}</td>
                                         <td>{{ $gp->name }}</td>
+                                                                                <td>
+                                            <form action="{{ route('superadmin.supergpautologin') }}" method="POST"
+                                                target="_blank">
+                                                @csrf
+                                                <input type="hidden" name="gp_id" value="{{ $gp->id }}">
+                                                <button type="submit" class="btn btn-sm btn-link p-0">Click</button>
+                                            </form>
+                                        </td>
                                         <td><a href="{{ env('APP_URL') . $gp->gp_name_in_url }}" target="_blank">
                                                     {{ env('APP_URL') . $gp->gp_name_in_url }}
                                                 </a></td>
@@ -102,14 +110,7 @@
                                                 Click
                                             </a>
                                         </td>
-                                        <td>
-                                            <form action="{{ route('superadmin.supergpautologin') }}" method="POST"
-                                                target="_blank">
-                                                @csrf
-                                                <input type="hidden" name="gp_id" value="{{ $gp->id }}">
-                                                <button type="submit" class="btn btn-sm btn-link p-0">Click</button>
-                                            </form>
-                                        </td>
+
                                         <td>{{ \Carbon\Carbon::parse($gp->gp_valid_till)->format('d-m-Y') }}</td>
                                         <td>
                                             <small class="text-muted"> {{ $gp->days_pending }}</small>
