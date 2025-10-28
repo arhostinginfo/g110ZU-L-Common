@@ -17,12 +17,14 @@ class AdminGPController extends Controller
     {
         $gpdetails = Gpdetails::leftJoin('districts', 'gpdetails.gp_under_district', '=', 'districts.id')
             ->leftJoin('talukas', 'gpdetails.gp_under_taluka', '=', 'talukas.id')
+            ->leftJoin('navbars', 'gpdetails.gp_name_in_url', '=', 'navbars.gp_name_in_url')
             ->where('gpdetails.is_deleted', 0)
             ->orderBy('gpdetails.id', 'desc')
             ->select(
                 'gpdetails.*',
                 'districts.district_name',
-                'talukas.taluka_name'
+                'talukas.taluka_name',
+                'navbars.name'
             )
             ->get();
 
