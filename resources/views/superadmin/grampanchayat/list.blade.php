@@ -33,6 +33,8 @@
                                     <th>#</th>
                                     <th>District</th>
                                     <th>Taluka</th>
+                                    <th>GP Name In URL</th>
+                                    <th>GP Website Link</th>
                                     <th>GP Details</th>
                                     <th>GP Name</th>
                                     <th>GP Name In URL</th>
@@ -52,6 +54,10 @@
                                         <td>{{ $i + 1 }}</td>
                                         <td>{{ $gp->district_name }}</td>
                                         <td>{{ $gp->taluka_name }}</td>
+                                        <td>{{ $gp->gp_name_in_url }}</td>
+                                        <td><a href="{{ env('APP_URL') . $gp->gp_name_in_url }}" target="_blank">
+                                                    {{ env('APP_URL') . $gp->gp_name_in_url }}
+                                                </a></td>
                                         <td>
 
                                             <div id="gp-info-{{ $gp->id }}">
