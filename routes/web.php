@@ -60,6 +60,9 @@ Route::post('gplogin', [LoginController::class, 'validateSuperLogin'])->name('gp
 
 Route::get('/{gpname}', [WebSiteController::class, 'index'])->name('/');
 
+Route::post('/dakhala-store', [WebSiteController::class, 'dakhalaStore'])->name('dakhala.store');
+
+
 // Route::group(['prefix' => 'gpadmin','middleware' => ['GPAdmin']], function () {   
 Route::group([
     'prefix' => 'gpadmin',

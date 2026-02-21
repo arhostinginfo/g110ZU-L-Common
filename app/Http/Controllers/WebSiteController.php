@@ -12,7 +12,8 @@ use App\Models\
     Famouslocations,
     Yojna,
     Abhiyans,
-    Gallary
+    Gallary,
+    ContactDakhala
 
 };
 use Illuminate\Http\Request;
@@ -143,5 +144,40 @@ class WebSiteController extends Controller
         return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll'));
     }
 
-    
+
+public function dakhalaStore(Request $request)
+{
+    // Step 1: Validate Request
+    $data = $request->validate([
+        'mobile_no'        => ['required', 'regex:/^[6-9]\d{9}$/'],
+        'applicant_name'   => 'required|string|max:255',
+        'print_name'       => 'required|string|max:255',
+        'address'          => 'required|string',
+        'certificate_type' => 'required|string',
+        'gp_name_in_url'   => 'required|string',
+    ]);
+
+    try {
+        // Step 2: Save to Database
+        ContactDakhala::create($data);
+
+        // Step 3: Redirect with Success Message
+        return redirect()->back()
+            ->with('dakhala_success', 'आपला अर्ज यशस्वीरित्या सबमिट झाला आहे.')
+            ->withFragment('dakhala');
+
+    } catch (\Illuminate\Database\QueryException $e) {
+        // DB specific errors (e.g., duplicate, missing column)
+        return redirect()->back()
+            ->with('dakhala_error', 'डेटाबेसमध्ये त्रुटी: ' . $e->getMessage())
+            ->withFragment('dakhala');
+
+    } catch (\Exception $e) {
+        // General errors
+        return redirect()->back()
+            ->with('dakhala_error', 'काहीतरी चूक झाली: ' . $e->getMessage())
+            ->withFragment('dakhala');
+    }
+}
+
 }

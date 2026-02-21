@@ -1071,6 +1071,64 @@
              </marquee>
          </section>
 
+         <!-- Dakhala Form Section -->
+<section id="dakhala" class="card-section" data-aos="fade-up">
+    <div class="section-title">दाखला</div>
+
+    @if (session('dakhala_success'))
+        <div class="alert alert-success">{{ session('dakhala_success') }}</div>
+    @endif
+
+    <form action="{{ route('dakhala.store') }}" method="POST">
+        @csrf
+
+        <!-- मोबाईल नंबर -->
+        <div class="mb-3">
+            <label class="form-label">मोबाईल नंबर</label>
+            <input type="tel" 
+                name="mobile_no" 
+                class="form-control" 
+                placeholder="आपला १० अंकी मोबाईल नंबर टाका" 
+                pattern="[0-9]{10}" 
+                maxlength="10" 
+                required>
+        </div>
+        <!-- अर्जदाराचे नाव -->
+        <div class="mb-3">
+            <label class="form-label">अर्जदाराचे नाव</label>
+            <input type="text" name="applicant_name" class="form-control" placeholder="अर्जदाराचे पूर्ण नाव" required>
+            <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
+        </div>
+
+        <!-- अर्जावर छापायचे नाव -->
+        <div class="mb-3">
+            <label class="form-label">अर्जावर छापायचे नाव</label>
+            <input type="text" name="print_name" class="form-control" placeholder="अर्जावर छापायचे नाव" required>
+        </div>
+
+        <!-- पत्ता -->
+        <div class="mb-3">
+            <label class="form-label">पूर्ण पत्ता</label>
+            <textarea name="address" class="form-control" rows="4" placeholder="आपला पूर्ण पत्ता येथे लिहा" required></textarea>
+        </div>
+
+        <!-- दाखल्याचा प्रकार -->
+        <div class="mb-3">
+            <label class="form-label">दाखल्याचा प्रकार निवडा</label>
+            <select name="certificate_type" class="form-select" required>
+                <option value="">-- निवडा --</option>
+                <option value="birth_certificate">जन्म दाखला</option>
+                <option value="marriage_certificate">विवाह दाखला</option>
+            </select>
+        </div>
+
+        <!-- सबमिट बटण -->
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">सबमिट करा</button>
+        </div>
+    </form>
+</section>
+
          <!-- Map Section -->
          <section id="map" class="card-section" data-aos="fade-up">
              <div class="section-title">स्थानिक नकाशा</div>
