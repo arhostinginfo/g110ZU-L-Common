@@ -604,7 +604,7 @@
                         <option value="Birth_Certificate">जन्म दाखला</option>
                         <option value="Death_Certificate">मृत्यू दाखला</option>
                         <option value="Marriage_Certificate">विवाह दाखला</option>
-                        <option value="Daridrya_Certificate">दारिद्र्य रेषा दाखला</option>
+                        <option value="Daridrya_Resha_Certificate">दारिद्र्य रेषा दाखला</option>
                         <option value="Niradhar_Certificate">निराधार  दाखला</option>
                         <option value="Namuna_No_8_Certificate">न.न. 8 उतारा</option>
                         <option value="Namuna_No_9_Certificate">न.न. 9 उतारा</option>
