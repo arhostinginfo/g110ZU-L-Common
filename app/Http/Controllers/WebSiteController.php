@@ -13,7 +13,8 @@ use App\Models\
     Yojna,
     Abhiyans,
     Gallary,
-    ContactDakhala
+    ContactDakhala,
+    PDFUpload
 
 };
 use Illuminate\Http\Request;
@@ -122,7 +123,14 @@ class WebSiteController extends Controller
                                 ->where('is_active', 1)
                                 ->orderBy('id', 'desc')
                                 ->get();
-
+        $pdf_all = PDFUpload::where([
+					'is_deleted'=>0,
+					'gp_name_in_url'=>$gpname,
+					
+				])
+                ->where('is_active', 1)
+                ->orderBy('id', 'desc')
+                ->get();
 
         $AbhiyanAll = Abhiyans::where([
 					'is_deleted'=>0,
@@ -141,13 +149,12 @@ class WebSiteController extends Controller
                                 ->where('is_active', 1)
                                 ->orderBy('id', 'desc')
                                 ->get();                    
-        return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll'));
+        return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll','pdf_all'));
     }
 
 
 public function dakhalaStore(Request $request)
 {
-    // Step 1: Validate Request
     $data = $request->validate([
         'mobile_no'        => ['required', 'regex:/^[6-9]\d{9}$/'],
         'applicant_name'   => 'required|string|max:255',
@@ -158,26 +165,19 @@ public function dakhalaStore(Request $request)
     ]);
 
     try {
-        // Step 2: Save to Database
         ContactDakhala::create($data);
 
-        // Step 3: Redirect with Success Message
         return redirect()->back()
             ->with('dakhala_success', 'आपला अर्ज यशस्वीरित्या सबमिट झाला आहे.')
             ->withFragment('dakhala');
 
-    } catch (\Illuminate\Database\QueryException $e) {
-        // DB specific errors (e.g., duplicate, missing column)
-        return redirect()->back()
-            ->with('dakhala_error', 'डेटाबेसमध्ये त्रुटी: ' . $e->getMessage())
-            ->withFragment('dakhala');
-
     } catch (\Exception $e) {
-        // General errors
+
+        \Log::error($e);
+
         return redirect()->back()
-            ->with('dakhala_error', 'काहीतरी चूक झाली: ' . $e->getMessage())
+            ->with('dakhala_error', 'काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.')
             ->withFragment('dakhala');
     }
 }
-
 }

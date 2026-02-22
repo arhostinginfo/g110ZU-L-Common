@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contact_dakhala', function (Blueprint $table) {
+        Schema::create('pdfview', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('gp_name_in_url'); 
-            $table->string('mobile_no');
-            $table->string('applicant_name');
-            $table->string('print_name');
-            $table->string('address');
-            $table->string('certificate_type');
-            $table->boolean('is_action_completed')->default(false);
+            $table->string('gp_name_in_url');
+            $table->string('gp_user_id');
+            $table->string('name');
+            $table->string('type_attachment');
+            $table->string('attachment')->nullable(); 
             $table->boolean('is_active')->default(true);
             $table->boolean('is_deleted')->default(false);
             $table->timestamps();
+
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contact_dakhala');
+        Schema::dropIfExists('pdfview');
     }
 };

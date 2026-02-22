@@ -18,6 +18,6 @@ class ContactDakhala extends Model
         'certificate_type',
         'is_active',
         'is_deleted',
-        'is_completed',
+        'is_action_completed'
     ];
 }
