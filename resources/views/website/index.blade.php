@@ -548,6 +548,115 @@
              </div>
          </section>
 
+
+
+        <!-- Dakhala Form Section -->
+        <section id="dakhala" class="card-section" data-aos="fade-up">
+            <div class="section-title">दाखला</div>
+
+            @if (session('dakhala_success'))
+                <div class="alert alert-success">{{ session('dakhala_success') }}</div>
+            @endif
+
+
+            @if (session('dakhala_error'))
+                <div class="alert alert-success">{{ session('dakhala_error') }}</div>
+            @endif
+
+            <form action="{{ route('dakhala.store') }}" method="POST">
+                @csrf
+
+                <!-- मोबाईल नंबर -->
+                <div class="mb-3">
+                    <label class="form-label">मोबाईल नंबर</label>
+                    <input type="tel" 
+                        name="mobile_no" 
+                        class="form-control" 
+                        placeholder="आपला १० अंकी मोबाईल नंबर टाका" 
+                        pattern="[0-9]{10}" 
+                        maxlength="10" 
+                        required>
+                </div>
+                <!-- अर्जदाराचे नाव -->
+                <div class="mb-3">
+                    <label class="form-label">अर्जदाराचे नाव</label>
+                    <input type="text" name="applicant_name" class="form-control" placeholder="अर्जदाराचे पूर्ण नाव" required>
+                    <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
+                </div>
+
+                <!-- अर्जावर छापायचे नाव -->
+                <div class="mb-3">
+                    <label class="form-label">अर्जावर छापायचे नाव</label>
+                    <input type="text" name="print_name" class="form-control" placeholder="अर्जावर छापायचे नाव" required>
+                </div>
+
+                <!-- पत्ता -->
+                <div class="mb-3">
+                    <label class="form-label">पूर्ण पत्ता</label>
+                    <textarea name="address" class="form-control" rows="4" placeholder="आपला पूर्ण पत्ता येथे लिहा" required></textarea>
+                </div>
+
+                <!-- दाखल्याचा प्रकार -->
+                <div class="mb-3">
+                    <label class="form-label">दाखल्याचा प्रकार निवडा</label>
+                    <select name="certificate_type" class="form-select" required>
+                        <option value="">-- निवडा --</option>
+                        <option value="Birth_Certificate">जन्म दाखला</option>
+                        <option value="Death_Certificate">मृत्यू दाखला</option>
+                        <option value="Marriage_Certificate">विवाह दाखला</option>
+                        <option value="Daridrya_Certificate">दारिद्र्य रेषा दाखला</option>
+                        <option value="Niradhar_Certificate">निराधार  दाखला</option>
+                        <option value="Namuna_No_8_Certificate">न.न. 8 उतारा</option>
+                        <option value="Namuna_No_9_Certificate">न.न. 9 उतारा</option>
+                        <option value="Gram_Panchayat_Yene_Baki_Nahi_Certificate">ग्रामपंचायत येणे बाकी नसल्याबाबत दाखला</option>
+                        <option value="Rahiwasi_Certificate">रहिवासी दाखला</option>
+                        <option value="Other_Certificate">इतर हमीपत्र नमुने</option>
+                    </select>
+                </div>
+
+                <!-- सबमिट बटण -->
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">सबमिट करा</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Mahiti -->
+         <section id="mahiti" class="card-section" data-aos="fade-up">
+             <div class="section-title">माहिती</div>
+             @if (count($pdf_all))
+                 <div class="table-responsive">
+                     <table class="newsTable display table table-striped" style="width:100%">
+                         <thead>
+                             <tr>
+                                 <th>माहिती</th>
+                                 <th>तपशील</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             @foreach ($pdf_all as $i => $pdfview)
+                                 <tr>
+                                     <td>{{ $pdfview->name ?? 'Yojna name' }}</td>
+                                     <td>
+                                         @if($pdfview->type_attachment == 'pdf')
+                                             <a href="{{ asset('storage/' . $pdfview->attachment) }}" target="_blank"
+                                                 class="one_rem info btn btn-primary btn-sm mt-2">
+                                                 PDF उघडा / डाउनलोड करा
+                                             </a>
+                                         @endif
+                                     </td>
+                                 </tr>
+                             @endforeach
+
+                         </tbody>
+                     </table>
+                 </div>
+            @else
+            माहिती मिळाली नाही
+
+             @endif
+         </section>
+
          <!-- Schemes -->
          <section id="schemes" class="card-section" data-aos="fade-up">
              <div class="section-title">शासकीय योजना</div>
@@ -1071,112 +1180,7 @@
              </marquee>
          </section>
 
-         <!-- Dakhala Form Section -->
-        <section id="dakhala" class="card-section" data-aos="fade-up">
-            <div class="section-title">दाखला</div>
-
-            @if (session('dakhala_success'))
-                <div class="alert alert-success">{{ session('dakhala_success') }}</div>
-            @endif
-
-
-            @if (session('dakhala_error'))
-                <div class="alert alert-success">{{ session('dakhala_error') }}</div>
-            @endif
-
-            <form action="{{ route('dakhala.store') }}" method="POST">
-                @csrf
-
-                <!-- मोबाईल नंबर -->
-                <div class="mb-3">
-                    <label class="form-label">मोबाईल नंबर</label>
-                    <input type="tel" 
-                        name="mobile_no" 
-                        class="form-control" 
-                        placeholder="आपला १० अंकी मोबाईल नंबर टाका" 
-                        pattern="[0-9]{10}" 
-                        maxlength="10" 
-                        required>
-                </div>
-                <!-- अर्जदाराचे नाव -->
-                <div class="mb-3">
-                    <label class="form-label">अर्जदाराचे नाव</label>
-                    <input type="text" name="applicant_name" class="form-control" placeholder="अर्जदाराचे पूर्ण नाव" required>
-                    <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
-                </div>
-
-                <!-- अर्जावर छापायचे नाव -->
-                <div class="mb-3">
-                    <label class="form-label">अर्जावर छापायचे नाव</label>
-                    <input type="text" name="print_name" class="form-control" placeholder="अर्जावर छापायचे नाव" required>
-                </div>
-
-                <!-- पत्ता -->
-                <div class="mb-3">
-                    <label class="form-label">पूर्ण पत्ता</label>
-                    <textarea name="address" class="form-control" rows="4" placeholder="आपला पूर्ण पत्ता येथे लिहा" required></textarea>
-                </div>
-
-                <!-- दाखल्याचा प्रकार -->
-                <div class="mb-3">
-                    <label class="form-label">दाखल्याचा प्रकार निवडा</label>
-                    <select name="certificate_type" class="form-select" required>
-                        <option value="">-- निवडा --</option>
-                        <option value="Birth_Certificate">जन्म दाखला</option>
-                        <option value="Death_Certificate">मृत्यू दाखला</option>
-                        <option value="Marriage_Certificate">विवाह दाखला</option>
-                        <option value="Daridrya_Certificate">दारिद्र्य रेषा दाखला</option>
-                        <option value="Niradhar_Certificate">निराधार  दाखला</option>
-                        <option value="Namuna_No_8_Certificate">न.न. 8 उतारा</option>
-                        <option value="Gram_Panchayat_Yene_Baki_Nahi_Certificate">ग्रामपंचायत येणे बाकी नसल्याबाबत दाखला</option>
-                        <option value="Rahiwasi_Certificate">रहिवासी दाखला</option>
-                        <option value="Other_Certificate">इतर हमीपत्र नमुने</option>
-                    </select>
-                </div>
-
-                <!-- सबमिट बटण -->
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">सबमिट करा</button>
-                </div>
-            </form>
-        </section>
-
-
-            <!-- Schemes -->
-         <section id="mahiti" class="card-section" data-aos="fade-up">
-             <div class="section-title">माहिती</div>
-             @if (count($pdf_all))
-                 <div class="table-responsive">
-                     <table class="newsTable display table table-striped" style="width:100%">
-                         <thead>
-                             <tr>
-                                 <th>माहिती</th>
-                                 <th>तपशील</th>
-                             </tr>
-                         </thead>
-                         <tbody>
-                             @foreach ($pdf_all as $i => $pdfview)
-                                 <tr>
-                                     <td>{{ $pdfview->name ?? 'Yojna name' }}</td>
-                                     <td>
-                                         @if($pdfview->type_attachment == 'pdf')
-                                             <a href="{{ asset('storage/' . $pdfview->attachment) }}" target="_blank"
-                                                 class="one_rem info btn btn-primary btn-sm mt-2">
-                                                 PDF उघडा / डाउनलोड करा
-                                             </a>
-                                         @endif
-                                     </td>
-                                 </tr>
-                             @endforeach
-
-                         </tbody>
-                     </table>
-                 </div>
-            @else
-            माहिती मिळाली नाही
-
-             @endif
-         </section>
+      
 
          <!-- Map Section -->
          <section id="map" class="card-section" data-aos="fade-up">
