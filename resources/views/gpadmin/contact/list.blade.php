@@ -1,4 +1,4 @@
-@extends('superadm.layout.master')
+@extends('gpadmin.layout.master')
 
 @section('content')
     <div class="row">
