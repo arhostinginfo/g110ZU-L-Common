@@ -11,7 +11,6 @@ class Frontwebsitecontact extends Model
     public $timestamps = true;
 
     protected $fillable = ['name', 'email', 'message','mobile_no'
-                            ,'gp_name_in_url',
-                            'gp_user_id'];
+                            ,'gp_name_in_url'];
 
 }

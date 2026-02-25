@@ -10,10 +10,13 @@ class FrontwebsitecontactController extends Controller
     {
         $request->validate([
             'name'    => 'required|string|max:255',
-            'email'   => 'required|email',
+            'email'   => 'required|email|max:255',
             'message' => 'required|string|max:255',
-            'mobile_no' => 'required|string|max:255'
+            'mobile_no' => 'required|string|max:255',
+            'gp_name_in_url'   => 'required|string',
         ]);
+
+
 
         Frontwebsitecontact::create($request->all());
 

@@ -597,8 +597,8 @@
 
                 <!-- पत्ता -->
                 <div class="mb-3">
-                    <label class="form-label">पूर्ण पत्ता</label>
-                    <textarea name="address" class="form-control" rows="4" placeholder="आपला पूर्ण पत्ता येथे लिहा" required></textarea>
+                    <label class="form-label">पूर्ण पत्ता/अर्ज संदर्भातील माहिती</label>
+                    <textarea name="address" class="form-control" rows="4" placeholder="आपला पूर्ण पत्ता/अर्ज संदर्भातील माहिती येथे लिहा" required></textarea>
                 </div>
 
                 <!-- दाखल्याचा प्रकार -->
@@ -857,7 +857,7 @@
 
          <!-- Contact form -->
          <section id="contact" class="card-section" data-aos="fade-up">
-             <div class="section-title">संपर्क</div>
+             <div class="section-title">संपर्क/तक्रारी</div>
 
              @if (session('success'))
                  <div class="alert alert-success">{{ session('success') }}</div>
@@ -867,6 +867,7 @@
                  @csrf
                  <div class="mb-2">
                      <input type="text" name="name" class="form-control" placeholder="नाव" required>
+                     <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}"><input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
                  </div>
                  <div class="mb-2">
                      <input type="email" name="email" class="form-control" placeholder="ईमेल" required>
@@ -875,8 +876,13 @@
                      <textarea name="message" class="form-control" rows="3" placeholder="संदेश" required></textarea>
                  </div>
                  <div class="mb-2">
-                     <input type="number" name="mobile_no" class="form-control" rows="3"
-                         placeholder="मोबाईल नंबर" required>
+                         <input type="tel" 
+                        name="mobile_no" 
+                        class="form-control" 
+                        placeholder="आपला १० अंकी मोबाईल नंबर टाका" 
+                        pattern="[0-9]{10}" 
+                        maxlength="10" 
+                        required>
                  </div>
                  <button type="submit" class="btn btn-primary">पाठवा</button>
              </form>

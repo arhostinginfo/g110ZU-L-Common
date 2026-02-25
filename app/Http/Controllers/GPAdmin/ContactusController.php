@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Validation\Rule;
 use Exception;
-use App\Models\ContactDakhala;
+use App\Models\Frontwebsitecontact;
 use Illuminate\Support\Facades\Session;
 
 class ContactusController extends Controller
@@ -27,7 +27,7 @@ class ContactusController extends Controller
 	{
 		try {
 
-			$abhiyans = ContactDakhala::where([
+			$abhiyans = Frontwebsitecontact::where([
 					'is_deleted'=>0,
 					'gp_name_in_url'=>$this->gp_name_in_url,
 					// 'gp_user_id'=>$this->gp_user_id,
