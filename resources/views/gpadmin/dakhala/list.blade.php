@@ -29,6 +29,7 @@
                                     <th>Sr.No.</th>
                                     <th>मोबाईल नंबर</th>
                                     <th>अर्जदाराचे नाव</th> 
+                                    <th>अर्जदाराचा मेल आयडी</th> 
                                     <th>अर्जावर छापायचे नाव</th>
                                     <th>पूर्ण पत्ता</th>
                                     <th>दाखल्याचा प्रकार</th>
@@ -42,6 +43,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $abhiyan->mobile_no }}</td>
                                         <td>{{ $abhiyan->applicant_name }}</td>
+                                        <td>{{ $abhiyan->applicant_email }}</td>
                                         <td>{{ $abhiyan->print_name }}</td>
                                         <td>{{ $abhiyan->address }}</td>
                                         <td>{{ $abhiyan->certificate_type }}</td>
