@@ -43,32 +43,7 @@
                                         <td>{{ $abhiyan->mobile_no }}</td>
                                         <td>{{ $abhiyan->email }}</td>
                                         <td>{{ $abhiyan->message }}</td>
-                                        <!-- <td>
-                                            <form action="{{ route('contact.updatestatus') }}" method="POST"
-                                                class="d-inline-block delete-form">
-                                                @csrf
-                                                <label class="switch">
-                                                    <input type="checkbox" class="toggle-status"
-                                                        data-id="{{ base64_encode($abhiyan->id) }}"
-                                                        {{ $abhiyan->is_action_completed == 1 ? 'checked' : '' }}>
-                                                    <span class="slider"></span>
-                                                </label>
-                                                <input type="hidden" name="id"
-                                                    value="{{ base64_encode($abhiyan->id) }}">
-                                            </form>
-                                        </td> -->
-                                        <!-- <td>
-                                            <a href="{{ route('abhiyan.edit', base64_encode($abhiyan->id)) }}"
-                                                class="btn btn-sm btn-outline-primary">Edit</a>
-                                            <form action="{{ route('abhiyan.delete') }}" method="POST"
-                                                class="d-inline-block delete-form">
-                                                @csrf
-                                                <input type="hidden" name="id"
-                                                    value="{{ base64_encode($abhiyan->id) }}">
-                                                <button type="button"
-                                                    class="btn btn-sm btn-outline-danger">Delete</button>
-                                            </form>
-                                        </td> -->
+                                       
                                     </tr>
                                 @endforeach
                             </tbody>
