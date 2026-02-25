@@ -13,6 +13,7 @@ class ContactDakhala extends Model
         'gp_name_in_url',
         'mobile_no',      
         'applicant_name',
+        'applicant_email',
         'print_name',
         'address',
         'certificate_type',

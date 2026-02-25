@@ -158,6 +158,7 @@ public function dakhalaStore(Request $request)
     $data = $request->validate([
         'mobile_no'        => ['required', 'regex:/^[6-9]\d{9}$/'],
         'applicant_name'   => 'required|string|max:255',
+        'applicant_email'   => 'required|email|max:255',
         'print_name'       => 'required|string|max:255',
         'address'          => 'required|string',
         'certificate_type' => 'required|string',

@@ -552,7 +552,7 @@
 
         <!-- Dakhala Form Section -->
         <section id="dakhala" class="card-section" data-aos="fade-up">
-            <div class="section-title">दाखला</div>
+            <div class="section-title">विवीध दाखल्यासांठी अर्ज सुविधा</div>
 
             @if (session('dakhala_success'))
                 <div class="alert alert-success">{{ session('dakhala_success') }}</div>
@@ -568,7 +568,7 @@
 
                 <!-- मोबाईल नंबर -->
                 <div class="mb-3">
-                    <label class="form-label">मोबाईल नंबर</label>
+                    <label class="form-label">अर्जदाराचा मोबाइल क्रमांक/ WhatsApp क्रमांक</label>
                     <input type="tel" 
                         name="mobile_no" 
                         class="form-control" 
@@ -582,6 +582,11 @@
                     <label class="form-label">अर्जदाराचे नाव</label>
                     <input type="text" name="applicant_name" class="form-control" placeholder="अर्जदाराचे पूर्ण नाव" required>
                     <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">अर्जदाराचा मेल आयडी</label>
+                    <input type="email" name="applicant_email" class="form-control" placeholder="अर्जदाराचा मेल आयडी" required>
                 </div>
 
                 <!-- अर्जावर छापायचे नाव -->
@@ -623,7 +628,7 @@
 
         <!-- Mahiti -->
          <section id="mahiti" class="card-section" data-aos="fade-up">
-             <div class="section-title">माहिती</div>
+             <div class="section-title">वीवीध विभागांची  माहिती PDF/imeges स्वरूपातील</div>
              @if (count($pdf_all))
                  <div class="table-responsive">
                      <table class="newsTable display table table-striped" style="width:100%">
