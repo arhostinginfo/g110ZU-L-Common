@@ -275,7 +275,7 @@
 
          <!-- Abhiyan -->
          <section id="news" class="card-section" data-aos="fade-up">
-             <div class="section-title">अभियान</div>
+             <div class="section-title">मुख्यमंत्री समृद्ध पंचायतराज अभियान</div>
              @if (count($AbhiyanAll))
                  <div class="table-responsive">
                      <table class="newsTable display table table-striped" style="width:100%">

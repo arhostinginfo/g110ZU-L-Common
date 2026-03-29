@@ -43,7 +43,7 @@
              <div class="col-md-4 mb-3">
                  <h5>झटपट दुवे</h5>
                  <p><a href="#welcome">स्वागत</a></p>
-                 <p><a href="#news">अभियान</a></p>
+                 <p><a href="#news">मुख्यमंत्री समृद्ध पंचायतराज अभियान</a></p>
                  <p><a href="#schemes">शासकीय योजना</a></p>
                  <p><a href="#places">प्रसिद्ध स्थळे</a></p>
              </div>
