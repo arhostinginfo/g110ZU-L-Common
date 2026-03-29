@@ -781,7 +781,6 @@
          <!-- Contact form -->
          <section id="contact" class="card-section" data-aos="fade-up">
              <div class="section-title">संपर्क/तक्रारी</div>
-             <div class="section-title">संपर्क/तक्रारी</div>
 
              @if (session('success'))
                  <div class="alert alert-success">{{ session('success') }}</div>
