@@ -13,7 +13,8 @@ use App\Http\Controllers\GPAdmin\AbhiyansController;
 use App\Http\Controllers\GPAdmin\SliderController;  
 use App\Http\Controllers\GPAdmin\GallaryController;  
 use App\Http\Controllers\GPAdmin\MarqueeController;  
-use App\Http\Controllers\GPAdmin\WelcomeNoteController;  
+use App\Http\Controllers\GPAdmin\WelcomeNoteController;
+use App\Http\Controllers\GPAdmin\ContactusController;
 
 
 use App\Http\Controllers\WebSiteController;
@@ -151,6 +152,8 @@ Route::group([
     Route::post('/welcome-note/update-status', [WelcomeNoteController::class, 'updateStatus'])->name('welcome-note.updatestatus');
 
 
+
+    Route::get('/contact/list', [ContactusController::class, 'index'])->name('contact.list');
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 

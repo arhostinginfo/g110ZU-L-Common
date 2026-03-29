@@ -425,7 +425,7 @@
             <div class="collapse navbar-collapse" id="navmenu">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#welcome">स्वागत</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#news">अभियान</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#news">मुख्यमंत्री समृद्ध पंचायतराज अभियान</a></li>
                     <li class="nav-item"><a class="nav-link" href="#schemes">शासकीय योजना</a></li>
                     <li class="nav-item"><a class="nav-link" href="#places">प्रसिद्ध स्थळे</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">संपर्क</a></li>

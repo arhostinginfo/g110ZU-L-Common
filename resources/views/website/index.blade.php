@@ -132,7 +132,7 @@
 
          <!-- Abhiyan -->
          <section id="news" class="card-section" data-aos="fade-up">
-             <div class="section-title">अभियान</div>
+             <div class="section-title">मुख्यमंत्री समृद्ध पंचायतराज अभियान</div>
              <div class="table-responsive">
                  <table class="newsTable display table table-striped" style="width:100%">
                      <thead>
@@ -362,7 +362,7 @@
 
          <!-- Contact form -->
          <section id="contact" class="card-section" data-aos="fade-up">
-             <div class="section-title">संपर्क</div>
+             <div class="section-title">संपर्क/तक्रारी</div>
 
              @if (session('success'))
                  <div class="alert alert-success">{{ session('success') }}</div>
@@ -372,6 +372,7 @@
                  @csrf
                  <div class="mb-2">
                      <input type="text" name="name" class="form-control" placeholder="नाव" required>
+                     <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}"><input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
                  </div>
                  <div class="mb-2">
                      <input type="email" name="email" class="form-control" placeholder="ईमेल" required>

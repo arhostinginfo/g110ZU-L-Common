@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan:*)",
+      "Bash(/c/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" tinker --execute=\"use App\\\\Models\\\\Admin; use Illuminate\\\\Support\\\\Facades\\\\Hash; $result = Admin::first\\(\\); if\\($result\\) { $result->update\\([''employee_password'' => Hash::make\\(''Commonadmin@0987''\\)]\\); echo ''Password updated for: '' . $result->employee_email; } else { echo ''No admin record found''; }\")",
+      "Read(//mnt/c/xampp/php/**)",
+      "Read(//d/xampp/php/**)",
+      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" tinker --execute=\"use App\\\\Models\\\\Admin; use Illuminate\\\\Support\\\\Facades\\\\Hash; $result = Admin::first\\(\\); if\\($result\\) { $result->update\\([''employee_password'' => Hash::make\\(''Commonadmin@0987''\\)]\\); echo ''Password updated for: '' . $result->employee_email; } else { echo ''No admin record found''; }\")",
+      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/update_admin_pass.php\")"
+    ]
+  }
+}
