@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan:*)",
+      "Bash(/c/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" tinker --execute=\"use App\\\\Models\\\\Admin; use Illuminate\\\\Support\\\\Facades\\\\Hash; $result = Admin::first\\(\\); if\\($result\\) { $result->update\\([''employee_password'' => Hash::make\\(''Commonadmin@0987''\\)]\\); echo ''Password updated for: '' . $result->employee_email; } else { echo ''No admin record found''; }\")",
+      "Read(//mnt/c/xampp/php/**)",
+      "Read(//d/xampp/php/**)",
+      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" tinker --execute=\"use App\\\\Models\\\\Admin; use Illuminate\\\\Support\\\\Facades\\\\Hash; $result = Admin::first\\(\\); if\\($result\\) { $result->update\\([''employee_password'' => Hash::make\\(''Commonadmin@0987''\\)]\\); echo ''Password updated for: '' . $result->employee_email; } else { echo ''No admin record found''; }\")",
+      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/update_admin_pass.php\")",
+      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" route:list --path=nandgaon)",
+      "Bash(/d/xampp/mysql/bin/mysql.exe -u root -e \"USE panchayatsamiti_adas3525; SHOW FULL TABLES WHERE Table_type = ''VIEW'';\")",
+      "Bash(/d/xampp/mysql/bin/mysql.exe -u root --password=\"\" -e \"USE panchayatsamiti_adas3525; SHOW FULL TABLES WHERE Table_type = ''VIEW'';\")",
+      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" migrate --path=database/migrations/2025_09_14_043725_create_pdfupload_table.php)",
+      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" view:clear)",
+      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" storage:link)"
+    ]
+  }
+}

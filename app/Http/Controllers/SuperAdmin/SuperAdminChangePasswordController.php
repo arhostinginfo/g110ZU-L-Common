@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
 use Validator;
-use App\Models\Gpdetails;
-use Illuminate\Support\Facades\Crypt;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 
 class SuperAdminChangePasswordController extends Controller
  {
@@ -45,12 +45,12 @@ class SuperAdminChangePasswordController extends Controller
             return redirect()->back()->with( 'error', 'Password not updated!' );
         }
 
-        $user = Gpdetails::find( $userId );
+        $user = Admin::find( $userId );
         if ( !$user ) {
             return redirect()->back()->with( 'error', 'Password not updated!' );
         }
-        Gpdetails::where( 'id', $userId )->update( [
-            'employee_password' => Crypt::encryptString($request->new_password ),
+        Admin::where( 'id', $userId )->update( [
+            'employee_password' => Hash::make($request->new_password ),
         ] );
             Session::flush(); 
             auth()->logout();
