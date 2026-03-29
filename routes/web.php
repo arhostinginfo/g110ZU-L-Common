@@ -10,11 +10,13 @@ use App\Http\Controllers\GPAdmin\NavbarController;
 use App\Http\Controllers\GPAdmin\FamousLocationController; 
 use App\Http\Controllers\GPAdmin\YojnaController; 
 use App\Http\Controllers\GPAdmin\AbhiyansController; 
+use App\Http\Controllers\GPAdmin\DhakhalaController; 
+use App\Http\Controllers\GPAdmin\ContactusController; 
 use App\Http\Controllers\GPAdmin\SliderController;  
 use App\Http\Controllers\GPAdmin\GallaryController;  
+use App\Http\Controllers\GPAdmin\PDFUploadController;  
 use App\Http\Controllers\GPAdmin\MarqueeController;  
 use App\Http\Controllers\GPAdmin\WelcomeNoteController;
-use App\Http\Controllers\GPAdmin\ContactusController;
 
 
 use App\Http\Controllers\WebSiteController;
@@ -60,6 +62,9 @@ Route::get('login', [LoginController::class, 'loginsuper'])->name('login');
 Route::post('gplogin', [LoginController::class, 'validateSuperLogin'])->name('gplogin');
 
 Route::get('/{gpname}', [WebSiteController::class, 'index'])->name('/');
+
+Route::post('/dakhala-store', [WebSiteController::class, 'dakhalaStore'])->name('dakhala.store');
+
 
 // Route::group(['prefix' => 'gpadmin','middleware' => ['GPAdmin']], function () {   
 Route::group([
@@ -153,7 +158,19 @@ Route::group([
 
 
 
+    Route::get('/dakhala/list', [DhakhalaController::class, 'index'])->name('dakhala.list');
+    Route::post('/dakhala/update-status', [DhakhalaController::class, 'updateStatus'])->name('dakhala.updatestatus');
+
     Route::get('/contact/list', [ContactusController::class, 'index'])->name('contact.list');
+    Route::post('/contact/update-status', [ContactusController::class, 'updateStatus'])->name('contact.updatestatus');
+
+    Route::get('/pdfupload/list', [PDFUploadController::class, 'list'])->name('pdfupload.list');
+    Route::get('/pdfupload/add', [PDFUploadController::class, 'add'])->name('pdfupload.add');
+    Route::post('/pdfupload/add', [PDFUploadController::class, 'save'])->name('pdfupload.save');
+    Route::get('/pdfupload/edit/{encodedId}', [PDFUploadController::class, 'edit'])->name('pdfupload.edit');
+    Route::post('/pdfupload/update/', [PDFUploadController::class, 'update'])->name('pdfupload.update');
+    Route::post('/pdfupload/delete', [PDFUploadController::class, 'delete'])->name('pdfupload.delete');
+    Route::post('/pdfupload/update-status', [PDFUploadController::class, 'updateStatus'])->name('pdfupload.updatestatus');
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 

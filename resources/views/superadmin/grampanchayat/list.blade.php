@@ -14,10 +14,17 @@
             <div class="card">
                 <div class="card-body">
 
+
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>GP Details</h3>
                         <a href="{{ route('superadmin.admin-gp.add') }}" class="btn btn-sm btn-outline-primary">Add GP
                             Details</a>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <button class="btn btn-sm btn-outline-primary" onclick="copyTableToClipboard()">📋 Copy to
+                            Excel</button>
                     </div>
                     <div style="overflow-x: auto;">
                         <table id="sliderTable" class="table table-bordered" style="min-width: 1200px;">
@@ -26,13 +33,16 @@
                                     <th>#</th>
                                     <th>District</th>
                                     <th>Taluka</th>
+                                    <th>GP Name In URL</th>
+                                    <th>GP Name</th>
+                                    <th>GP Login</th>
+                                    <th>GP Website Link</th>
                                     <th>GP Details</th>
                                     <th>GP Name</th>
                                     <th>GP Name In URL</th>
                                     <th>Email</th>
                                     <th>Password</th>
                                     <th>Check Website</th>
-                                    <th>GP Login</th>
                                     <th>Valid Till</th>
                                     <th>Days Pending</th>
                                     <th>Status</th>
@@ -45,6 +55,19 @@
                                         <td>{{ $i + 1 }}</td>
                                         <td>{{ $gp->district_name }}</td>
                                         <td>{{ $gp->taluka_name }}</td>
+                                        <td>{{ $gp->gp_name_in_url }}</td>
+                                        <td>{{ $gp->name }}</td>
+                                                                                <td>
+                                            <form action="{{ route('superadmin.supergpautologin') }}" method="POST"
+                                                target="_blank">
+                                                @csrf
+                                                <input type="hidden" name="gp_id" value="{{ $gp->id }}">
+                                                <button type="submit" class="btn btn-sm btn-link p-0">Click</button>
+                                            </form>
+                                        </td>
+                                        <td><a href="{{ env('APP_URL') . $gp->gp_name_in_url }}" target="_blank">
+                                                    {{ env('APP_URL') . $gp->gp_name_in_url }}
+                                                </a></td>
                                         <td>
 
                                             <div id="gp-info-{{ $gp->id }}">
@@ -87,14 +110,7 @@
                                                 Click
                                             </a>
                                         </td>
-                                        <td>
-                                            <form action="{{ route('superadmin.supergpautologin') }}" method="POST"
-                                                target="_blank">
-                                                @csrf
-                                                <input type="hidden" name="gp_id" value="{{ $gp->id }}">
-                                                <button type="submit" class="btn btn-sm btn-link p-0">Click</button>
-                                            </form>
-                                        </td>
+
                                         <td>{{ \Carbon\Carbon::parse($gp->gp_valid_till)->format('d-m-Y') }}</td>
                                         <td>
                                             <small class="text-muted"> {{ $gp->days_pending }}</small>
@@ -140,8 +156,8 @@
                 scrollX: true, // Enables horizontal scrolling
 
                 searching: true,
-                lengthChange: false,
-                pageLength: 10,
+                lengthChange: true,
+                pageLength: 30,
                 ordering: true,
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/mr.json"
@@ -195,7 +211,67 @@
                 }
             });
 
+
+
+
+
         });
+
+
+        // ✅ Copy full DataTable (all pages, with headers) for Excel
+        function copyTableToClipboard() {
+            const dataTable = $('#sliderTable').DataTable();
+            if (!dataTable) return alert("Table not found!");
+
+            let textToCopy = '';
+
+            // ✅ Get headers
+            const headers = dataTable.columns().header().toArray().map(th => th.innerText.trim());
+            textToCopy += headers.join('\t') + '\n';
+
+            // ✅ Get all rows (filtered or not)
+            const allData = dataTable.rows({
+                search: 'applied'
+            }).data(); // includes all visible (filtered) pages
+
+            allData.each(rowData => {
+                const rowText = rowData.map(col => {
+                    // Clean HTML tags and spaces
+                    return col.toString().replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+                }).join('\t');
+                textToCopy += rowText + '\n';
+            });
+
+            // ✅ Copy to clipboard
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => alert('✅ All rows (with headers) copied! Paste directly into Excel.'))
+                    .catch(err => {
+                        console.error('Copy failed:', err);
+                        fallbackCopyText(textToCopy);
+                    });
+            } else {
+                fallbackCopyText(textToCopy);
+            }
+
+            function fallbackCopyText(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    alert('✅ All rows (with headers) copied! Paste directly into Excel.');
+                } catch (err) {
+                    console.error('Fallback copy error:', err);
+                    alert('❌ Copy failed. Please copy manually.');
+                }
+                document.body.removeChild(textarea);
+            }
+        }
     </script>
 
 @endsection

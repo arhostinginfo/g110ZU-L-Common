@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Session;
 use App\Models\Gpdetails;
+use Illuminate\Support\Facades\Crypt;
 
 class AdminLoginController extends Controller
 {
@@ -31,7 +32,8 @@ class AdminLoginController extends Controller
          ->where('is_active', 1)
          ->first();
       if ($result) {
-         if (Hash::check($pass, $result->employee_password)) {
+         // if (Hash::check($pass, $result->employee_password)) {
+         if ($pass== Crypt::decryptString($result->employee_password)) {
 
             Session::put('super_user_id', $result->id);
             Session::put('email_id', $result->email);

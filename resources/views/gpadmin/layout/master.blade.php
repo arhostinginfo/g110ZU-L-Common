@@ -131,10 +131,23 @@
                         </li>
 
 
+                        <li> <a href="{{ route('gpadmin.pdfupload.list') }}"> <i
+                                    class="mdi mdi-view-dashboard"></i><span>PDF Upload
+                                </span></a>
+                        </li>
+
+
+                        <li> <a href="{{ route('gpadmin.dakhala.list') }}"> <i
+                                    class="mdi mdi-view-dashboard"></i><span>Dakhala
+                                </span></a>
+                        </li>
+
                         <li> <a href="{{ route('gpadmin.contact.list') }}"> <i
                                     class="mdi mdi-view-dashboard"></i><span>Contact Us
                                 </span></a>
                         </li>
+
+
 
                         <li> <a href="{{ route('gpadmin.logout') }}"> <i class="mdi mdi-account-group"></i><span>Logout
                                 </span></a>

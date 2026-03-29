@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Slider extends Model
+class PDFUpload extends Model
 {
-     public $table = 'sliders';
+    public $table = 'pdfview';
     public $timestamps = true;
 
-    protected $fillable = ['name','photo'
+   protected $fillable = ['name','attachment','type_attachment'
                             ,'gp_name_in_url',
                             'gp_user_id'];
-                            
 
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Admin Login</title>
+    <title>Super Admin Login </title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -36,7 +36,7 @@
     <div class="card-body">
         <div class="text-center mb-4">
             <img src="{{ asset('asset/default.jpg') }}"" alt="Logo" style="height: 60px;">
-            <h4 class="mt-2">Admin Login</h4>
+            <h4 class="mt-2">Super Admin Login</h4>
         </div>
 
         @if (session('error'))
