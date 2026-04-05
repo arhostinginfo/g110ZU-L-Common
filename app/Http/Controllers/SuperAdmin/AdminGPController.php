@@ -28,28 +28,108 @@ class AdminGPController extends Controller
             )
             ->get();
 
+        $today = Carbon::today();
 
-
-        $gpdetails->map(function ($gp) {
-            $gp->employee_password = Crypt::decryptString($gp->employee_password);
-
-
-            $validTill = Carbon::parse($gp->gp_valid_till);
-            $today = Carbon::today();
-
-            if ($validTill->greaterThanOrEqualTo($today)) {
-                $gp->days_pending = $validTill->diffInDays($today);
-            } else {
-                $gp->days_pending = 0; // Or negative or expired
+        $gpdetails->map(function ($gp) use ($today) {
+            try {
+                $gp->employee_password = Crypt::decryptString($gp->employee_password);
+            } catch (\Exception $e) {
+                // password stored as bcrypt or plain — show as-is
             }
-
+            $validTill = Carbon::parse($gp->gp_valid_till);
+            $gp->days_pending = $validTill->greaterThanOrEqualTo($today)
+                ? $validTill->diffInDays($today)
+                : 0;
+            $gp->is_expired = $today->gt($validTill->copy()->startOfDay());
             return $gp;
         });
+
+        // ── Summary stats ──
+        $stats = [
+            'total'    => $gpdetails->count(),
+            'active'   => $gpdetails->filter(fn($g) => (int)$g->is_active === 1 && !$g->is_expired)->count(),
+            'inactive' => $gpdetails->filter(fn($g) => (int)$g->is_active === 0 && !$g->is_expired)->count(),
+            'expired'  => $gpdetails->filter(fn($g) => $g->is_expired)->count(),
+        ];
+
+        // ── District-wise stats ──
+        $districtStats = $gpdetails
+            ->groupBy('district_name')
+            ->map(function ($rows, $district) {
+                return [
+                    'district' => $district ?: '(Not Set)',
+                    'total'    => $rows->count(),
+                    'active'   => $rows->filter(fn($g) => (int)$g->is_active === 1 && !$g->is_expired)->count(),
+                    'inactive' => $rows->filter(fn($g) => (int)$g->is_active === 0 && !$g->is_expired)->count(),
+                    'expired'  => $rows->filter(fn($g) => $g->is_expired)->count(),
+                ];
+            })
+            ->sortBy('district')
+            ->values();
+
+        // ── Taluka-wise stats ──
+        $talukaStats = $gpdetails
+            ->groupBy('taluka_name')
+            ->map(function ($rows, $taluka) {
+                return [
+                    'district' => $rows->first()->district_name ?: '(Not Set)',
+                    'taluka'   => $taluka ?: '(Not Set)',
+                    'total'    => $rows->count(),
+                    'active'   => $rows->filter(fn($g) => (int)$g->is_active === 1 && !$g->is_expired)->count(),
+                    'inactive' => $rows->filter(fn($g) => (int)$g->is_active === 0 && !$g->is_expired)->count(),
+                    'expired'  => $rows->filter(fn($g) => $g->is_expired)->count(),
+                ];
+            })
+            ->sortBy(['district', 'taluka'])
+            ->values();
 
         $districts = District::where('is_active', 1)->orderBy('district_name')->get();
         $talukas   = Taluka::with('district')->where('is_active', 1)->orderBy('taluka_name')->get();
 
-        return view('superadmin.grampanchayat.list', compact('gpdetails', 'districts', 'talukas'));
+        return view('superadmin.grampanchayat.list', compact(
+            'gpdetails', 'districts', 'talukas', 'stats', 'districtStats', 'talukaStats'
+        ));
+    }
+
+    public function filterList($type)
+    {
+        if (!in_array($type, ['inactive', 'expired'])) {
+            abort(404);
+        }
+
+        $gpdetails = Gpdetails::leftJoin('districts', 'gpdetails.gp_under_district', '=', 'districts.id')
+            ->leftJoin('talukas', 'gpdetails.gp_under_taluka', '=', 'talukas.id')
+            ->leftJoin('navbars', 'gpdetails.gp_name_in_url', '=', 'navbars.gp_name_in_url')
+            ->where('gpdetails.is_deleted', 0)
+            ->orderBy('gpdetails.id', 'desc')
+            ->select('gpdetails.*', 'districts.district_name', 'talukas.taluka_name', 'navbars.name')
+            ->get();
+
+        $today = Carbon::today();
+
+        $gpdetails->map(function ($gp) use ($today) {
+            try {
+                $gp->employee_password = Crypt::decryptString($gp->employee_password);
+            } catch (\Exception $e) {
+                // password stored as bcrypt or plain — show as-is
+            }
+            $validTill = Carbon::parse($gp->gp_valid_till);
+            $gp->days_pending = $validTill->greaterThanOrEqualTo($today)
+                ? $validTill->diffInDays($today)
+                : 0;
+            $gp->is_expired = $today->gt($validTill->copy()->startOfDay());
+            return $gp;
+        });
+
+        if ($type === 'inactive') {
+            $filtered = $gpdetails->filter(fn($g) => (int)$g->is_active === 0 && !$g->is_expired)->values();
+            $label    = 'Inactive GPs';
+        } else {
+            $filtered = $gpdetails->filter(fn($g) => $g->is_expired)->values();
+            $label    = 'Expired GPs';
+        }
+
+        return view('superadmin.grampanchayat.filtered-list', compact('filtered', 'type', 'label'));
     }
 
     public function export()

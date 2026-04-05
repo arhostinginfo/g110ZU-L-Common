@@ -32,13 +32,24 @@ class AdminLoginController extends Controller
          ->where('is_active', 1)
          ->first();
       if ($result) {
-         // if (Hash::check($pass, $result->employee_password)) {
-         if ($pass== Crypt::decryptString($result->employee_password)) {
+         $passwordMatch = false;
 
+         // 1. Try bcrypt (passwords set via change-password form)
+         if (Hash::check($pass, $result->employee_password)) {
+            $passwordMatch = true;
+         } else {
+            // 2. Fall back to Crypt (legacy encrypted passwords)
+            try {
+               $passwordMatch = ($pass === Crypt::decryptString($result->employee_password));
+            } catch (\Exception $e) {
+               $passwordMatch = false;
+            }
+         }
+
+         if ($passwordMatch) {
             Session::put('super_user_id', $result->id);
             Session::put('email_id', $result->email);
             return redirect('superadmin/dashboard-admin');
-            
          } else {
             return redirect()->back()->with('error', 'User credentials not matching with records');
          }

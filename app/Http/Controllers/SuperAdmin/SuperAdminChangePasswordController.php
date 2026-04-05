@@ -13,7 +13,7 @@ class SuperAdminChangePasswordController extends Controller
  {
     public function index()
  {
-        return view( 'superadm.change-password' );
+        return view( 'superadmin.change-password' );
     }
 
     public function updatePassword( Request $request )
@@ -23,14 +23,12 @@ class SuperAdminChangePasswordController extends Controller
                 'required',
                 'string',
                 'min:8',
-                'max:8',
-                'regex:/^(?=(?:.*\d){2,})(?=(?:.*[A-Za-z]){5,})(?=.*[^A-Za-z0-9])[A-Za-z\d\W]{8}$/'
+                'regex:/^(?=(?:.*\d){2,})(?=(?:.*[A-Za-z]){5,})(?=.*[^A-Za-z0-9]).+$/'
             ],
             'confirm_password' => 'required|same:new_password',
         ], [
             'new_password.required' => 'Enter employee password',
-            'new_password.min'      => 'Password must be exactly 8 characters',
-            'new_password.max'      => 'Password must be exactly 8 characters',
+            'new_password.min'      => 'Password must be at least 8 characters',
             'new_password.regex'    => 'Password must contain at least 2 digits, 5 letters, and 1 special character',
             'confirm_password.required' => 'Please confirm your password',
             'confirm_password.same'     => 'New Password & Confirm Password must match',

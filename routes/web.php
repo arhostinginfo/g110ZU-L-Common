@@ -219,6 +219,7 @@ Route::group([
     Route::post('/admin-gp/update/', [AdminGPController::class, 'update'])->name('admin-gp.update');
     Route::post('/admin-gp/delete', [AdminGPController::class, 'delete'])->name('admin-gp.delete');
     Route::post('/admin-gp/update-status', [AdminGPController::class, 'updateStatus'])->name('admin-gp.updatestatus');
+    Route::get('/admin-gp/filter/{type}', [AdminGPController::class, 'filterList'])->name('admin-gp.filter');
 
     Route::get('dashboard-admin', [SuperAdminDashboardController::class, 'admin'])->name('dashboard-admin');
 
