@@ -17,6 +17,9 @@ use App\Http\Controllers\GPAdmin\GallaryController;
 use App\Http\Controllers\GPAdmin\PDFUploadController;  
 use App\Http\Controllers\GPAdmin\MarqueeController;  
 use App\Http\Controllers\GPAdmin\WelcomeNoteController;
+use App\Http\Controllers\GPAdmin\TaxDemandController;
+use App\Http\Controllers\GPAdmin\TaxDocumentController;
+use App\Http\Controllers\GPAdmin\TaxTipController;
 
 
 use App\Http\Controllers\WebSiteController;
@@ -173,6 +176,13 @@ Route::group([
     Route::post('/pdfupload/update-status', [PDFUploadController::class, 'updateStatus'])->name('pdfupload.updatestatus');
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::prefix('gp-tax')->name('gp-tax.')->group(function () {
+        Route::resource('demands', TaxDemandController::class);
+        Route::resource('documents', TaxDocumentController::class)->except(['show', 'edit', 'update']);
+        Route::delete('documents/{document}/delete', [TaxDocumentController::class, 'destroy'])->name('documents.destroy');
+        Route::resource('tips', TaxTipController::class)->except(['show']);
+    });
 
 });
 

@@ -12,7 +12,13 @@
       "Bash(/d/xampp/mysql/bin/mysql.exe -u root --password=\"\" -e \"USE panchayatsamiti_adas3525; SHOW FULL TABLES WHERE Table_type = ''VIEW'';\")",
       "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" migrate --path=database/migrations/2025_09_14_043725_create_pdfupload_table.php)",
       "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" view:clear)",
-      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" storage:link)"
+      "Bash(/d/xampp/php/php.exe \"d:/xampp/htdocs/ph/phsg110ZU-L-Common/artisan\" storage:link)",
+      "Bash(\"D:/xampp/php/php.exe\" artisan:*)",
+      "Bash(\"D:/xampp/php/php.exe\" -l \"D:/xampp/htdocs/g110ZU-L-Common/app/Http/Controllers/GPAdmin/TaxDemandController.php\")",
+      "Bash(\"D:/xampp/php/php.exe\" -l \"D:/xampp/htdocs/g110ZU-L-Common/app/Http/Controllers/GPAdmin/TaxDocumentController.php\")",
+      "Bash(\"D:/xampp/php/php.exe\" -l \"D:/xampp/htdocs/g110ZU-L-Common/app/Models/TaxDemand.php\")",
+      "Bash(\"D:/xampp/php/php.exe\" -l \"D:/xampp/htdocs/g110ZU-L-Common/app/Models/TaxDocument.php\")",
+      "Bash(\"D:/xampp/php/php.exe\" -l \"D:/xampp/htdocs/g110ZU-L-Common/routes/web.php\")"
     ]
   }
 }

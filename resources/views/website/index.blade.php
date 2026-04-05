@@ -1201,4 +1201,196 @@
                  style="width:100%;height:300px;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
              </div>
          </section>
+
+         {{-- =====================================================================
+              कर व्यवस्थापन विभाग — Gram Panchayat Tax Management Section
+              ===================================================================== --}}
+
+         {{-- SECTION A: घरपट्टी कर तक्ता --}}
+         <section id="ghar-patti-tax" class="card-section" data-aos="fade-up">
+             <div class="section-title">घरपट्टी कर (मागणी व वसुली)</div>
+             <div class="table-responsive">
+                 <table class="table table-bordered table-striped" style="width:100%">
+                     <thead class="table-success">
+                         <tr>
+                             <th>अ.नं.</th>
+                             <th>कराचा प्रकार</th>
+                             <th>मागणी मागिल</th>
+                             <th>वसूल मागिल</th>
+                             <th>टक्केवारी %</th>
+                             <th>मागणी चालू</th>
+                             <th>वसूल चालू</th>
+                             <th>टक्केवारी %</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr>
+                             <td>1</td>
+                             <td>घरपट्टी</td>
+                             <td>{{ isset($gharPattiDemands['magil']) ? '₹' . number_format($gharPattiDemands['magil']->demand_amount, 2) : '—' }}</td>
+                             <td>{{ isset($gharPattiDemands['magil']) ? '₹' . number_format($gharPattiDemands['magil']->collected_amount, 2) : '—' }}</td>
+                             <td>{{ isset($gharPattiDemands['magil']) ? $gharPattiDemands['magil']->percentage . '%' : '—' }}</td>
+                             <td>{{ isset($gharPattiDemands['chalu']) ? '₹' . number_format($gharPattiDemands['chalu']->demand_amount, 2) : '—' }}</td>
+                             <td>{{ isset($gharPattiDemands['chalu']) ? '₹' . number_format($gharPattiDemands['chalu']->collected_amount, 2) : '—' }}</td>
+                             <td>{{ isset($gharPattiDemands['chalu']) ? $gharPattiDemands['chalu']->percentage . '%' : '—' }}</td>
+                         </tr>
+                     </tbody>
+                 </table>
+             </div>
+         </section>
+
+         {{-- SECTION B: पाणीपट्टी कर तक्ता --}}
+         <section id="paani-patti-tax" class="card-section" data-aos="fade-up">
+             <div class="section-title">पाणीपट्टी कर (मागणी व वसुली)</div>
+             <div class="table-responsive">
+                 <table class="table table-bordered table-striped" style="width:100%">
+                     <thead class="table-info">
+                         <tr>
+                             <th>अ.नं.</th>
+                             <th>कराचा प्रकार</th>
+                             <th>मागणी मागिल</th>
+                             <th>वसूल मागिल</th>
+                             <th>टक्केवारी %</th>
+                             <th>मागणी चालू</th>
+                             <th>वसूल चालू</th>
+                             <th>टक्केवारी %</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr>
+                             <td>1</td>
+                             <td>पाणीपट्टी</td>
+                             <td>{{ isset($paaniPattiDemands['magil']) ? '₹' . number_format($paaniPattiDemands['magil']->demand_amount, 2) : '—' }}</td>
+                             <td>{{ isset($paaniPattiDemands['magil']) ? '₹' . number_format($paaniPattiDemands['magil']->collected_amount, 2) : '—' }}</td>
+                             <td>{{ isset($paaniPattiDemands['magil']) ? $paaniPattiDemands['magil']->percentage . '%' : '—' }}</td>
+                             <td>{{ isset($paaniPattiDemands['chalu']) ? '₹' . number_format($paaniPattiDemands['chalu']->demand_amount, 2) : '—' }}</td>
+                             <td>{{ isset($paaniPattiDemands['chalu']) ? '₹' . number_format($paaniPattiDemands['chalu']->collected_amount, 2) : '—' }}</td>
+                             <td>{{ isset($paaniPattiDemands['chalu']) ? $paaniPattiDemands['chalu']->percentage . '%' : '—' }}</td>
+                         </tr>
+                     </tbody>
+                 </table>
+             </div>
+         </section>
+
+         {{-- SECTION C: 3×2 कृती बटण ग्रिड --}}
+         <section id="tax-actions" class="card-section" data-aos="fade-up">
+             <div class="section-title">कर माहिती व भरणा</div>
+
+             {{-- Row 1: PDF पहा --}}
+             <div class="row mb-3 text-center">
+                 @php
+                     $taxActionItems = [
+                         ['key' => 'ghar_patti',  'viewLabel' => 'आपले मालमत्ता कर येथे पहा',               'payLabel' => 'आपले मालमत्ता कर भरण्यासाठी येथे क्लिक करा'],
+                         ['key' => 'paani_patti', 'viewLabel' => 'आपले पाणीपट्टी कर येथे पहा',             'payLabel' => 'आपले पाणीपट्टी कर भरण्यासाठी येथे क्लिक करा'],
+                         ['key' => 'other',       'viewLabel' => 'आपले गाळाभाडे व्यवसायकर व इतर येथे पहा', 'payLabel' => 'आपले गाळाभाडे व्यवसायकर व इतर भरण्यासाठी येथे क्लिक करा'],
+                     ];
+                 @endphp
+
+                 @foreach ($taxActionItems as $item)
+                     @php
+                         $viewDoc = $taxDocuments[$item['key']]['view_pdf'][0] ?? null;
+                     @endphp
+                     <div class="col-md-4 mb-3">
+                         @if ($viewDoc)
+                             <a href="{{ asset('storage/' . $viewDoc->file_path) }}" target="_blank"
+                                 class="d-block p-3 text-center fw-bold"
+                                 style="border: 2px solid #2d6a4f; border-radius: 8px; color: #2d6a4f; text-decoration: none; background: #f0fdf4;">
+                                 {{ $item['viewLabel'] }}
+                             </a>
+                         @else
+                             <a href="javascript:void(0)"
+                                 data-bs-toggle="modal" data-bs-target="#taxComingSoonModal"
+                                 class="d-block p-3 text-center fw-bold"
+                                 style="border: 2px solid #adb5bd; border-radius: 8px; color: #6c757d; text-decoration: none; background: #f8f9fa;">
+                                 {{ $item['viewLabel'] }}
+                             </a>
+                         @endif
+                     </div>
+                 @endforeach
+             </div>
+
+             {{-- Row 2: QR पेमेंट --}}
+             <div class="row text-center">
+                 @foreach ($taxActionItems as $item)
+                     @php
+                         $qrDoc = $taxDocuments[$item['key']]['payment_qr'][0] ?? null;
+                     @endphp
+                     <div class="col-md-4 mb-3">
+                         @if ($qrDoc)
+                             @if ($qrDoc->isImage())
+                                 <a href="javascript:void(0)"
+                                     data-bs-toggle="modal" data-bs-target="#taxQrModal{{ $loop->index }}"
+                                     class="d-block p-3 text-center fw-bold"
+                                     style="border: 2px solid #2d6a4f; border-radius: 8px; color: #2d6a4f; text-decoration: none; background: #f0fdf4;">
+                                     {{ $item['payLabel'] }}
+                                 </a>
+                             @else
+                                 <a href="{{ asset('storage/' . $qrDoc->file_path) }}" target="_blank"
+                                     class="d-block p-3 text-center fw-bold"
+                                     style="border: 2px solid #2d6a4f; border-radius: 8px; color: #2d6a4f; text-decoration: none; background: #f0fdf4;">
+                                     {{ $item['payLabel'] }}
+                                 </a>
+                             @endif
+                         @else
+                             <a href="javascript:void(0)"
+                                 data-bs-toggle="modal" data-bs-target="#taxComingSoonModal"
+                                 class="d-block p-3 text-center fw-bold"
+                                 style="border: 2px solid #adb5bd; border-radius: 8px; color: #6c757d; text-decoration: none; background: #f8f9fa;">
+                                 {{ $item['payLabel'] }}
+                             </a>
+                         @endif
+                     </div>
+                 @endforeach
+             </div>
+         </section>
+
+         {{-- QR Image Modals (outside section to avoid z-index/backdrop issues) --}}
+         @foreach ($taxActionItems as $item)
+             @php
+                 $qrDoc = $taxDocuments[$item['key']]['payment_qr'][0] ?? null;
+             @endphp
+             @if ($qrDoc && $qrDoc->isImage())
+                 <div class="modal fade" id="taxQrModal{{ $loop->index }}" tabindex="-1" aria-labelledby="taxQrModalLabel{{ $loop->index }}" aria-hidden="true">
+                     <div class="modal-dialog modal-dialog-centered">
+                         <div class="modal-content">
+                             <div class="modal-header">
+                                 <h5 class="modal-title" id="taxQrModalLabel{{ $loop->index }}">QR कोड स्कॅन करा</h5>
+                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                             </div>
+                             <div class="modal-body text-center">
+                                 <img src="{{ asset('storage/' . $qrDoc->file_path) }}"
+                                     class="img-fluid" alt="QR Code" style="max-height: 400px;">
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             @endif
+         @endforeach
+
+         {{-- "लवकरच उपलब्ध होईल" Modal --}}
+         <div class="modal fade" id="taxComingSoonModal" tabindex="-1" aria-hidden="true">
+             <div class="modal-dialog modal-dialog-centered">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <h5 class="modal-title">माहिती</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     <div class="modal-body text-center">
+                         <p class="fs-5">लवकरच उपलब्ध होईल</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+         {{-- SECTION D: टीप बॉक्स --}}
+         @if($taxTip)
+         <section id="tax-tip" class="card-section" data-aos="fade-up">
+             <div class="p-3 rounded" style="background-color: #f4a261; color: #333;">
+                 <strong>टीप:-</strong> {{ $taxTip->tip_text }}
+             </div>
+         </section>
+         @endif
+
+         {{-- END: कर व्यवस्थापन विभाग --}}
+
      @endsection

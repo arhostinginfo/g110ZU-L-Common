@@ -147,6 +147,17 @@
                                 </span></a>
                         </li>
 
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
+                                <i class="mdi mdi-cash-multiple"></i><span>कर व्यवस्थापन</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="{{ route('gpadmin.gp-tax.demands.index') }}">कर मागणी</a></li>
+                                <li><a href="{{ route('gpadmin.gp-tax.documents.index') }}">कर कागदपत्रे</a></li>
+                                <li><a href="{{ route('gpadmin.gp-tax.tips.index') }}">कर टीप</a></li>
+                            </ul>
+                        </li>
+
 
 
                         <li> <a href="{{ route('gpadmin.logout') }}"> <i class="mdi mdi-account-group"></i><span>Logout

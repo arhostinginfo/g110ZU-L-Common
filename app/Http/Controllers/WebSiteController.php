@@ -14,7 +14,10 @@ use App\Models\
     Abhiyans,
     Gallary,
     ContactDakhala,
-    PDFUpload
+    PDFUpload,
+    TaxDemand,
+    TaxDocument,
+    TaxTip
 
 };
 use Illuminate\Http\Request;
@@ -24,6 +27,13 @@ class WebSiteController extends Controller
 {
     public function index($gpname)
     {
+        $gpExists = Navbars::where('gp_name_in_url', $gpname)
+            ->where('is_deleted', 0)
+            ->exists();
+
+        if (!$gpExists) {
+            return view('website.not-found', ['gpname' => $gpname]);
+        }
 
         $welcomenote = WelcomeNote::where([
 					'is_deleted'=>0,
@@ -149,7 +159,28 @@ class WebSiteController extends Controller
                                 ->where('is_active', 1)
                                 ->orderBy('id', 'desc')
                                 ->get();                    
-        return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll','pdf_all'));
+        $gharPattiDemands = TaxDemand::where('gp_name_in_url', $gpname)
+            ->where('tax_type', 'ghar_patti')
+            ->get()
+            ->keyBy('period');
+
+        $paaniPattiDemands = TaxDemand::where('gp_name_in_url', $gpname)
+            ->where('tax_type', 'paani_patti')
+            ->get()
+            ->keyBy('period');
+
+        $taxDocuments = TaxDocument::where('gp_name_in_url', $gpname)
+            ->where('is_active', true)
+            ->get()
+            ->groupBy(['tax_type', 'document_type']);
+
+        $taxTip = TaxTip::where('gp_name_in_url', $gpname)
+            ->where('is_active', 1)
+            ->where('is_deleted', 0)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll','pdf_all','gharPattiDemands','paaniPattiDemands','taxDocuments','taxTip'));
     }
 
 
