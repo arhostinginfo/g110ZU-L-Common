@@ -47,7 +47,7 @@
             --lh-head: 1.35;
         }
 
-        html { font-size: 16px; scroll-behavior: smooth; }
+        html { font-size: 16px; scroll-behavior: smooth; scroll-padding-top: 60px; }
 
         body {
             background: var(--bg);
@@ -147,8 +147,8 @@
         }
 
         .header-icon-gp {
-            width: 64px;
-            height: 64px;
+            width: 90px;
+            height: 90px;
             object-fit: cover;
             border: 3px solid var(--primary);
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
@@ -243,18 +243,27 @@
             color: #fff;
         }
 
-        .marquee-wrap .fa-bullhorn { color: var(--accent); }
-        .marquee-wrap .section-title { color: #fff; font-size: 0.9rem; }
+        .marquee-wrap .fa-bullhorn { color: var(--accent); font-size: 0.85rem; }
         .marquee-wrap .btn-primary {
             background: rgba(255,255,255,0.2);
             border-color: rgba(255,255,255,0.3);
+            padding: 1px 8px;
+            font-size: 0.75rem;
         }
 
         .marquee {
             display: inline-block;
             white-space: nowrap;
-            padding: 8px 0;
+            padding: 3px 0;
             animation: marquee 20s linear infinite;
+        }
+
+        .marquee-text {
+            color: #fff;
+            font-size: var(--fs-sm);
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
         }
 
         @keyframes marquee {
@@ -530,9 +539,7 @@
         }
         body.dark .table td,
         body.dark .table th   { border-color: var(--border); }
-        body.dark .table-success thead th,
-        body.dark .table-info    thead th,
-        body.dark .table-warning thead th { background-color: var(--primary-dark) !important; color: #fff !important; }
+        body.dark .tax-thead th { background-color: var(--primary-dark) !important; }
 
         /* DataTables */
         body.dark table.dataTable thead th      { background: var(--primary-dark); }
@@ -579,7 +586,7 @@
             .site-title        { font-size: var(--fs-lg); }
             .section-title     { font-size: var(--fs-lg); }
             .header-icon       { width: 36px; height: 56px; }
-            .header-icon-gp    { width: 52px; height: 52px; }
+            .header-icon-gp    { width: 70px; height: 70px; }
             .utility-bar-left  { display: none !important; }
             footer .col-md-4   { margin-bottom: 1rem; }
         }
@@ -601,6 +608,58 @@
         @media (max-width: 768px) {
             .card-section .table th,
             .card-section .table td { font-size: 0.78rem; padding: 0.4rem 0.5rem; }
+        }
+
+        /* ── Tax table thead (admin primary color) ── */
+        .tax-thead th {
+            background-color: var(--primary) !important;
+            color: #fff !important;
+            font-size: var(--fs-sm);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            border-color: var(--primary-dark) !important;
+        }
+
+        /* ── Tax action buttons ── */
+        .tax-action-btn {
+            display: block;
+            padding: 12px 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: var(--fs-sm);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            color: var(--primary);
+            background: color-mix(in srgb, var(--primary) 8%, transparent);
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+            line-height: 1.5;
+        }
+        .tax-action-btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .tax-action-btn-disabled {
+            display: block;
+            padding: 12px 16px;
+            text-align: center;
+            font-weight: 600;
+            font-size: var(--fs-sm);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            background: var(--bg);
+            text-decoration: none;
+            cursor: default;
+            line-height: 1.5;
+        }
+
+        /* dark mode for tax buttons */
+        body.dark .tax-action-btn {
+            background: color-mix(in srgb, var(--primary) 15%, transparent);
+        }
+        body.dark .tax-action-btn-disabled {
+            background: var(--card);
         }
 
         .one_rem { font-size: var(--fs-md); }

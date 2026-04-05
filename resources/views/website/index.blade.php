@@ -37,28 +37,24 @@
          <!-- Marquee -->
          @if ($marquee)
              <div class="mb-3 marquee-wrap" data-aos="fade-up">
-                 <div class="d-flex align-items-center" style="padding:6px 12px;">
-                     <div class="me-3"><i class="fa fa-bullhorn" aria-hidden="true"></i></div>
+                 <div class="d-flex align-items-center" style="padding:4px 10px;">
+                     <div class="me-2"><i class="fa fa-bullhorn" aria-hidden="true"></i></div>
                      <div class="flex-grow-1 overflow-hidden">
-                         <div id="marqueeText" class="marquee"><span
-                                 class="section-title">{{ $marquee ?? 'Scrolling News' }}</span>
-                         </div>
+                         <div id="marqueeText" class="marquee"><span class="marquee-text">{{ $marquee ?? 'Scrolling News' }}</span></div>
                      </div>
-                     <div class="ms-3">
+                     <div class="ms-2">
                          <button id="marqueeToggle" class="btn btn-sm btn-primary" onclick="toggleMarquee()">⏸</button>
                      </div>
                  </div>
              </div>
          @else
              <div class="mb-3 marquee-wrap" data-aos="fade-up">
-                 <div class="d-flex align-items-center" style="padding:6px 12px;">
-                     <div class="me-3"><i class="fa fa-bullhorn" aria-hidden="true"></i></div>
+                 <div class="d-flex align-items-center" style="padding:4px 10px;">
+                     <div class="me-2"><i class="fa fa-bullhorn" aria-hidden="true"></i></div>
                      <div class="flex-grow-1 overflow-hidden">
-                         <div id="marqueeText" class="marquee"><span class="section-title">"मुख्यमंत्री समृद्ध पंचायतराज
-                                 अभियान शुभारंभ १७ सप्टेंबर २०२५ रोजी सकाळी १० वाजता"</span>
-                         </div>
+                         <div id="marqueeText" class="marquee"><span class="marquee-text">"मुख्यमंत्री समृद्ध पंचायतराज अभियान शुभारंभ १७ सप्टेंबर २०२५ रोजी सकाळी १० वाजता"</span></div>
                      </div>
-                     <div class="ms-3">
+                     <div class="ms-2">
                          <button id="marqueeToggle" class="btn btn-sm btn-primary" onclick="toggleMarquee()">⏸</button>
                      </div>
                  </div>
@@ -203,7 +199,7 @@
 
 
          <!-- Video Gallery -->
-         <section id="gallary" class="card-section" data-aos="fade-up">
+         <section id="video-gallary" class="card-section" data-aos="fade-up">
              <div class="row align-start">
                  <div class="col-lg-12">
                      <div class="section-title" data-mr="चलतचित्र प्रदर्शनी" data-en="Video Gallery">चलतचित्र प्रदर्शनी</div>
@@ -230,7 +226,7 @@
 
 
          <!-- Photo Gallery -->
-         <section id="gallary" class="card-section" data-aos="fade-up">
+         <section id="photo-gallary" class="card-section" data-aos="fade-up">
              <div class="row align-start">
                  <div class="col-lg-12">
                      <div class="section-title" data-mr="छायाचित्र प्रदर्शनी" data-en="Photo Gallery">छायाचित्र प्रदर्शनी</div>
@@ -395,7 +391,7 @@
              </section>
 
              <!-- Sadysay Photo -->
-             <section id="places" class="card-section" data-aos="fade-up">
+             <section id="sadsya-photos" class="card-section" data-aos="fade-up">
                  <div class="container">
                      <div class="section-title">
                      </div>
@@ -404,29 +400,23 @@
                          @if (count($sadsyaAll))
                              @foreach ($sadsyaAll as $i => $sadsya_photo)
                                  <div class="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
-                                     <div class="hovereffect text-center w-100">
+                                     <div class="text-center w-100">
                                          <img src="{{ asset('storage/' . ($sadsya_photo->photo ?? 'default.jpg')) }}"
                                              alt="{{ $sadsya_photo->name ?? 'name' }}" class="rounded-circle mb-2"
-                                             style="width:88px; height:105px; object-fit:cover;">
-                                         <h5 class="section-title mb-2">{{ $sadsya_photo->name ?? 'name' }}</h5>
-                                         <div class="overlay">
-                                             <h2 class="section-title one_rem">
-                                                 {{ $sadsya_photo->designation ?? 'designation' }}
-                                             </h2>
-                                         </div>
+                                             style="width:88px; height:88px; object-fit:cover; border:3px solid var(--primary); display:block; margin:0 auto;">
+                                         <div style="font-weight:600; font-size:var(--fs-sm); color:var(--text); margin-top:6px;">{{ $sadsya_photo->name ?? 'name' }}</div>
+                                         <div style="font-size:var(--fs-xs); color:var(--primary); font-weight:500; margin-top:2px;">{{ $sadsya_photo->designation ?? 'designation' }}</div>
                                      </div>
                                  </div>
                              @endforeach
                          @else
                              <div class="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
-                                 <div class="hovereffect text-center w-100">
+                                 <div class="text-center w-100">
                                      <img src="{{ asset('asset/dummy_images/person.jpg') }}" alt="सरपंच"
-                                         class="rounded-circle mb-2" style="width:88px; height:105px; object-fit:cover;">
-                                     <h5 class="section-title mb-2">सरपंच नाव</h5>
-                                     <div class="overlay">
-                                         <h2 class="section-title one_rem">सरपंच
-                                         </h2>
-                                     </div>
+                                         class="rounded-circle mb-2"
+                                         style="width:88px; height:88px; object-fit:cover; border:3px solid var(--primary); display:block; margin:0 auto;">
+                                     <div style="font-weight:600; font-size:var(--fs-sm); color:var(--text); margin-top:6px;">सरपंच नाव</div>
+                                     <div style="font-size:var(--fs-xs); color:var(--primary); font-weight:500; margin-top:2px;">सरपंच</div>
                                  </div>
                              </div>
                          @endif
@@ -509,7 +499,7 @@
 
 
          <!-- Officers Photo -->
-         <section id="places" class="card-section" data-aos="fade-up">
+         <section id="officer-photos" class="card-section" data-aos="fade-up">
              <div class="container">
                  <div class="section-title">
                  </div>
@@ -518,29 +508,23 @@
                      @if (count($officerData))
                          @foreach ($officerData as $i => $officer_photo)
                              <div class="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
-                                 <div class="hovereffect text-center w-100">
+                                 <div class="text-center w-100">
                                      <img src="{{ asset('storage/' . ($officer_photo->photo ?? 'default.jpg')) }}"
                                          alt="{{ $officer_photo->name ?? 'name' }}" class="rounded-circle mb-2"
-                                         style="width:88px; height:105px; object-fit:cover;">
-                                     <h5 class="section-title mb-2">{{ $officer_photo->name ?? 'name' }}</h5>
-                                     <div class="overlay">
-                                         <h2 class="section-title one_rem">
-                                             {{ $officer_photo->designation ?? 'designation' }}
-                                         </h2>
-                                     </div>
+                                         style="width:88px; height:88px; object-fit:cover; border:3px solid var(--primary); display:block; margin:0 auto;">
+                                     <div style="font-weight:600; font-size:var(--fs-sm); color:var(--text); margin-top:6px;">{{ $officer_photo->name ?? 'name' }}</div>
+                                     <div style="font-size:var(--fs-xs); color:var(--primary); font-weight:500; margin-top:2px;">{{ $officer_photo->designation ?? 'designation' }}</div>
                                  </div>
                              </div>
                          @endforeach
                      @else
                          <div class="col-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
-                             <div class="hovereffect text-center w-100">
+                             <div class="text-center w-100">
                                  <img src="{{ asset('asset/dummy_images/person.jpg') }}" alt="ग्रामवीकास अधिकारी"
-                                     class="rounded-circle mb-2" style="width:88px; height:105px; object-fit:cover;">
-                                 <h5 class="section-title mb-2">ग्रामवीकास अधिकारी नाव</h5>
-                                 <div class="overlay">
-                                     <h2 class="section-title one_rem">ग्रामवीकास अधिकारी
-                                     </h2>
-                                 </div>
+                                     class="rounded-circle mb-2"
+                                     style="width:88px; height:88px; object-fit:cover; border:3px solid var(--primary); display:block; margin:0 auto;">
+                                 <div style="font-weight:600; font-size:var(--fs-sm); color:var(--text); margin-top:6px;">ग्रामवीकास अधिकारी नाव</div>
+                                 <div style="font-size:var(--fs-xs); color:var(--primary); font-weight:500; margin-top:2px;">ग्रामवीकास अधिकारी</div>
                              </div>
                          </div>
                      @endif
@@ -1206,7 +1190,7 @@
              <div class="section-title" data-mr="घरपट्टी कर (मागणी व वसुली)" data-en="Property Tax (Demand &amp; Collection)">घरपट्टी कर (मागणी व वसुली)</div>
              <div class="table-responsive">
                  <table class="table table-bordered table-striped" style="width:100%">
-                     <thead class="table-success">
+                     <thead class="tax-thead">
                          <tr>
                              <th>अ.नं.</th>
                              <th>कराचा प्रकार</th>
@@ -1239,7 +1223,7 @@
              <div class="section-title" data-mr="पाणीपट्टी कर (मागणी व वसुली)" data-en="Water Tax (Demand &amp; Collection)">पाणीपट्टी कर (मागणी व वसुली)</div>
              <div class="table-responsive">
                  <table class="table table-bordered table-striped" style="width:100%">
-                     <thead class="table-info">
+                     <thead class="tax-thead">
                          <tr>
                              <th>अ.नं.</th>
                              <th>कराचा प्रकार</th>
@@ -1272,7 +1256,7 @@
              <div class="section-title" data-mr="गाळाभाडे / व्यवसायकर / इतर कर (मागणी व वसुली)" data-en="Stall Rent / Trade Tax / Other Tax (Demand &amp; Collection)">गाळाभाडे / व्यवसायकर / इतर कर (मागणी व वसुली)</div>
              <div class="table-responsive">
                  <table class="table table-bordered table-striped" style="width:100%">
-                     <thead class="table-warning">
+                     <thead class="tax-thead">
                          <tr>
                              <th>अ.नं.</th>
                              <th>कराचा प्रकार</th>
@@ -1321,15 +1305,13 @@
                      <div class="col-12 col-md-4 mb-3">
                          @if ($viewDoc)
                              <a href="{{ asset('storage/' . $viewDoc->file_path) }}" target="_blank"
-                                 class="d-block p-3 text-center fw-bold"
-                                 style="border: 2px solid #2d6a4f; border-radius: 8px; color: #2d6a4f; text-decoration: none; background: #f0fdf4;">
+                                 class="tax-action-btn">
                                  {{ $item['viewLabel'] }}
                              </a>
                          @else
                              <a href="javascript:void(0)"
                                  data-bs-toggle="modal" data-bs-target="#taxComingSoonModal"
-                                 class="d-block p-3 text-center fw-bold"
-                                 style="border: 2px solid #adb5bd; border-radius: 8px; color: #6c757d; text-decoration: none; background: #f8f9fa;">
+                                 class="tax-action-btn-disabled">
                                  {{ $item['viewLabel'] }}
                              </a>
                          @endif
@@ -1348,22 +1330,19 @@
                              @if ($qrDoc->isImage())
                                  <a href="javascript:void(0)"
                                      data-bs-toggle="modal" data-bs-target="#taxQrModal{{ $loop->index }}"
-                                     class="d-block p-3 text-center fw-bold"
-                                     style="border: 2px solid #2d6a4f; border-radius: 8px; color: #2d6a4f; text-decoration: none; background: #f0fdf4;">
+                                     class="tax-action-btn">
                                      {{ $item['payLabel'] }}
                                  </a>
                              @else
                                  <a href="{{ asset('storage/' . $qrDoc->file_path) }}" target="_blank"
-                                     class="d-block p-3 text-center fw-bold"
-                                     style="border: 2px solid #2d6a4f; border-radius: 8px; color: #2d6a4f; text-decoration: none; background: #f0fdf4;">
+                                     class="tax-action-btn">
                                      {{ $item['payLabel'] }}
                                  </a>
                              @endif
                          @else
                              <a href="javascript:void(0)"
                                  data-bs-toggle="modal" data-bs-target="#taxComingSoonModal"
-                                 class="d-block p-3 text-center fw-bold"
-                                 style="border: 2px solid #adb5bd; border-radius: 8px; color: #6c757d; text-decoration: none; background: #f8f9fa;">
+                                 class="tax-action-btn-disabled">
                                  {{ $item['payLabel'] }}
                              </a>
                          @endif
