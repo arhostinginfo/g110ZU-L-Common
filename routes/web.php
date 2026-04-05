@@ -78,6 +78,10 @@ Route::post('adminlogin', [AdminLoginController::class, 'validateSuperLogin'])->
 Route::get('login', [LoginController::class, 'loginsuper'])->name('login');
 Route::post('gplogin', [LoginController::class, 'validateSuperLogin'])->name('gplogin');
 
+Route::get('/{gpname}/gallery/{type}', [WebSiteController::class, 'gallery'])
+    ->name('gallery')
+    ->where('type', 'photos|videos');
+
 Route::get('/{gpname}', [WebSiteController::class, 'index'])->name('/');
 
 Route::post('/dakhala-store', [WebSiteController::class, 'dakhalaStore'])->name('dakhala.store');

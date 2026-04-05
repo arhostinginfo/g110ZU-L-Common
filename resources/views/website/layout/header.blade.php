@@ -469,8 +469,62 @@
             transition: transform 0.3s;
             display: block;
         }
-
         .galarysetting:hover { transform: scale(1.04); }
+
+        /* Photo card — image on top, name below at fixed height */
+        .gallery-photo-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: transform .25s, box-shadow .25s;
+        }
+        .gallery-photo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+        }
+        .gallery-photo-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            transition: transform .3s;
+        }
+        .gallery-photo-card:hover img { transform: scale(1.04); }
+        .gallery-photo-name {
+            padding: 6px 10px;
+            font-size: var(--fs-xs);
+            font-weight: 500;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            cursor: default;
+        }
+
+        /* Video card — video on top, name below at fixed height */
+        .gallery-video-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform .25s, box-shadow .25s;
+        }
+        .gallery-video-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+        }
+        .gallery-video-card video {
+            width: 100%;
+            height: 190px;
+            display: block;
+            object-fit: cover;
+            background: #000;
+        }
 
         /* ── Back to top ── */
         #backToTop {

@@ -199,9 +199,46 @@ class WebSiteController extends Controller
             ->orderBy('id', 'desc')
             ->first();
 
-        return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll','pdf_all','gharPattiDemands','paaniPattiDemands','otherDemands','taxDocuments','taxTip'));
+        return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll','pdf_all','gharPattiDemands','paaniPattiDemands','otherDemands','taxDocuments','taxTip','gpname'));
     }
 
+
+public function gallery($gpname, $type)
+{
+    $gp = \DB::table('gpdetails')
+        ->where('gp_name_in_url', $gpname)
+        ->where('is_deleted', '!=', 1)
+        ->first();
+
+    if (!$gp) return view('website.not-found', ['gpname' => $gpname]);
+    if ((int)$gp->is_active !== 1) return view('website.inactive', ['gpname' => $gpname]);
+    if (!empty($gp->gp_valid_till) && Carbon::parse($gp->gp_valid_till)->lt(Carbon::today())) return view('website.inactive', ['gpname' => $gpname]);
+
+    $navbar = Navbars::where(['is_deleted' => 0, 'gp_name_in_url' => $gpname])
+        ->where('is_active', 1)
+        ->orderBy('id', 'desc')
+        ->first();
+
+    if ($type === 'photos') {
+        $items = Gallary::where(['is_deleted' => 0, 'gp_name_in_url' => $gpname])
+            ->where('is_active', 1)
+            ->where('type_attachment', 'Image')
+            ->orderBy('id', 'desc')
+            ->get();
+        $title    = 'छायाचित्र प्रदर्शनी';
+        $title_en = 'Photo Gallery';
+    } else {
+        $items = Gallary::where(['is_deleted' => 0, 'gp_name_in_url' => $gpname])
+            ->where('is_active', 1)
+            ->where('type_attachment', 'Video')
+            ->orderBy('id', 'desc')
+            ->get();
+        $title    = 'चलतचित्र प्रदर्शनी';
+        $title_en = 'Video Gallery';
+    }
+
+    return view('website.gallery', compact('navbar', 'items', 'gpname', 'title', 'title_en', 'type'));
+}
 
 public function dakhalaStore(Request $request)
 {

@@ -200,26 +200,28 @@
 
          <!-- Video Gallery -->
          <section id="video-gallary" class="card-section" data-aos="fade-up">
-             <div class="row align-start">
-                 <div class="col-lg-12">
-                     <div class="section-title" data-mr="चलतचित्र प्रदर्शनी" data-en="Video Gallery">चलतचित्र प्रदर्शनी</div>
-                     <div class="row">
-                         @foreach ($gallay_videos as $i => $gallay_video)
-                             <div class="col-md-4 col-sm-6 mb-4">
-                                 <h6 class="mt-2">{{ $gallay_video->name ?? 'शीर्षक उपलब्ध नाही' }}</h6>
-                                 <div class="video-wrapper text-center">
-                                     <video controls class="w-100 rounded shadow-sm mb-2">
-                                         <source
-                                             src="{{ asset('storage/' . ($gallay_video->attachment ?? 'default.mp4')) }}"
-                                             type="video/mp4">
-                                         Your browser does not support the video tag.
-                                     </video>
-
-                                 </div>
-                             </div>
-                         @endforeach
+             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                 <div class="section-title mb-0" data-mr="चलतचित्र प्रदर्शनी" data-en="Video Gallery">चलतचित्र प्रदर्शनी</div>
+                 @if($gallay_videos->count() > 6)
+                     <a href="{{ url($gpname . '/gallery/videos') }}" target="_blank"
+                        class="btn btn-sm btn-primary">
+                         <i class="fa fa-play-circle me-1"></i>
+                         <span data-mr="सर्व व्हिडिओ पहा ({{ $gallay_videos->count() }})" data-en="View All Videos ({{ $gallay_videos->count() }})">सर्व व्हिडिओ पहा ({{ $gallay_videos->count() }})</span>
+                     </a>
+                 @endif
+             </div>
+             <div class="row">
+                 @foreach ($gallay_videos->take(6) as $i => $gallay_video)
+                     <div class="col-md-4 col-sm-6 mb-4">
+                         <div class="gallery-video-card">
+                             <video controls preload="metadata">
+                                 <source src="{{ asset('storage/' . ($gallay_video->attachment ?? 'default.mp4')) }}" type="video/mp4">
+                                 Your browser does not support the video tag.
+                             </video>
+                             <div class="gallery-photo-name" title="{{ $gallay_video->name ?? 'शीर्षक उपलब्ध नाही' }}">{{ $gallay_video->name ?? 'शीर्षक उपलब्ध नाही' }}</div>
+                         </div>
                      </div>
-                 </div>
+                 @endforeach
              </div>
          </section>
 
@@ -227,24 +229,27 @@
 
          <!-- Photo Gallery -->
          <section id="photo-gallary" class="card-section" data-aos="fade-up">
-             <div class="row align-start">
-                 <div class="col-lg-12">
-                     <div class="section-title" data-mr="छायाचित्र प्रदर्शनी" data-en="Photo Gallery">छायाचित्र प्रदर्शनी</div>
-                     <div class="row">
-                         @foreach ($gallay_photos as $i => $gallay_photo)
-                             <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                                 <h6 class="mt-2">{{ $gallay_photo->name ?? 'शीर्षक उपलब्ध नाही' }}</h6>
-                                 <div class="photo-wrapper">
-                                     <img src="{{ asset('storage/' . ($gallay_photo->attachment ?? 'default.jpg')) }}"
-                                         class="galarysetting img-fluid rounded shadow-sm cursor-pointer"
-                                         alt="{{ $gallay_photo->name ?? 'name of image' }}" data-bs-toggle="modal"
-                                         data-bs-target="#photoModal"
-                                         data-bs-image="{{ asset('storage/' . ($gallay_photo->attachment ?? 'default.jpg')) }}">
-                                 </div>
-                             </div>
-                         @endforeach
+             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                 <div class="section-title mb-0" data-mr="छायाचित्र प्रदर्शनी" data-en="Photo Gallery">छायाचित्र प्रदर्शनी</div>
+                 @if($gallay_photos->count() > 6)
+                     <a href="{{ url($gpname . '/gallery/photos') }}" target="_blank"
+                        class="btn btn-sm btn-primary">
+                         <i class="fa fa-images me-1"></i>
+                         <span data-mr="सर्व छायाचित्रे पहा ({{ $gallay_photos->count() }})" data-en="View All Photos ({{ $gallay_photos->count() }})">सर्व छायाचित्रे पहा ({{ $gallay_photos->count() }})</span>
+                     </a>
+                 @endif
+             </div>
+             <div class="row">
+                 @foreach ($gallay_photos->take(6) as $i => $gallay_photo)
+                     <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                         <div class="gallery-photo-card" data-bs-toggle="modal" data-bs-target="#photoModal"
+                              data-bs-image="{{ asset('storage/' . ($gallay_photo->attachment ?? 'default.jpg')) }}">
+                             <img src="{{ asset('storage/' . ($gallay_photo->attachment ?? 'default.jpg')) }}"
+                                  alt="{{ $gallay_photo->name ?? 'name of image' }}">
+                             <div class="gallery-photo-name" title="{{ $gallay_photo->name ?? 'शीर्षक उपलब्ध नाही' }}">{{ $gallay_photo->name ?? 'शीर्षक उपलब्ध नाही' }}</div>
+                         </div>
                      </div>
-                 </div>
+                 @endforeach
              </div>
          </section>
 
