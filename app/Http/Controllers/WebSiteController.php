@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gpdetails;
 use App\Models\
 {
     WelcomeNote,
@@ -22,17 +23,30 @@ use App\Models\
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class WebSiteController extends Controller
 {
     public function index($gpname)
     {
-        $gpExists = Navbars::where('gp_name_in_url', $gpname)
-            ->where('is_deleted', 0)
-            ->exists();
+        $gp = \DB::table('gpdetails')
+            ->where('gp_name_in_url', $gpname)
+            ->where('is_deleted', '!=', 1)
+            ->first();
 
-        if (!$gpExists) {
+        // GP does not exist
+        if (!$gp) {
             return view('website.not-found', ['gpname' => $gpname]);
+        }
+
+        // Check 1: GP is_active must be 1
+        if ((int)$gp->is_active !== 1) {
+            return view('website.inactive', ['gpname' => $gpname]);
+        }
+
+        // Check 2: GP validity must not be expired
+        if (!empty($gp->gp_valid_till) && Carbon::parse($gp->gp_valid_till)->lt(Carbon::today())) {
+            return view('website.inactive', ['gpname' => $gpname]);
         }
 
         $welcomenote = WelcomeNote::where([

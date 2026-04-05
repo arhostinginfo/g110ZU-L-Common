@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ग्रामपंचायत आढळली नाही</title>
+    <title>ग्रामपंचायत निष्क्रिय</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -14,7 +14,7 @@
             align-items: center;
             justify-content: center;
             font-family: 'Noto Sans Devanagari', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #e8f5e9 0%, #f3e5f5 50%, #e3f2fd 100%);
+            background: linear-gradient(135deg, #e8eaf6 0%, #ede7f6 50%, #e3f2fd 100%);
             padding: 20px;
         }
 
@@ -23,7 +23,6 @@
             max-width: 560px;
         }
 
-        /* Top bar accent */
         .card {
             background: #fff;
             border-radius: 20px;
@@ -39,7 +38,7 @@
 
         .card-top-bar {
             height: 6px;
-            background: linear-gradient(90deg, #e74c3c, #e67e22);
+            background: linear-gradient(90deg, #546e7a, #90a4ae);
         }
 
         .card-body {
@@ -52,12 +51,12 @@
             width: 90px;
             height: 90px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            background: linear-gradient(135deg, #eceff1, #cfd8dc);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 28px;
-            box-shadow: 0 4px 16px rgba(231,76,60,0.2);
+            box-shadow: 0 4px 16px rgba(84,110,122,0.18);
         }
 
         .icon-wrap svg {
@@ -65,25 +64,48 @@
             height: 44px;
         }
 
-        /* Heading */
+        /* Status pill */
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eceff1;
+            color: #546e7a;
+            border: 1.5px solid #cfd8dc;
+            border-radius: 30px;
+            padding: 5px 16px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .status-pill span.dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #90a4ae;
+            display: inline-block;
+        }
+
         h1 {
             font-size: 1.55rem;
             font-weight: 700;
-            color: #c0392b;
+            color: #37474f;
             margin-bottom: 10px;
         }
 
         /* GP badge */
         .gp-badge {
             display: inline-block;
-            background: #fdf0f0;
-            color: #c0392b;
-            border: 1.5px solid #f5c6cb;
+            background: #eceff1;
+            color: #546e7a;
+            border: 1.5px solid #cfd8dc;
             border-radius: 30px;
             padding: 4px 18px;
             font-size: 0.95rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
             margin-bottom: 20px;
         }
 
@@ -91,14 +113,38 @@
             font-size: 1rem;
             color: #555;
             line-height: 1.8;
-            margin-bottom: 0;
+        }
+
+        /* Info box */
+        .info-box {
+            background: #fafafa;
+            border: 1.5px solid #eceff1;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 24px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .info-box svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-box p {
+            font-size: 0.88rem;
+            color: #666;
+            line-height: 1.7;
+            margin: 0;
         }
 
         /* Divider */
         .divider {
             border: none;
             border-top: 1px dashed #e0e0e0;
-            margin: 28px 0;
+            margin: 24px 0;
         }
 
         /* Contact box */
@@ -135,13 +181,6 @@
             background: #1b4332;
         }
 
-        /* Hint */
-        .hint {
-            font-size: 0.82rem;
-            color: #aaa;
-            line-height: 1.6;
-        }
-
         /* Footer strip */
         .card-footer-strip {
             background: #fafafa;
@@ -169,20 +208,35 @@
             <div class="card-body">
 
                 <div class="icon-wrap">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#e74c3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#546e7a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                </div>
+
+                <div class="status-pill">
+                    <span class="dot"></span> Inactive
+                </div>
+
+                <h1>ग्रामपंचायत सध्या उपलब्ध नाही</h1>
+                <div class="gp-badge">{{ $gpname }}</div>
+
+                <p class="description">
+                    <strong>"{{ $gpname }}"</strong> ही ग्रामपंचायत सध्या निष्क्रिय आहे.
+                    हे पोर्टल तात्पुरते बंद केले आहे.
+                </p>
+
+                <div class="info-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#90a4ae" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/>
                         <line x1="12" y1="8" x2="12" y2="12"/>
                         <line x1="12" y1="16" x2="12.01" y2="16"/>
                     </svg>
+                    <p>
+                        हे पोर्टल लवकरच पुन्हा सुरू होईल. कृपया नंतर पुन्हा प्रयत्न करा
+                        किंवा खाली दिलेल्या संपर्क माहितीवर आमच्याशी संपर्क साधा.
+                    </p>
                 </div>
-
-                <h1>माहिती आढळली नाही</h1>
-                <div class="gp-badge">{{ $gpname }}</div>
-
-                <p class="description">
-                    <strong>"{{ $gpname }}"</strong> या नावाची ग्रामपंचायत आमच्या प्रणालीमध्ये
-                    नोंदणीकृत नाही किंवा सध्या उपलब्ध नाही.
-                </p>
 
                 <hr class="divider">
 
@@ -196,10 +250,6 @@
                         admin@gmail.com
                     </a>
                 </div>
-
-                <p class="hint">
-                    URL तपासा किंवा योग्य ग्रामपंचायत नाव वापरा.
-                </p>
 
             </div>
             <div class="card-footer-strip">

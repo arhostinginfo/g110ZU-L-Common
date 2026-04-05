@@ -46,7 +46,94 @@ class AdminGPController extends Controller
             return $gp;
         });
 
-        return view('superadmin.grampanchayat.list', compact('gpdetails'));
+        $districts = District::where('is_active', 1)->orderBy('district_name')->get();
+        $talukas   = Taluka::with('district')->where('is_active', 1)->orderBy('taluka_name')->get();
+
+        return view('superadmin.grampanchayat.list', compact('gpdetails', 'districts', 'talukas'));
+    }
+
+    public function export()
+    {
+        $rows = Gpdetails::leftJoin('districts', 'gpdetails.gp_under_district', '=', 'districts.id')
+            ->leftJoin('talukas',   'gpdetails.gp_under_taluka',   '=', 'talukas.id')
+            ->leftJoin('navbars',   'gpdetails.gp_name_in_url',    '=', 'navbars.gp_name_in_url')
+            ->where('gpdetails.is_deleted', 0)
+            ->orderBy('gpdetails.id', 'desc')
+            ->select('gpdetails.*', 'districts.district_name', 'talukas.taluka_name', 'navbars.name as navbar_name')
+            ->get();
+
+        // Decrypt passwords and calculate days before passing to closure
+        $today = Carbon::today();
+        $data = $rows->map(function ($gp) use ($today) {
+            try {
+                $password = Crypt::decryptString($gp->employee_password);
+            } catch (\Exception $e) {
+                $password = $gp->employee_password;
+            }
+
+            $validTill = Carbon::parse($gp->gp_valid_till);
+            // positive = days remaining, negative = days expired
+            $daysLeft  = $today->diffInDays($validTill, false);
+
+            return [
+                'district_name'  => $gp->district_name  ?? '',
+                'taluka_name'    => $gp->taluka_name     ?? '',
+                'gp_name_in_url' => $gp->gp_name_in_url ?? '',
+                'navbar_name'    => $gp->navbar_name     ?? '',
+                'gp_name'        => $gp->gp_name         ?? '',
+                'email'          => $gp->employee_email  ?? '',
+                'password'       => $password,
+                'valid_till'     => $validTill->format('d-m-Y'),
+                'days_left'      => (int)$daysLeft . ' days',
+                'status'         => (int)$gp->is_active === 1 ? 'Active' : 'Inactive',
+            ];
+        })->values()->toArray();
+
+        $filename = 'gp-list-' . now()->format('d-m-Y') . '.csv';
+
+        $headers = [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Pragma'              => 'no-cache',
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires'             => '0',
+        ];
+
+        $columns = [
+            '#', 'District', 'Taluka', 'GP Name In URL', 'GP Name (Navbar)',
+            'GP Name', 'GP Name In URL', 'Email', 'Password',
+            'Valid Till', 'Days Left', 'Status',
+        ];
+
+        $callback = function () use ($data, $columns) {
+            $file = fopen('php://output', 'w');
+
+            // UTF-8 BOM — required for Excel to render Marathi/Devanagari correctly
+            fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            fputcsv($file, $columns);
+
+            foreach ($data as $i => $row) {
+                fputcsv($file, [
+                    $i + 1,
+                    $row['district_name'],
+                    $row['taluka_name'],
+                    $row['gp_name_in_url'],
+                    $row['navbar_name'],
+                    $row['gp_name'],
+                    $row['gp_name_in_url'],
+                    $row['email'],
+                    $row['password'],
+                    $row['valid_till'],
+                    $row['days_left'],
+                    $row['status'],
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     public function add()
@@ -147,5 +234,17 @@ class AdminGPController extends Controller
         $gpdetail->update(['is_deleted' => 1]);
 
         return redirect()->route('superadmin.admin-gp.list')->with('success', 'GP Details deleted successfully.');
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $id = base64_decode($request->encodedId);
+        $gpdetail = Gpdetails::findOrFail($id);
+        $newStatus = ((int)$gpdetail->is_active === 1) ? 0 : 1;
+
+        \DB::table('gpdetails')->where('id', $id)->update(['is_active' => $newStatus]);
+
+        $status = $newStatus ? 'Active' : 'Inactive';
+        return redirect()->route('superadmin.admin-gp.list')->with('success', "GP \"{$gpdetail->gp_name_in_url}\" status updated to {$status}.");
     }
 }

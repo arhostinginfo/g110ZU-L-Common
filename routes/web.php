@@ -38,6 +38,20 @@ Route::get('/link', function () {
 });
 
 
+Route::get('/debug-gp/{gpname}', function ($gpname) {
+    $gp = \DB::table('gpdetails')->where('gp_name_in_url', $gpname)->first();
+    if (!$gp) return response()->json(['error' => 'GP not found in gpdetails table']);
+    return response()->json([
+        'gp_name_in_url' => $gp->gp_name_in_url,
+        'is_active'      => $gp->is_active,
+        'is_active_type' => gettype($gp->is_active),
+        'is_deleted'     => $gp->is_deleted,
+        'gp_valid_till'  => $gp->gp_valid_till,
+        'today'          => \Carbon\Carbon::today()->toDateString(),
+        'is_expired'     => \Carbon\Carbon::parse($gp->gp_valid_till)->lt(\Carbon\Carbon::today()),
+    ]);
+});
+
 Route::get('/clear', function () {
     Artisan::call('optimize:clear');
     Artisan::call('cache:clear');
@@ -194,6 +208,7 @@ Route::group([
     
     
     Route::get('/admin-gp/list', [AdminGPController::class, 'list'])->name('admin-gp.list');
+    Route::get('/admin-gp/export', [AdminGPController::class, 'export'])->name('admin-gp.export');
     Route::get('/admin-gp/add', [AdminGPController::class, 'add'])->name('admin-gp.add');
     Route::post('/admin-gp/add', [AdminGPController::class, 'save'])->name('admin-gp.save');
     Route::get('/admin-gp/edit/{encodedId}', [AdminGPController::class, 'edit'])->name('admin-gp.edit');
