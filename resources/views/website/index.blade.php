@@ -1272,7 +1272,40 @@
              </div>
          </section>
 
-         {{-- SECTION C: 3×2 कृती बटण ग्रिड --}}
+         {{-- SECTION C: गाळाभाडे/व्यवसायकर/इतर कर तक्ता --}}
+         <section id="other-tax" class="card-section" data-aos="fade-up">
+             <div class="section-title">गाळाभाडे / व्यवसायकर / इतर कर (मागणी व वसुली)</div>
+             <div class="table-responsive">
+                 <table class="table table-bordered table-striped" style="width:100%">
+                     <thead class="table-warning">
+                         <tr>
+                             <th>अ.नं.</th>
+                             <th>कराचा प्रकार</th>
+                             <th>मागणी मागिल</th>
+                             <th>वसूल मागिल</th>
+                             <th>टक्केवारी %</th>
+                             <th>मागणी चालू</th>
+                             <th>वसूल चालू</th>
+                             <th>टक्केवारी %</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr>
+                             <td>1</td>
+                             <td>गाळाभाडे / व्यवसायकर / इतर</td>
+                             <td>{{ isset($otherDemands['magil']) ? '₹' . number_format($otherDemands['magil']->demand_amount, 2) : '—' }}</td>
+                             <td>{{ isset($otherDemands['magil']) ? '₹' . number_format($otherDemands['magil']->collected_amount, 2) : '—' }}</td>
+                             <td>{{ isset($otherDemands['magil']) ? $otherDemands['magil']->percentage . '%' : '—' }}</td>
+                             <td>{{ isset($otherDemands['chalu']) ? '₹' . number_format($otherDemands['chalu']->demand_amount, 2) : '—' }}</td>
+                             <td>{{ isset($otherDemands['chalu']) ? '₹' . number_format($otherDemands['chalu']->collected_amount, 2) : '—' }}</td>
+                             <td>{{ isset($otherDemands['chalu']) ? $otherDemands['chalu']->percentage . '%' : '—' }}</td>
+                         </tr>
+                     </tbody>
+                 </table>
+             </div>
+         </section>
+
+         {{-- SECTION E: 3×2 कृती बटण ग्रिड --}}
          <section id="tax-actions" class="card-section" data-aos="fade-up">
              <div class="section-title">कर माहिती व भरणा</div>
 

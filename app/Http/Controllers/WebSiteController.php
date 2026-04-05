@@ -183,6 +183,11 @@ class WebSiteController extends Controller
             ->get()
             ->keyBy('period');
 
+        $otherDemands = TaxDemand::where('gp_name_in_url', $gpname)
+            ->where('tax_type', 'other')
+            ->get()
+            ->keyBy('period');
+
         $taxDocuments = TaxDocument::where('gp_name_in_url', $gpname)
             ->where('is_active', true)
             ->get()
@@ -194,7 +199,7 @@ class WebSiteController extends Controller
             ->orderBy('id', 'desc')
             ->first();
 
-        return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll','pdf_all','gharPattiDemands','paaniPattiDemands','taxDocuments','taxTip'));
+        return view('website.index', compact('welcomenote','gallay_photos', 'gallay_videos', 'navbar', 'slider', 'marquee', 'famouslocations', 'AbhiyanAll', 'yojna_all','officerData','sadsyaAll','pdf_all','gharPattiDemands','paaniPattiDemands','otherDemands','taxDocuments','taxTip'));
     }
 
 
