@@ -35,18 +35,17 @@
             --radius: .75rem;
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
             --container-max: 1140px;
+            /* ── Font scale ── */
+            --fs-xs:   0.75rem;
+            --fs-sm:   0.85rem;
+            --fs-base: 0.9375rem;
+            --fs-md:   1rem;
+            --fs-lg:   1.125rem;
+            --fs-xl:   1.3rem;
+            --fs-2xl:  1.55rem;
+            --lh-body: 1.85;
+            --lh-head: 1.35;
         }
-
-        /* ── Font scale ── */
-        --fs-xs:   0.75rem;   /* 12px  — captions, badges       */
-        --fs-sm:   0.85rem;   /* 13.6px — small labels, meta     */
-        --fs-base: 0.9375rem; /* 15px  — body copy               */
-        --fs-md:   1rem;      /* 16px  — slightly larger body    */
-        --fs-lg:   1.125rem;  /* 18px  — card subtitles          */
-        --fs-xl:   1.3rem;    /* 20.8px — section titles         */
-        --fs-2xl:  1.55rem;   /* 24.8px — page headings          */
-        --lh-body: 1.85;      /* generous for Devanagari         */
-        --lh-head: 1.35;
 
         html { font-size: 16px; scroll-behavior: smooth; }
 
@@ -54,13 +53,17 @@
             background: var(--bg);
             color: var(--text);
             margin: 0;
-            /* Devanagari first so Marathi glyphs use the right font */
             font-family: "Noto Sans Devanagari", "Poppins", sans-serif;
             font-size: var(--fs-base);
             line-height: var(--lh-body);
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .card-section, .form-control, .form-select, .accordion-item, .place-card {
+            transition: background 0.3s, color 0.3s, border-color 0.3s;
         }
 
         /* Headings — use Poppins for Latin, Noto for Devanagari */
@@ -119,11 +122,12 @@
 
         /* ── Header ── */
         header {
-            background: #fff;
+            background: var(--card);
             border-bottom: 3px solid var(--primary);
             box-shadow: 0 2px 12px rgba(0,0,0,0.08);
             padding: 12px 20px;
             margin: 0 !important;
+            transition: background 0.3s;
         }
 
         .newheader {
@@ -420,8 +424,9 @@
         .places img {
             border-radius: var(--radius);
             transition: transform .3s ease, box-shadow .3s ease;
-            height: 188px;
-            width: 318px;
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
         }
 
         .places img:hover {
@@ -446,12 +451,14 @@
         .place-card p { text-align: justify; }
 
         /* ── Gallery ── */
+        .photo-wrapper { overflow: hidden; border-radius: var(--radius); }
         .galarysetting {
-            height: 150px;
-            width: 237px;
+            height: 160px;
+            width: 100%;
             object-fit: cover;
             border-radius: 8px;
             transition: transform 0.3s;
+            display: block;
         }
 
         .galarysetting:hover { transform: scale(1.04); }
@@ -480,14 +487,71 @@
 
         /* ── Dark mode ── */
         body.dark {
-            --bg: #0f172a;
-            --card: #1e293b;
+            --bg: #0d1117;
+            --card: #161b22;
             --text: #e2e8f0;
-            --muted: #94a3b8;
-            --border: #334155;
+            --muted: #8b949e;
+            --border: #30363d;
         }
 
-        body.dark table.dataTable thead th { background: var(--primary-dark); }
+        /* header */
+        body.dark header {
+            background: var(--card);
+            border-bottom-color: var(--border);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+        }
+        body.dark .site-title  { color: var(--primary); }
+        body.dark .site-subtitle { color: var(--muted); }
+
+        /* form controls */
+        body.dark .form-control,
+        body.dark .form-select {
+            background-color: #21262d;
+            border-color: var(--border);
+            color: var(--text);
+        }
+        body.dark .form-control:focus,
+        body.dark .form-select:focus {
+            background-color: #21262d;
+            color: var(--text);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 .2rem rgba(0,102,153,.3);
+        }
+        body.dark .form-control::placeholder,
+        body.dark .form-select::placeholder { color: var(--muted); }
+
+        /* Bootstrap tables */
+        body.dark .table {
+            color: var(--text);
+            border-color: var(--border);
+            --bs-table-bg: transparent;
+            --bs-table-striped-bg: rgba(255,255,255,0.03);
+            --bs-table-hover-bg: rgba(255,255,255,0.06);
+        }
+        body.dark .table td,
+        body.dark .table th   { border-color: var(--border); }
+        body.dark .table-success thead th,
+        body.dark .table-info    thead th,
+        body.dark .table-warning thead th { background-color: var(--primary-dark) !important; color: #fff !important; }
+
+        /* DataTables */
+        body.dark table.dataTable thead th      { background: var(--primary-dark); }
+        body.dark .dataTables_wrapper           { color: var(--text); }
+        body.dark .dataTables_wrapper .dataTables_filter input { background: #21262d; color: var(--text); border-color: var(--border); }
+        body.dark .dataTables_wrapper .dataTables_paginate .paginate_button { border-color: var(--border) !important; color: var(--text) !important; background: transparent; }
+
+        /* accordion */
+        body.dark .accordion-item             { background: var(--card); border-color: var(--border); }
+        body.dark .accordion-button           { background: var(--card); color: var(--text); }
+        body.dark .accordion-button:not(.collapsed) { background: var(--primary); color: #fff; }
+        body.dark .accordion-button::after    { filter: invert(1); }
+
+        /* place cards */
+        body.dark .place-card { background: var(--card); border-color: var(--border); }
+
+        /* alerts */
+        body.dark .alert-success { background: #0d2818; color: #a7f3d0; border-color: #134e35; }
+        body.dark .alert-danger  { background: #2a0d0d; color: #fca5a5; border-color: #4e1313; }
 
         /* ── Footer ── */
         footer {
@@ -509,22 +573,34 @@
         footer a:hover { color: #fff; }
         footer p { font-size: 0.88rem; line-height: 1.8; }
 
-        /* ── Responsive font scaling ── */
+        /* ── Responsive ── */
         @media (max-width: 768px) {
             html { font-size: 15px; }
-            .site-title   { font-size: var(--fs-lg); }
-            .section-title { font-size: var(--fs-lg); }
-            .header-icon  { width: 36px; height: 56px; }
-            .header-icon-gp { width: 52px; height: 52px; }
+            .site-title        { font-size: var(--fs-lg); }
+            .section-title     { font-size: var(--fs-lg); }
+            .header-icon       { width: 36px; height: 56px; }
+            .header-icon-gp    { width: 52px; height: 52px; }
+            .utility-bar-left  { display: none !important; }
+            footer .col-md-4   { margin-bottom: 1rem; }
         }
 
         @media (max-width: 576px) {
             html { font-size: 14px; }
-            .newheader    { flex-direction: column; align-items: center; text-align: center; }
-            .page-container { padding: 0 10px; }
-            .card-section { padding: 16px 14px; }
-            .section-title { font-size: var(--fs-md); }
+            .newheader         { flex-direction: column; align-items: center; text-align: center; }
+            .page-container    { padding: 0 10px; margin: 12px auto; }
+            .card-section      { padding: 14px 12px; }
+            .section-title     { font-size: var(--fs-md); }
             .dataTables_wrapper .dataTables_filter input { width: 100%; margin-top: 6px; }
+            .places img        { height: 140px; }
+            .galarysetting     { height: 130px; }
+            /* tax tables: allow horizontal scroll with visible indicator */
+            .table-responsive  { -webkit-overflow-scrolling: touch; }
+        }
+
+        /* ── Tax tables — tight cells on small screens ── */
+        @media (max-width: 768px) {
+            .card-section .table th,
+            .card-section .table td { font-size: 0.78rem; padding: 0.4rem 0.5rem; }
         }
 
         .one_rem { font-size: var(--fs-md); }
@@ -543,7 +619,7 @@
         <button id="increaseFont" class="btn btn-sm btn-outline-secondary">A+</button>
         <button id="resetFont"    class="btn btn-sm btn-outline-secondary">A</button>
         <button id="decreaseFont" class="btn btn-sm btn-outline-secondary">A-</button>
-        <button id="lang-toggle" class="btn btn-sm ms-1" style="background:var(--accent);color:#000;font-weight:700;font-size:0.78rem;">मराठी</button>
+        <button id="lang-toggle" class="btn btn-sm ms-1" style="background:var(--accent);color:#000;font-weight:700;font-size:0.78rem;">English</button>
         <span class="theme-toggle ms-2" role="button" title="Dark / Light" onclick="toggleDark()" style="cursor:pointer; font-size:1rem;">🌙</span>
     </div>
 </div>
@@ -559,7 +635,7 @@
             </div>
             <div class="border-start ps-3" style="border-color: var(--border) !important;">
                 <div class="site-title">{{ $navbar->name ?? 'ग्रामपंचायत' }}</div>
-                <div class="site-subtitle">ग्रामपंचायत, महाराष्ट्र शासन</div>
+                <div class="site-subtitle" data-mr="ग्रामपंचायत, महाराष्ट्र शासन" data-en="Gram Panchayat, Govt. of Maharashtra">ग्रामपंचायत, महाराष्ट्र शासन</div>
             </div>
         </div>
 
@@ -599,13 +675,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navmenu">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#welcome">स्वागत</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#news">मुख्यमंत्री समृद्ध पंचायतराज अभियान</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#dakhala">दाखला</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#mahiti">माहिती</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#schemes">शासकीय योजना</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#places">प्रसिद्ध स्थळे</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">संपर्क</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#welcome"  data-mr="स्वागत"                                   data-en="Welcome">स्वागत</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#news"     data-mr="मुख्यमंत्री समृद्ध पंचायतराज अभियान"    data-en="CM Samrudh Panchayatraj">मुख्यमंत्री समृद्ध पंचायतराज अभियान</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#dakhala"  data-mr="दाखला"                                    data-en="Certificate">दाखला</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#mahiti"   data-mr="माहिती"                                   data-en="Information">माहिती</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#schemes"  data-mr="शासकीय योजना"                             data-en="Govt. Schemes">शासकीय योजना</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#places"   data-mr="प्रसिद्ध स्थळे"                          data-en="Famous Places">प्रसिद्ध स्थळे</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact"  data-mr="संपर्क"                                   data-en="Contact">संपर्क</a></li>
                 </ul>
             </div>
         </div>

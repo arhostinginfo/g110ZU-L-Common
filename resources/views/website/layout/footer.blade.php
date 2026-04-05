@@ -41,15 +41,15 @@
                  <p>{{ $navbar->footer_desc ?? '' }}</p>
              </div>
              <div class="col-md-4">
-                 <h5>झटपट दुवे</h5>
-                 <p><a href="#welcome">🏠 स्वागत</a></p>
-                 <p><a href="#news">📋 मुख्यमंत्री समृद्ध पंचायतराज अभियान</a></p>
-                 <p><a href="#schemes">📌 शासकीय योजना</a></p>
-                 <p><a href="#places">📍 प्रसिद्ध स्थळे</a></p>
-                 <p><a href="#ghar-patti-tax">💰 कर व्यवस्थापन</a></p>
+                 <h5 data-mr="झटपट दुवे" data-en="Quick Links">झटपट दुवे</h5>
+                 <p><a href="#welcome"       data-mr="🏠 स्वागत"                                    data-en="🏠 Welcome">🏠 स्वागत</a></p>
+                 <p><a href="#news"          data-mr="📋 मुख्यमंत्री समृद्ध पंचायतराज अभियान"    data-en="📋 CM Samrudh Panchayatraj">📋 मुख्यमंत्री समृद्ध पंचायतराज अभियान</a></p>
+                 <p><a href="#schemes"       data-mr="📌 शासकीय योजना"                             data-en="📌 Govt. Schemes">📌 शासकीय योजना</a></p>
+                 <p><a href="#places"        data-mr="📍 प्रसिद्ध स्थळे"                          data-en="📍 Famous Places">📍 प्रसिद्ध स्थळे</a></p>
+                 <p><a href="#ghar-patti-tax" data-mr="💰 कर व्यवस्थापन"                           data-en="💰 Tax Management">💰 कर व्यवस्थापन</a></p>
              </div>
              <div class="col-md-4">
-                 <h5>संपर्क</h5>
+                 <h5 data-mr="संपर्क" data-en="Contact">संपर्क</h5>
                  @if(!empty($navbar->address))
                      <p>📍 {{ $navbar->address }}</p>
                  @endif
@@ -94,9 +94,23 @@
      document.getElementById('resetFont').addEventListener('click', () => applyRootFont(defaultFont));
 
      function toggleDark() {
-         document.body.classList.toggle('dark');
+         const isDark = document.body.classList.toggle('dark');
+         const icon   = document.querySelector('.theme-toggle');
+         if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+         localStorage.setItem('gp_dark_mode', isDark ? '1' : '0');
      }
      window.toggleDark = toggleDark;
+
+     // Restore dark mode on page load
+     (function () {
+         if (localStorage.getItem('gp_dark_mode') === '1') {
+             document.body.classList.add('dark');
+             document.addEventListener('DOMContentLoaded', function () {
+                 var icon = document.querySelector('.theme-toggle');
+                 if (icon) icon.textContent = '☀️';
+             });
+         }
+     })();
 
      function applyColor(color) {
          root.style.setProperty('--primary', color);
@@ -121,10 +135,7 @@
          if (back) back.style.backgroundColor = color;
      }
 
-     function toggleColorPicker() {
-         const el = document.getElementById('colorPicker');
-         el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-     }
+     function toggleColorPicker() { /* color picker UI removed */ }
      window.toggleColorPicker = toggleColorPicker;
      let marqueeRunning = true;
 
@@ -161,8 +172,7 @@
      };
 
      document.addEventListener('DOMContentLoaded', () => {
-         applyColor(document.getElementById('colorPicker').value || getComputedStyle(root).getPropertyValue(
-             '--primary').trim());
+         applyColor(getComputedStyle(root).getPropertyValue('--primary').trim() || '#006699');
          applyRootFont(currentFont);
      });
  </script>
@@ -188,6 +198,39 @@
          });
 
      });
+ </script>
+
+ {{-- ── Language Toggle ── --}}
+ <script>
+     (function () {
+         let currentLang = 'mr';
+
+         function applyLang(lang) {
+             // text nodes
+             document.querySelectorAll('[data-mr][data-en]').forEach(function (el) {
+                 el.textContent = el.getAttribute('data-' + lang);
+             });
+             // placeholders
+             document.querySelectorAll('[data-mr-ph][data-en-ph]').forEach(function (el) {
+                 el.placeholder = el.getAttribute('data-' + lang + '-ph');
+             });
+             // update toggle button label (shows the OTHER language)
+             var btn = document.getElementById('lang-toggle');
+             if (btn) btn.textContent = lang === 'mr' ? 'English' : 'मराठी';
+             // update html lang attribute
+             document.documentElement.lang = lang === 'mr' ? 'mr' : 'en';
+             currentLang = lang;
+         }
+
+         document.addEventListener('DOMContentLoaded', function () {
+             var btn = document.getElementById('lang-toggle');
+             if (btn) {
+                 btn.addEventListener('click', function () {
+                     applyLang(currentLang === 'mr' ? 'en' : 'mr');
+                 });
+             }
+         });
+     })();
  </script>
  </body>
 

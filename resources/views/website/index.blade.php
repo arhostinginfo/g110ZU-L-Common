@@ -206,7 +206,7 @@
          <section id="gallary" class="card-section" data-aos="fade-up">
              <div class="row align-start">
                  <div class="col-lg-12">
-                     <div class="section-title">चलतचित्र प्रदर्शनी</div>
+                     <div class="section-title" data-mr="चलतचित्र प्रदर्शनी" data-en="Video Gallery">चलतचित्र प्रदर्शनी</div>
                      <div class="row">
                          @foreach ($gallay_videos as $i => $gallay_video)
                              <div class="col-md-4 col-sm-6 mb-4">
@@ -233,7 +233,7 @@
          <section id="gallary" class="card-section" data-aos="fade-up">
              <div class="row align-start">
                  <div class="col-lg-12">
-                     <div class="section-title">छायाचित्र प्रदर्शनी</div>
+                     <div class="section-title" data-mr="छायाचित्र प्रदर्शनी" data-en="Photo Gallery">छायाचित्र प्रदर्शनी</div>
                      <div class="row">
                          @foreach ($gallay_photos as $i => $gallay_photo)
                              <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
@@ -275,7 +275,7 @@
 
          <!-- Abhiyan -->
          <section id="news" class="card-section" data-aos="fade-up">
-             <div class="section-title">मुख्यमंत्री समृद्ध पंचायतराज अभियान</div>
+             <div class="section-title" data-mr="मुख्यमंत्री समृद्ध पंचायतराज अभियान" data-en="CM Samrudh Panchayatraj Mission">मुख्यमंत्री समृद्ध पंचायतराज अभियान</div>
              @if (count($AbhiyanAll))
              <div class="table-responsive">
                  <table class="newsTable display table table-striped" style="width:100%">
@@ -437,7 +437,7 @@
 
          <!-- Officers Contact Details -->
          <section id="officers_details" class="card-section" data-aos="fade-up">
-             <h3 class="section-title">अधिकाऱ्यांचा संपर्क तपशील</h3>
+             <h3 class="section-title" data-mr="अधिकाऱ्यांचा संपर्क तपशील" data-en="Officers Contact Details">अधिकाऱ्यांचा संपर्क तपशील</h3>
              @if (count($officerData))
                  <div class="table-responsive">
                      <table class="newsTable display table table-striped" style="width:100%">
@@ -551,7 +551,7 @@
 
         <!-- Mahiti -->
          <section id="mahiti" class="card-section" data-aos="fade-up">
-             <div class="section-title">वीवीध विभागांची  माहिती PDF/imeges स्वरूपातील</div>
+             <div class="section-title" data-mr="वीवीध विभागांची माहिती PDF/Images स्वरूपातील" data-en="Departmental Information (PDF / Images)">वीवीध विभागांची माहिती PDF/Images स्वरूपातील</div>
              @if (count($pdf_all))
                  <div class="table-responsive">
                      <table class="newsTable display table table-striped" style="width:100%">
@@ -587,7 +587,7 @@
 
          <!-- Dakhala Form Section -->
         <section id="dakhala" class="card-section" data-aos="fade-up">
-            <div class="section-title">विवीध दाखल्यासांठी अर्ज सुविधा</div>
+            <div class="section-title" data-mr="विवीध दाखल्यासांठी अर्ज सुविधा" data-en="Certificate Application Facility">विवीध दाखल्यासांठी अर्ज सुविधा</div>
 
             @if (session('dakhala_success'))
                 <div class="alert alert-success">{{ session('dakhala_success') }}</div>
@@ -603,67 +603,69 @@
 
                 <!-- मोबाईल नंबर -->
                 <div class="mb-3">
-                    <label class="form-label">अर्जदाराचा मोबाइल क्रमांक/ WhatsApp क्रमांक</label>
-                    <input type="tel" 
-                        name="mobile_no" 
-                        class="form-control" 
-                        placeholder="आपला १० अंकी मोबाईल नंबर टाका" 
-                        pattern="[0-9]{10}" 
-                        maxlength="10" 
+                    <label class="form-label" data-mr="अर्जदाराचा मोबाइल क्रमांक/ WhatsApp क्रमांक" data-en="Applicant Mobile / WhatsApp No.">अर्जदाराचा मोबाइल क्रमांक/ WhatsApp क्रमांक</label>
+                    <input type="tel"
+                        name="mobile_no"
+                        class="form-control"
+                        placeholder="आपला १० अंकी मोबाईल नंबर टाका"
+                        data-mr-ph="आपला १० अंकी मोबाईल नंबर टाका"
+                        data-en-ph="Enter your 10-digit mobile number"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
                         required>
                 </div>
                 <!-- अर्जदाराचे नाव -->
                 <div class="mb-3">
-                    <label class="form-label">अर्जदाराचे नाव</label>
-                    <input type="text" name="applicant_name" class="form-control" placeholder="अर्जदाराचे पूर्ण नाव" required>
+                    <label class="form-label" data-mr="अर्जदाराचे नाव" data-en="Applicant Name">अर्जदाराचे नाव</label>
+                    <input type="text" name="applicant_name" class="form-control" placeholder="अर्जदाराचे पूर्ण नाव" data-mr-ph="अर्जदाराचे पूर्ण नाव" data-en-ph="Full name of applicant" required>
                     <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">अर्जदाराचा मेल आयडी</label>
-                    <input type="email" name="applicant_email" class="form-control" placeholder="अर्जदाराचा मेल आयडी" required>
+                    <label class="form-label" data-mr="अर्जदाराचा मेल आयडी" data-en="Applicant Email ID">अर्जदाराचा मेल आयडी</label>
+                    <input type="email" name="applicant_email" class="form-control" placeholder="अर्जदाराचा मेल आयडी" data-mr-ph="अर्जदाराचा मेल आयडी" data-en-ph="Applicant email address" required>
                 </div>
 
                 <!-- अर्जावर छापायचे नाव -->
                 <div class="mb-3">
-                    <label class="form-label">अर्जावर छापायचे नाव</label>
-                    <input type="text" name="print_name" class="form-control" placeholder="अर्जावर छापायचे नाव" required>
+                    <label class="form-label" data-mr="अर्जावर छापायचे नाव" data-en="Name to Print on Certificate">अर्जावर छापायचे नाव</label>
+                    <input type="text" name="print_name" class="form-control" placeholder="अर्जावर छापायचे नाव" data-mr-ph="अर्जावर छापायचे नाव" data-en-ph="Name to print on certificate" required>
                 </div>
 
                 <!-- पत्ता -->
                 <div class="mb-3">
-                    <label class="form-label">पूर्ण पत्ता/अर्ज संदर्भातील माहिती</label>
-                    <textarea name="address" class="form-control" rows="4" placeholder="आपला पूर्ण पत्ता/अर्ज संदर्भातील माहिती येथे लिहा" required></textarea>
+                    <label class="form-label" data-mr="पूर्ण पत्ता/अर्ज संदर्भातील माहिती" data-en="Full Address / Application Details">पूर्ण पत्ता/अर्ज संदर्भातील माहिती</label>
+                    <textarea name="address" class="form-control" rows="4" placeholder="आपला पूर्ण पत्ता/अर्ज संदर्भातील माहिती येथे लिहा" data-mr-ph="आपला पूर्ण पत्ता/अर्ज संदर्भातील माहिती येथे लिहा" data-en-ph="Enter your full address / application details here" required></textarea>
                 </div>
 
                 <!-- दाखल्याचा प्रकार -->
                 <div class="mb-3">
-                    <label class="form-label">दाखल्याचा प्रकार निवडा</label>
+                    <label class="form-label" data-mr="दाखल्याचा प्रकार निवडा" data-en="Select Certificate Type">दाखल्याचा प्रकार निवडा</label>
                     <select name="certificate_type" class="form-select" required>
-                        <option value="">-- निवडा --</option>
-                        <option value="Birth_Certificate">जन्म दाखला</option>
-                        <option value="Death_Certificate">मृत्यू दाखला</option>
-                        <option value="Marriage_Certificate">विवाह दाखला</option>
-                        <option value="Daridrya_Resha_Certificate">दारिद्र्य रेषा दाखला</option>
-                        <option value="Niradhar_Certificate">निराधार  दाखला</option>
-                        <option value="Namuna_No_8_Certificate">न.न. 8 उतारा</option>
-                        <option value="Namuna_No_9_Certificate">न.न. 9 उतारा</option>
-                        <option value="Gram_Panchayat_Yene_Baki_Nahi_Certificate">ग्रामपंचायत येणे बाकी नसल्याबाबत दाखला</option>
-                        <option value="Rahiwasi_Certificate">रहिवासी दाखला</option>
-                        <option value="Other_Certificate">इतर हमीपत्र नमुने</option>
+                        <option value="" data-mr="-- निवडा --" data-en="-- Select --">-- निवडा --</option>
+                        <option value="Birth_Certificate"                          data-mr="जन्म दाखला"                                    data-en="Birth Certificate">जन्म दाखला</option>
+                        <option value="Death_Certificate"                          data-mr="मृत्यू दाखला"                                   data-en="Death Certificate">मृत्यू दाखला</option>
+                        <option value="Marriage_Certificate"                       data-mr="विवाह दाखला"                                    data-en="Marriage Certificate">विवाह दाखला</option>
+                        <option value="Daridrya_Resha_Certificate"                 data-mr="दारिद्र्य रेषा दाखला"                           data-en="Below Poverty Line Certificate">दारिद्र्य रेषा दाखला</option>
+                        <option value="Niradhar_Certificate"                       data-mr="निराधार दाखला"                                  data-en="Destitute Certificate">निराधार दाखला</option>
+                        <option value="Namuna_No_8_Certificate"                    data-mr="न.न. 8 उतारा"                                   data-en="Form No. 8 Extract">न.न. 8 उतारा</option>
+                        <option value="Namuna_No_9_Certificate"                    data-mr="न.न. 9 उतारा"                                   data-en="Form No. 9 Extract">न.न. 9 उतारा</option>
+                        <option value="Gram_Panchayat_Yene_Baki_Nahi_Certificate"  data-mr="ग्रामपंचायत येणे बाकी नसल्याबाबत दाखला"      data-en="GP No Dues Certificate">ग्रामपंचायत येणे बाकी नसल्याबाबत दाखला</option>
+                        <option value="Rahiwasi_Certificate"                        data-mr="रहिवासी दाखला"                                  data-en="Residence Certificate">रहिवासी दाखला</option>
+                        <option value="Other_Certificate"                           data-mr="इतर हमीपत्र नमुने"                              data-en="Other Certificate Types">इतर हमीपत्र नमुने</option>
                     </select>
                 </div>
 
                 <!-- सबमिट बटण -->
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">सबमिट करा</button>
+                    <button type="submit" class="btn btn-primary" data-mr="सबमिट करा" data-en="Submit">सबमिट करा</button>
                 </div>
             </form>
         </section>
         
          <!-- Schemes -->
          <section id="schemes" class="card-section" data-aos="fade-up">
-             <div class="section-title">शासकीय योजना</div>
+             <div class="section-title" data-mr="शासकीय योजना" data-en="Government Schemes">शासकीय योजना</div>
 
              @if (count($yojna_all))
                  <div class="table-responsive">
@@ -821,7 +823,7 @@
          <!-- Places -->
          <section id="places" class="card-section" data-aos="fade-up">
              <div class="container">
-                 <div class="section-title">प्रसिद्ध स्थळे</div>
+                 <div class="section-title" data-mr="प्रसिद्ध स्थळे" data-en="Famous Places">प्रसिद्ध स्थळे</div>
                  @if (count($famouslocations))
                      <div class="row g-4 places">
                          @foreach ($famouslocations as $i => $locations)
@@ -857,7 +859,7 @@
 
          <!-- Contact form -->
          <section id="contact" class="card-section" data-aos="fade-up">
-             <div class="section-title">संपर्क/तक्रारी</div>
+             <div class="section-title" data-mr="संपर्क/तक्रारी" data-en="Contact / Complaints">संपर्क/तक्रारी</div>
 
              @if (session('success'))
                  <div class="alert alert-success">{{ session('success') }}</div>
@@ -865,27 +867,24 @@
 
              <form action="{{ route('frontwebsitecontact.store') }}" method="POST">
                  @csrf
+                 <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
                  <div class="mb-2">
-                     <input type="text" name="name" class="form-control" placeholder="नाव" required>
-                     <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}"><input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
-                     <input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}"><input type="hidden" name="gp_name_in_url" value="{{ request()->segment(count(request()->segments())) }}">
+                     <input type="text" name="name" class="form-control" placeholder="नाव" data-mr-ph="नाव" data-en-ph="Name" required>
                  </div>
                  <div class="mb-2">
-                     <input type="email" name="email" class="form-control" placeholder="ईमेल" required>
+                     <input type="email" name="email" class="form-control" placeholder="ईमेल" data-mr-ph="ईमेल" data-en-ph="Email" required>
                  </div>
                  <div class="mb-2">
-                     <textarea name="message" class="form-control" rows="3" placeholder="संदेश" required></textarea>
+                     <textarea name="message" class="form-control" rows="3" placeholder="संदेश" data-mr-ph="संदेश" data-en-ph="Message" required></textarea>
                  </div>
                  <div class="mb-2">
-                         <input type="tel" 
-                        name="mobile_no" 
-                        class="form-control" 
-                        placeholder="आपला १० अंकी मोबाईल नंबर टाका" 
-                        pattern="[0-9]{10}" 
-                        maxlength="10" 
-                        required>
+                     <input type="tel" name="mobile_no" class="form-control"
+                         placeholder="आपला १० अंकी मोबाईल नंबर टाका"
+                         data-mr-ph="आपला १० अंकी मोबाईल नंबर टाका"
+                         data-en-ph="Enter your 10-digit mobile number"
+                         pattern="[0-9]{10}" maxlength="10" required>
                  </div>
-                 <button type="submit" class="btn btn-primary">पाठवा</button>
+                 <button type="submit" class="btn btn-primary" data-mr="पाठवा" data-en="Send">पाठवा</button>
              </form>
          </section>
 
@@ -894,7 +893,7 @@
          <section id="mopr" class="card-section" data-aos="fade-up">
              <div class="container">
                  <!-- Section Title -->
-                 <div class="section-title mb-4">महत्वाच्या लिंक</div>
+                 <div class="section-title mb-4" data-mr="महत्वाच्या लिंक" data-en="Important Links">महत्वाच्या लिंक</div>
                  <div class="accordion" id="moprAccordion">
                      <!-- एम ओपी आर -->
                      <div class="accordion-item">
@@ -1152,51 +1151,47 @@
              </div>
          </section>
 
-         <section class="max-w-screen-xl mx-auto my-6 overflow-hidden relative bg-white py-5 mb-5">
-             <marquee behavior="scroll" direction="left" scrollamount="7" class="flex space-x-16 px-5">
-                 <!-- Logo 1 -->
-                 <a href="https://data.gov.in/" target="_blank" rel="noopener">
-                     <img src="{{ asset('asset/dummy_images/other_logo/mygov.webp') }}" alt="data.gov.in"
-                         class="h-12 object-contain">
-                 </a>
-
-                 <!-- Logo 2 -->
-                 <a href="https://www.makeinindia.com/" target="_blank" rel="noopener">
-                     <img src="{{ asset('asset/dummy_images/other_logo/makeinindia.webp') }}" alt="Make in India"
-                         class="h-12 object-contain">
-                 </a>
-
-                 <!-- Logo 3 -->
-                 <a href="https://www.incredibleindia.org/" target="_blank" rel="noopener">
-                     <img src="{{ asset('asset/dummy_images/other_logo/incredible.webp') }}" alt="Incredible India"
-                         class="h-12 object-contain">
-                 </a>
-
-                 <!-- Logo 4 -->
-                 <a href="https://www.india.gov.in/" target="_blank" rel="noopener">
-                     <img src="{{ asset('asset/dummy_images/other_logo/indiagovin.webp') }}" alt="india.gov.in"
-                         class="h-12 object-contain">
-                 </a>
-
-                 <!-- Logo 5 -->
-                 <a href="https://www.digitalindia.gov.in/" target="_blank" rel="noopener">
-                     <img src="{{ asset('asset/dummy_images/other_logo/digitalindia.webp') }}" alt="Digital India"
-                         class="h-12 object-contain">
-                 </a>
-
-                 <!-- Logo 6 -->
-                 <a href="https://www.pmindia.gov.in/" target="_blank" rel="noopener">
-                     <img src="{{ asset('asset/dummy_images/other_logo/pmindia.webp') }}" alt="PM India"
-                         class="h-12 object-contain">
-                 </a>
-             </marquee>
+         <section class="card-section py-3" style="overflow:hidden;">
+             <div class="logo-scroll-track">
+                 <div class="logo-scroll-inner">
+                     <a href="https://data.gov.in/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/mygov.webp') }}" alt="data.gov.in"></a>
+                     <a href="https://www.makeinindia.com/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/makeinindia.webp') }}" alt="Make in India"></a>
+                     <a href="https://www.incredibleindia.org/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/incredible.webp') }}" alt="Incredible India"></a>
+                     <a href="https://www.india.gov.in/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/indiagovin.webp') }}" alt="india.gov.in"></a>
+                     <a href="https://www.digitalindia.gov.in/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/digitalindia.webp') }}" alt="Digital India"></a>
+                     <a href="https://www.pmindia.gov.in/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/pmindia.webp') }}" alt="PM India"></a>
+                     {{-- duplicate set for seamless loop --}}
+                     <a href="https://data.gov.in/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/mygov.webp') }}" alt="data.gov.in"></a>
+                     <a href="https://www.makeinindia.com/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/makeinindia.webp') }}" alt="Make in India"></a>
+                     <a href="https://www.incredibleindia.org/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/incredible.webp') }}" alt="Incredible India"></a>
+                     <a href="https://www.india.gov.in/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/indiagovin.webp') }}" alt="india.gov.in"></a>
+                     <a href="https://www.digitalindia.gov.in/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/digitalindia.webp') }}" alt="Digital India"></a>
+                     <a href="https://www.pmindia.gov.in/" target="_blank" rel="noopener"><img src="{{ asset('asset/dummy_images/other_logo/pmindia.webp') }}" alt="PM India"></a>
+                 </div>
+             </div>
+             <style>
+                 .logo-scroll-track { overflow: hidden; width: 100%; }
+                 .logo-scroll-inner {
+                     display: flex;
+                     align-items: center;
+                     gap: 48px;
+                     width: max-content;
+                     animation: logoScroll 18s linear infinite;
+                 }
+                 .logo-scroll-inner img { height: 48px; object-fit: contain; opacity: 0.85; transition: opacity 0.2s; }
+                 .logo-scroll-inner a:hover img { opacity: 1; }
+                 @keyframes logoScroll {
+                     0%   { transform: translateX(0); }
+                     100% { transform: translateX(-50%); }
+                 }
+             </style>
          </section>
 
       
 
          <!-- Map Section -->
          <section id="map" class="card-section" data-aos="fade-up">
-             <div class="section-title">स्थानिक नकाशा</div>
+             <div class="section-title" data-mr="स्थानिक नकाशा" data-en="Local Map">स्थानिक नकाशा</div>
              <div id="leafletMap"
                  style="width:100%;height:300px;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
              </div>
@@ -1208,7 +1203,7 @@
 
          {{-- SECTION A: घरपट्टी कर तक्ता --}}
          <section id="ghar-patti-tax" class="card-section" data-aos="fade-up">
-             <div class="section-title">घरपट्टी कर (मागणी व वसुली)</div>
+             <div class="section-title" data-mr="घरपट्टी कर (मागणी व वसुली)" data-en="Property Tax (Demand &amp; Collection)">घरपट्टी कर (मागणी व वसुली)</div>
              <div class="table-responsive">
                  <table class="table table-bordered table-striped" style="width:100%">
                      <thead class="table-success">
@@ -1241,7 +1236,7 @@
 
          {{-- SECTION B: पाणीपट्टी कर तक्ता --}}
          <section id="paani-patti-tax" class="card-section" data-aos="fade-up">
-             <div class="section-title">पाणीपट्टी कर (मागणी व वसुली)</div>
+             <div class="section-title" data-mr="पाणीपट्टी कर (मागणी व वसुली)" data-en="Water Tax (Demand &amp; Collection)">पाणीपट्टी कर (मागणी व वसुली)</div>
              <div class="table-responsive">
                  <table class="table table-bordered table-striped" style="width:100%">
                      <thead class="table-info">
@@ -1274,7 +1269,7 @@
 
          {{-- SECTION C: गाळाभाडे/व्यवसायकर/इतर कर तक्ता --}}
          <section id="other-tax" class="card-section" data-aos="fade-up">
-             <div class="section-title">गाळाभाडे / व्यवसायकर / इतर कर (मागणी व वसुली)</div>
+             <div class="section-title" data-mr="गाळाभाडे / व्यवसायकर / इतर कर (मागणी व वसुली)" data-en="Stall Rent / Trade Tax / Other Tax (Demand &amp; Collection)">गाळाभाडे / व्यवसायकर / इतर कर (मागणी व वसुली)</div>
              <div class="table-responsive">
                  <table class="table table-bordered table-striped" style="width:100%">
                      <thead class="table-warning">
@@ -1307,7 +1302,7 @@
 
          {{-- SECTION E: 3×2 कृती बटण ग्रिड --}}
          <section id="tax-actions" class="card-section" data-aos="fade-up">
-             <div class="section-title">कर माहिती व भरणा</div>
+             <div class="section-title" data-mr="कर माहिती व भरणा" data-en="Tax Information &amp; Payment">कर माहिती व भरणा</div>
 
              {{-- Row 1: PDF पहा --}}
              <div class="row mb-3 text-center">
@@ -1323,7 +1318,7 @@
                      @php
                          $viewDoc = $taxDocuments[$item['key']]['view_pdf'][0] ?? null;
                      @endphp
-                     <div class="col-md-4 mb-3">
+                     <div class="col-12 col-md-4 mb-3">
                          @if ($viewDoc)
                              <a href="{{ asset('storage/' . $viewDoc->file_path) }}" target="_blank"
                                  class="d-block p-3 text-center fw-bold"
@@ -1348,7 +1343,7 @@
                      @php
                          $qrDoc = $taxDocuments[$item['key']]['payment_qr'][0] ?? null;
                      @endphp
-                     <div class="col-md-4 mb-3">
+                     <div class="col-12 col-md-4 mb-3">
                          @if ($qrDoc)
                              @if ($qrDoc->isImage())
                                  <a href="javascript:void(0)"
