@@ -32,36 +32,38 @@
      marker.bindPopup("<b>{{ $navbar->name ?? 'Name ' }} {{ $navbar->address ?? 'Address' }}").openPopup();
  </script>
  </main>
- <!-- Footer Updated-->
+ <!-- Footer -->
  <footer>
-     <div class="container">
-         <div class="row">
-             <div class="col-md-4 mb-3">
-                 <h5>{{ $navbar->name ?? 'Grampanchayat' }}</h5>
-                 <p>{{ $navbar->footer_desc ?? 'Grampanchayat' }}</p>
+     <div class="container" style="max-width: var(--container-max);">
+         <div class="row g-4">
+             <div class="col-md-4">
+                 <h5>{{ $navbar->name ?? 'ग्रामपंचायत' }}</h5>
+                 <p>{{ $navbar->footer_desc ?? '' }}</p>
              </div>
-             <div class="col-md-4 mb-3">
+             <div class="col-md-4">
                  <h5>झटपट दुवे</h5>
-                 <p><a href="#welcome">स्वागत</a></p>
-                 <p><a href="#news">मुख्यमंत्री समृद्ध पंचायतराज अभियान</a></p>
-                 <p><a href="#schemes">शासकीय योजना</a></p>
-                 <p><a href="#places">प्रसिद्ध स्थळे</a></p>
+                 <p><a href="#welcome">🏠 स्वागत</a></p>
+                 <p><a href="#news">📋 मुख्यमंत्री समृद्ध पंचायतराज अभियान</a></p>
+                 <p><a href="#schemes">📌 शासकीय योजना</a></p>
+                 <p><a href="#places">📍 प्रसिद्ध स्थळे</a></p>
+                 <p><a href="#ghar-patti-tax">💰 कर व्यवस्थापन</a></p>
              </div>
-             <div class="col-md-4 mb-3">
+             <div class="col-md-4">
                  <h5>संपर्क</h5>
-                 <p>📍 {{ $navbar->address ?? 'Grampanchayat' }}</p>
-                 <p>📧 {{ $navbar && $navbar->email_id != 'dummy@gmail.com' ? $navbar->email_id : '' }}</p>
-                 <p>📞
-                     @if (optional($navbar)->contact_number == '0000000')
-                         {{ '' }}
-                     @else
-                         {{ optional($navbar)->contact_number ?? '1234567890' }}
-                     @endif
-                 </p>
+                 @if(!empty($navbar->address))
+                     <p>📍 {{ $navbar->address }}</p>
+                 @endif
+                 @if(!empty($navbar->email_id) && $navbar->email_id != 'dummy@gmail.com')
+                     <p>📧 <a href="mailto:{{ $navbar->email_id }}">{{ $navbar->email_id }}</a></p>
+                 @endif
+                 @if(!empty($navbar->contact_number) && $navbar->contact_number != '0000000')
+                     <p>📞 <a href="tel:{{ $navbar->contact_number }}">{{ $navbar->contact_number }}</a></p>
+                 @endif
              </div>
          </div>
-         <div class="text-center mt-3">
-             © {{ $navbar->name ?? 'Grampanchayat' }} • <span id="year"></span>
+         <hr style="border-color: rgba(255,255,255,0.15); margin: 20px 0 12px;">
+         <div class="text-center" style="font-size:var(--fs-xs); opacity:0.8; letter-spacing:0.03em;">
+             © {{ $navbar->name ?? 'ग्रामपंचायत' }} &nbsp;•&nbsp; <span id="year"></span> &nbsp;•&nbsp; महाराष्ट्र शासन
          </div>
      </div>
  </footer>
