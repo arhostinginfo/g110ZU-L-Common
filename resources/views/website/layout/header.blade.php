@@ -629,6 +629,101 @@
             .gp-modal-body   { height: 52vw; min-height: 200px; max-height: 340px; }
         }
 
+        /* ── Famous Place hero card (1–2 records) ── */
+        .place-hero {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: stretch;
+            height: 260px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform .25s, box-shadow .25s;
+        }
+        .place-hero:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+        }
+        .place-hero__img {
+            flex: 0 0 320px !important;
+            width: 320px !important;
+            height: 260px;
+            overflow: hidden;
+            position: relative;
+        }
+        .place-hero__img img {
+            width: 320px;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            transition: transform .4s ease;
+        }
+        .place-hero:hover .place-hero__img img { transform: scale(1.06); }
+
+        .place-hero__body {
+            flex: 1 1 0 !important;
+            min-width: 0;
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            overflow: hidden;
+        }
+        .place-hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: var(--fs-xs);
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--primary);
+            background: color-mix(in srgb, var(--primary) 10%, transparent);
+            border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+        .place-hero__name {
+            font-size: var(--fs-xl);
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+            line-height: 1.3;
+        }
+        .place-hero__desc {
+            font-size: var(--fs-sm);
+            color: var(--muted);
+            line-height: 1.8;
+            margin: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* dark mode */
+        body.dark .place-hero { background: var(--card); border-color: var(--border); }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .place-hero { height: 220px; }
+            .place-hero__img { flex: 0 0 220px !important; width: 220px !important; height: 220px; }
+            .place-hero__img img { width: 220px; height: 220px; }
+            .place-hero__body { padding: 16px 18px; }
+            .place-hero__name { font-size: var(--fs-lg); }
+        }
+        @media (max-width: 575px) {
+            .place-hero { flex-direction: column !important; height: auto; }
+            .place-hero__img { flex: none !important; width: 100% !important; height: 200px; }
+            .place-hero__img img { width: 100%; height: 200px; }
+            .place-hero__body { padding: 16px; }
+            .place-hero__desc { -webkit-line-clamp: 5; }
+        }
+
         /* ── Back to top ── */
         #backToTop {
             display: none;

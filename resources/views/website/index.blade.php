@@ -844,33 +844,55 @@
          <section id="places" class="card-section" data-aos="fade-up">
              <div class="container">
                  <div class="section-title" data-mr="प्रसिद्ध स्थळे" data-en="Famous Places">प्रसिद्ध स्थळे</div>
-                 @if (count($famouslocations))
-                     <div class="row g-4 places">
+
+                 @php $placesCount = count($famouslocations); @endphp
+
+                 @if ($placesCount > 0 && $placesCount <= 2)
+                     {{-- ── Hero layout: image left, info right (1–2 records) ── --}}
+                     <div class="d-flex flex-column gap-4">
                          @foreach ($famouslocations as $i => $locations)
-                             <div
-                                 class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center text-center place-card">
-                                 <img src="{{ asset('storage/' . ($locations->photo ?? 'default.jpg')) }}"
-                                     alt="{{ $locations->name ?? 'image name' }}"
-                                     class="img-fluid rounded mb2"><strong>{{ $locations->name ?? 'Short Description' }}</strong>
-                                 <p>{{ $locations->desc ?? 'Description' }}
-                                 </p>
+                             <div class="place-hero">
+                                 <div class="place-hero__img">
+                                     <img src="{{ asset('storage/' . ($locations->photo ?? 'default.jpg')) }}"
+                                          alt="{{ $locations->name ?? '' }}">
+                                 </div>
+                                 <div class="place-hero__body">
+                                     <span class="place-hero__badge">
+                                         <i class="fa fa-map-marker-alt"></i>
+                                         <span data-mr="प्रसिद्ध स्थळ" data-en="Famous Place">प्रसिद्ध स्थळ</span>
+                                     </span>
+                                     <h4 class="place-hero__name">{{ $locations->name ?? 'ठिकाण' }}</h4>
+                                     <p class="place-hero__desc">{{ $locations->desc ?? '' }}</p>
+                                 </div>
                              </div>
                          @endforeach
-
                      </div>
-                 @else
-                     <div class="row g-4 places">
-                         <div
-                             class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center text-center place-card">
-                             <img src="{{ asset('asset/dummy_images/person.jpg') }}"
-                                 alt="{{ $locations->name ?? 'image name' }}" class="img-fluid rounded mb2"><strong>
-                                 पर्यटन स्थळे</strong>
-                             <p>ऐतिहासिक, धार्मिक आणि नैसर्गिक सौंदर्याने नटलेली अनेक प्रसिद्ध पर्यटन स्थळे माहिती
-                             </p>
-                         </div>
 
+                 @elseif ($placesCount > 2)
+                     {{-- ── Grid layout: 3+ records (unchanged) ── --}}
+                     <div class="row g-4 places">
+                         @foreach ($famouslocations as $locations)
+                             <div class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center text-center place-card">
+                                 <img src="{{ asset('storage/' . ($locations->photo ?? 'default.jpg')) }}"
+                                      alt="{{ $locations->name ?? 'image name' }}"
+                                      class="img-fluid rounded mb2">
+                                 <strong>{{ $locations->name ?? 'Short Description' }}</strong>
+                                 <p>{{ $locations->desc ?? 'Description' }}</p>
+                             </div>
+                         @endforeach
+                     </div>
+
+                 @else
+                     {{-- ── Fallback: no records ── --}}
+                     <div class="row g-4 places">
+                         <div class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center text-center place-card">
+                             <img src="{{ asset('asset/dummy_images/person.jpg') }}" alt="पर्यटन स्थळे" class="img-fluid rounded mb2">
+                             <strong>पर्यटन स्थळे</strong>
+                             <p>ऐतिहासिक, धार्मिक आणि नैसर्गिक सौंदर्याने नटलेली अनेक प्रसिद्ध पर्यटन स्थळे माहिती</p>
+                         </div>
                      </div>
                  @endif
+
              </div>
          </section>
 
