@@ -505,7 +505,7 @@
             cursor: default;
         }
 
-        /* Video card — video on top, name below at fixed height */
+        /* Video card — thumbnail on top, play overlay, name below */
         .gallery-video-card {
             background: var(--card);
             border: 1px solid var(--border);
@@ -513,6 +513,7 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: transform .25s, box-shadow .25s;
+            position: relative;
         }
         .gallery-video-card:hover {
             transform: translateY(-3px);
@@ -524,6 +525,108 @@
             display: block;
             object-fit: cover;
             background: #000;
+            pointer-events: none;
+        }
+        .play-overlay-index {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.28);
+            transition: background .2s;
+            pointer-events: none;
+        }
+        .gallery-video-card:hover .play-overlay-index { background: rgba(0,0,0,0.45); }
+        .play-btn-index {
+            width: 48px; height: 48px;
+            background: rgba(255,255,255,0.92);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+            transition: transform .2s;
+        }
+        .gallery-video-card:hover .play-btn-index { transform: scale(1.1); }
+
+        /* ── GP Gallery Modals (photo + video) ── */
+        .gp-modal-dialog {
+            width: 92vw;
+            max-width: 860px;
+        }
+        .gp-modal-content {
+            border-radius: 12px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+        }
+        .gp-modal-header {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--card);
+            min-height: 48px;
+        }
+        .gp-modal-title {
+            font-size: var(--fs-sm);
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: calc(100% - 40px);
+        }
+        /* Fixed-height body — image/video fills it */
+        .gp-modal-body {
+            height: 60vh;
+            min-height: 260px;
+            max-height: 520px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            padding: 0;
+        }
+        .gp-modal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .gp-video-player {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: #000;
+            object-fit: contain;
+        }
+        .gp-modal-footer {
+            padding: 8px 16px;
+            border-top: 1px solid var(--border);
+            background: var(--card);
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .gp-modal-footer small {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        /* Dark mode modal */
+        body.dark .gp-modal-content  { background: var(--card); }
+        body.dark .gp-modal-header,
+        body.dark .gp-modal-footer   { background: var(--card); border-color: var(--border); }
+        body.dark .gp-modal-title    { color: var(--text); }
+
+        @media (max-width: 575px) {
+            .gp-modal-dialog { width: 98vw; margin: 8px auto; }
+            .gp-modal-body   { height: 52vw; min-height: 200px; max-height: 340px; }
         }
 
         /* ── Back to top ── */

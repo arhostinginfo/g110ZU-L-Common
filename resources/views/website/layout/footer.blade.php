@@ -5,14 +5,39 @@
 
  <script>
      document.addEventListener('DOMContentLoaded', function() {
+         // Photo modal — populate image + title + caption
          const photoModal = document.getElementById('photoModal');
-         photoModal.addEventListener('show.bs.modal', function(event) {
-             let trigger = event.relatedTarget;
-             let imageSrc = trigger.getAttribute('data-bs-image');
-             let modalImage = photoModal.querySelector('#modalImage');
-             modalImage.src = imageSrc;
-         });
+         if (photoModal) {
+             photoModal.addEventListener('show.bs.modal', function(event) {
+                 const trigger  = event.relatedTarget;
+                 const src      = trigger.getAttribute('data-bs-image') || '';
+                 const name     = trigger.getAttribute('data-bs-name')  || '';
+                 photoModal.querySelector('#modalImage').src              = src;
+                 photoModal.querySelector('#photoModalTitle').textContent  = name;
+                 photoModal.querySelector('#photoModalCaption').textContent = name;
+             });
+         }
+
+         // Video modal — open on card click
+         const indexVideoModal = document.getElementById('indexVideoModal');
+         if (indexVideoModal) {
+             indexVideoModal.addEventListener('hide.bs.modal', function () {
+                 const player = document.getElementById('indexVideoPlayer');
+                 if (player) { player.pause(); player.currentTime = 0; }
+             });
+         }
      });
+
+     function openIndexVideoModal(src, name) {
+         document.getElementById('indexVideoSource').src              = src;
+         document.getElementById('indexVideoModalTitle').textContent   = name;
+         document.getElementById('indexVideoCaption').textContent      = name;
+         const player = document.getElementById('indexVideoPlayer');
+         if (player) player.load();
+         const modal = new bootstrap.Modal(document.getElementById('indexVideoModal'));
+         modal.show();
+     }
+     window.openIndexVideoModal = openIndexVideoModal;
 
 
      // Coordinates for Panchayat Samiti Nandgaon

@@ -213,17 +213,43 @@
              <div class="row">
                  @foreach ($gallay_videos->take(6) as $i => $gallay_video)
                      <div class="col-md-4 col-sm-6 mb-4">
-                         <div class="gallery-video-card">
-                             <video controls preload="metadata">
-                                 <source src="{{ asset('storage/' . ($gallay_video->attachment ?? 'default.mp4')) }}" type="video/mp4">
-                                 Your browser does not support the video tag.
+                         <div class="gallery-video-card"
+                              onclick="openIndexVideoModal('{{ asset('storage/' . ($gallay_video->attachment ?? 'default.mp4')) }}', '{{ addslashes($gallay_video->name ?? 'शीर्षक उपलब्ध नाही') }}')"
+                              title="{{ $gallay_video->name ?? 'शीर्षक उपलब्ध नाही' }}"
+                              style="cursor:pointer;">
+                             <video preload="metadata" muted style="pointer-events:none;">
+                                 <source src="{{ asset('storage/' . ($gallay_video->attachment ?? 'default.mp4')) }}#t=0.5" type="video/mp4">
                              </video>
+                             <div class="play-overlay-index">
+                                 <div class="play-btn-index"><i class="fa fa-play ms-1"></i></div>
+                             </div>
                              <div class="gallery-photo-name" title="{{ $gallay_video->name ?? 'शीर्षक उपलब्ध नाही' }}">{{ $gallay_video->name ?? 'शीर्षक उपलब्ध नाही' }}</div>
                          </div>
                      </div>
                  @endforeach
              </div>
          </section>
+
+         {{-- Video Modal --}}
+         <div class="modal fade" id="indexVideoModal" tabindex="-1" aria-hidden="true">
+             <div class="modal-dialog modal-dialog-centered gp-modal-dialog">
+                 <div class="modal-content gp-modal-content">
+                     <div class="modal-header gp-modal-header">
+                         <h6 class="mb-0 fw-bold gp-modal-title" id="indexVideoModalTitle"></h6>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     <div class="modal-body p-0 bg-black gp-modal-body">
+                         <video id="indexVideoPlayer" controls class="gp-video-player">
+                             <source id="indexVideoSource" src="" type="video/mp4">
+                         </video>
+                     </div>
+                     <div class="modal-footer gp-modal-footer">
+                         <i class="fa fa-film me-2 text-muted"></i>
+                         <small class="text-muted" id="indexVideoCaption"></small>
+                     </div>
+                 </div>
+             </div>
+         </div>
 
 
 
@@ -243,7 +269,8 @@
                  @foreach ($gallay_photos->take(6) as $i => $gallay_photo)
                      <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                          <div class="gallery-photo-card" data-bs-toggle="modal" data-bs-target="#photoModal"
-                              data-bs-image="{{ asset('storage/' . ($gallay_photo->attachment ?? 'default.jpg')) }}">
+                              data-bs-image="{{ asset('storage/' . ($gallay_photo->attachment ?? 'default.jpg')) }}"
+                              data-bs-name="{{ $gallay_photo->name ?? 'शीर्षक उपलब्ध नाही' }}">
                              <img src="{{ asset('storage/' . ($gallay_photo->attachment ?? 'default.jpg')) }}"
                                   alt="{{ $gallay_photo->name ?? 'name of image' }}">
                              <div class="gallery-photo-name" title="{{ $gallay_photo->name ?? 'शीर्षक उपलब्ध नाही' }}">{{ $gallay_photo->name ?? 'शीर्षक उपलब्ध नाही' }}</div>
@@ -253,16 +280,20 @@
              </div>
          </section>
 
-         <!-- Modal -->
+         {{-- Photo Modal --}}
          <div class="modal fade" id="photoModal" tabindex="-1" aria-hidden="true">
-             <div class="modal-dialog modal-dialog-centered modal-lg">
-                 <div class="modal-content bg-transparent border-0 shadow-none">
-                     <div class="modal-header border-0">
-                         <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal"
-                             aria-label="Close"></button>
+             <div class="modal-dialog modal-dialog-centered gp-modal-dialog">
+                 <div class="modal-content gp-modal-content">
+                     <div class="modal-header gp-modal-header">
+                         <h6 class="mb-0 fw-bold gp-modal-title" id="photoModalTitle"></h6>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                      </div>
-                     <div class="modal-body text-center p-0">
-                         <img id="modalImage" src="" class="img-fluid rounded shadow" alt="preview">
+                     <div class="modal-body gp-modal-body text-center">
+                         <img id="modalImage" src="" class="gp-modal-img rounded" alt="preview">
+                     </div>
+                     <div class="modal-footer gp-modal-footer justify-content-center">
+                         <i class="fa fa-image me-2 text-muted"></i>
+                         <small class="text-muted" id="photoModalCaption"></small>
                      </div>
                  </div>
              </div>
