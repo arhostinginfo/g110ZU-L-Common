@@ -35,10 +35,16 @@ class AdminLoginController extends Controller
          $passwordMatch = false;
 
          // 1. Try bcrypt (passwords set via change-password form)
-         if (Hash::check($pass, $result->employee_password)) {
-            $passwordMatch = true;
-         } else {
-            // 2. Fall back to Crypt (legacy encrypted passwords)
+         try {
+            if (Hash::check($pass, $result->employee_password)) {
+               $passwordMatch = true;
+            }
+         } catch (\Exception $e) {
+            // password is not bcrypt, fall through to Crypt check
+         }
+
+         // 2. Fall back to Crypt (legacy encrypted passwords)
+         if (!$passwordMatch) {
             try {
                $passwordMatch = ($pass === Crypt::decryptString($result->employee_password));
             } catch (\Exception $e) {
