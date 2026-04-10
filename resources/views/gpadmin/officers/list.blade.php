@@ -10,7 +10,7 @@
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>Member</h3>
-                        <a href="{{ route('gpadmin.officers.add') }}" class="btn btn-sm btn-outline-primary" >Add New Member</a>
+                        <a href="{{ route('gpadmin.officers.add') }}" class="btn btn-sm btn-outline-primary">Add New Member</a>
                     </div>
 
                     <div class="table-responsive">
@@ -19,12 +19,13 @@
                                 <tr>
                                     <th>Sr. No.</th>
                                     <th>Type</th>
-                                    <th>Sequence No.</th>
+                                    <th>Seq.</th>
                                     <th>Post</th>
                                     <th>Name</th>
                                     <th>Mobile No</th>
                                     <th>Email Id</th>
                                     <th>Photo</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -33,16 +34,31 @@
                                     <tr>
                                         <td>{{ $i + 1 }}</td>
                                         <td>{{ $data->type }}</td>
-                                        <td>@if($data->type == 'Officer') {{ $data->sequence_officer }} @else  {{ $data->sequence_general }} @endif</td>
+                                        <td>@if($data->type == 'Officer') {{ $data->sequence_officer }} @else {{ $data->sequence_general }} @endif</td>
                                         <td>{{ $data->designation }}</td>
                                         <td>{{ $data->name }}</td>
                                         <td>{{ $data->mobile }}</td>
                                         <td>{{ $data->email }}</td>
                                         <td>
                                             @if ($data->photo)
-                                                <img style="height: 250px;width: 250px;"  src="{{ asset('storage/' . $data->photo) }}" alt="{{ $data->name }}"
+                                                <img src="{{ asset('storage/' . $data->photo) }}"
+                                                    alt="{{ $data->name }}"
+                                                    style="height:70px;width:70px;object-fit:cover;border-radius:6px;cursor:pointer;"
+                                                    onclick="openImgModal('{{ asset('storage/' . $data->photo) }}')"
                                                     class="table-img">
                                             @endif
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('gpadmin.officers.updatestatus') }}" method="POST" class="d-inline-block">
+                                                @csrf
+                                                <label class="switch">
+                                                    <input type="checkbox" class="toggle-status"
+                                                        data-id="{{ base64_encode($data->id) }}"
+                                                        {{ $data->is_active ? 'checked' : '' }}>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <input type="hidden" name="id" value="{{ base64_encode($data->id) }}">
+                                            </form>
                                         </td>
                                         <td>
                                             <a href="{{ route('gpadmin.officers.edit', base64_encode($data->id)) }}"
@@ -53,7 +69,7 @@
                                                 @csrf
                                                 <input type="hidden" name="encodedId"
                                                     value="{{ base64_encode($data->id) }}">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger delete-btn">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -65,28 +81,34 @@
             </div>
         </div>
     </div>
-@endsection
 
-@push('scripts')
     <script>
-        $(document).ready(function() {
-            $('#officersTable').DataTable({
-                responsive: true,
-                paging: true,
-                searching: false,
-                lengthChange: false,
-                pageLength: 10,
-                language: {
-                    url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/mr.json"
-                }
-            });
-
-            // simple delete confirm
-            $('.delete-form').on('submit', function(e) {
-                if (!confirm('तुम्हाला हा अधिकारी नक्की हटवायचा आहे का?')) {
-                    e.preventDefault();
+        $(document).on("change", ".toggle-status", function(e) {
+            e.preventDefault();
+            let checkbox = $(this);
+            let form = checkbox.closest("form");
+            let is_active = checkbox.is(":checked") ? 1 : 0;
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you want to change the status?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, change it!",
+                cancelButtonText: "No, cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (form.find("input[name='is_active']").length) {
+                        form.find("input[name='is_active']").val(is_active);
+                    } else {
+                        form.append(`<input type="hidden" name="is_active" value="${is_active}">`);
+                    }
+                    form.submit();
+                } else {
+                    checkbox.prop("checked", !checkbox.is(":checked"));
                 }
             });
         });
     </script>
-@endpush
+@endsection

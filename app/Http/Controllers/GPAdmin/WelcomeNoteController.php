@@ -3,7 +3,6 @@ namespace App\Http\Controllers\GPAdmin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Validation\Rule;
 use Exception;
 use App\Models\WelcomeNote;
@@ -35,23 +34,18 @@ class WelcomeNoteController extends Controller
                 ->get();
 			return view('gpadmin.welcome-note.list', compact('welcomenote'));
 		} catch (Exception $e) {
-			dd($e->getMessage());
-			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
+			\Log::error('WelcomeNoteController@index: ' . $e->getMessage());
+			return redirect()->back()->with('error', 'Something went wrong. Please try again.');
 		}
 	}
 
 	public function create(Request $req)
 	{
-		try {
-			return view('gpadmin.welcome-note.create');
-		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
-		}
+		return view('gpadmin.welcome-note.create');
 	}
 
 	public function save(Request $req)
 	{
-
 		$req->validate([
 			 'title' => 'required|max:255',
 			 'content' => 'required|max:5255',
@@ -66,27 +60,25 @@ class WelcomeNoteController extends Controller
 			$data = [
                 'title' => $req->input('title'),
                 'content' => $req->input('content'),
+                'is_active' => $req->input('is_active', 1),
+				'gp_name_in_url' => $this->gp_name_in_url,
+				'gp_user_id' => $this->gp_user_id,
             ];
-			$data['gp_name_in_url']= $this->gp_name_in_url;
-        	$data['gp_user_id']= $this->gp_user_id;
 			WelcomeNote::create($data);
 			return redirect()->route('gpadmin.welcome-note.list')->with('success', 'Welcome note added successfully.');
 		} catch (Exception $e) {
-			dd($e->getMessage());
-			return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+			\Log::error('WelcomeNoteController@save: ' . $e->getMessage());
+			return redirect()->back()->withInput()->with('error', 'Something went wrong. Please try again.');
 		}
-
 	}
 
 	public function edit($encodedId)
 	{
-		try {
-			$id = base64_decode($encodedId);
-			$data = WelcomeNote::where('id', $id)->first();;
-			return view('gpadmin.welcome-note.edit', compact('data', 'encodedId'));
-		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
-		}
+		$id = base64_decode($encodedId);
+		$data = WelcomeNote::where('id', $id)
+			->where('gp_user_id', $this->gp_user_id)
+			->firstOrFail();
+		return view('gpadmin.welcome-note.edit', compact('data', 'encodedId'));
 	}
 
 	public function update(Request $req)
@@ -97,9 +89,9 @@ class WelcomeNoteController extends Controller
 			'id' => 'required',
 			'is_active' => 'required'
 		], [
-			'title.required' => 'Enter maque content',
+			'title.required' => 'Enter welcome note title',
 			'title.max' => 'Welcome note name must not exceed 255 characters.',
-			'content.required' => 'Enter maque content',
+			'content.required' => 'Enter welcome note content',
 			'content.max' => 'Welcome note name must not exceed 5255 characters.',
 			'id.required' => 'ID required',
 			'is_active.required' => 'Select active or inactive required',
@@ -111,17 +103,18 @@ class WelcomeNoteController extends Controller
                 'title' => $req->input('title'),
                 'content' => $req->input('content'),
                 'is_active' => $req->is_active,
-				'gp_name_in_url'=>$this->gp_name_in_url,
-				'gp_user_id'=>$this->gp_user_id,
+				'gp_name_in_url' => $this->gp_name_in_url,
+				'gp_user_id' => $this->gp_user_id,
             ];
-			WelcomeNote::where('id', $id)->update($data);
+			WelcomeNote::where('id', $id)
+				->where('gp_user_id', $this->gp_user_id)
+				->update($data);
 			return redirect()->route('gpadmin.welcome-note.list')->with('success', 'Welcome note updated successfully.');
 		} catch (Exception $e) {
-			dd($e->getMessage());
-			return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+			\Log::error('WelcomeNoteController@update: ' . $e->getMessage());
+			return redirect()->back()->withInput()->with('error', 'Something went wrong. Please try again.');
 		}
 	}
-
 
 	public function delete(Request $req)
 	{
@@ -133,24 +126,27 @@ class WelcomeNoteController extends Controller
 			]);
 
 			$id = base64_decode($req->id);
-            $data = ['is_deleted' => 1];
-			WelcomeNote::where('id', $id)->update($data);
+			WelcomeNote::where('id', $id)
+				->where('gp_user_id', $this->gp_user_id)
+				->update(['is_deleted' => 1]);
 			return redirect()->route('gpadmin.welcome-note.list')->with('success', 'Welcome note deleted successfully.');
 		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Failed to delete role: ' . $e->getMessage());
+			\Log::error('WelcomeNoteController@delete: ' . $e->getMessage());
+			return redirect()->back()->with('error', 'Failed to delete. Please try again.');
 		}
 	}
-
 
 	public function updateStatus(Request $req)
 	{
 		try {
-			 $id = base64_decode($req->id);
-            $data = ['is_active' => $req->is_active];
-			WelcomeNote::where('id', $id)->update($data);
+			$id = base64_decode($req->id);
+			WelcomeNote::where('id', $id)
+				->where('gp_user_id', $this->gp_user_id)
+				->update(['is_active' => $req->is_active]);
 			return redirect()->route('gpadmin.welcome-note.list')->with('success', 'Welcome note status updated successfully.');
 		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Failed to update status: ' . $e->getMessage());
+			\Log::error('WelcomeNoteController@updateStatus: ' . $e->getMessage());
+			return redirect()->back()->with('error', 'Failed to update status. Please try again.');
 		}
 	}
 }

@@ -3,7 +3,6 @@ namespace App\Http\Controllers\GPAdmin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Validation\Rule;
 use Exception;
 use App\Models\Marquees;
@@ -35,54 +34,47 @@ class MarqueeController extends Controller
                 ->get();
 			return view('gpadmin.marques.list', compact('marquee'));
 		} catch (Exception $e) {
-			dd($e->getMessage());
-			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
+			\Log::error('MarqueeController@index: ' . $e->getMessage());
+			return redirect()->back()->with('error', 'Something went wrong. Please try again.');
 		}
 	}
 
 	public function create(Request $req)
 	{
-		try {
-			return view('gpadmin.marques.create');
-		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
-		}
+		return view('gpadmin.marques.create');
 	}
 
 	public function save(Request $req)
 	{
-
 		$req->validate([
 			 'message' => 'required|max:255',
 		], [
-			'message.required' => 'Enter maque content',
-			'message.max' => 'Marque name must not exceed 255 characters.',
+			'message.required' => 'Enter marquee content',
+			'message.max' => 'Marquee name must not exceed 255 characters.',
 		]);
 
 		try {
 			$data = [
                 'message' => $req->input('message'),
+                'is_active' => $req->input('is_active', 1),
+				'gp_name_in_url' => $this->gp_name_in_url,
+				'gp_user_id' => $this->gp_user_id,
             ];
-			$data['gp_name_in_url']= $this->gp_name_in_url;
-			$data['gp_user_id']= $this->gp_user_id;
 			Marquees::create($data);
-			return redirect()->route('gpadmin.marquee.list')->with('success', 'Marque added successfully.');
+			return redirect()->route('gpadmin.marquee.list')->with('success', 'Marquee added successfully.');
 		} catch (Exception $e) {
-			dd($e->getMessage());
-			return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+			\Log::error('MarqueeController@save: ' . $e->getMessage());
+			return redirect()->back()->withInput()->with('error', 'Something went wrong. Please try again.');
 		}
-
 	}
 
 	public function edit($encodedId)
 	{
-		try {
-			$id = base64_decode($encodedId);
-			$data = Marquees::where('id', $id)->first();;
-			return view('gpadmin.marques.edit', compact('data', 'encodedId'));
-		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
-		}
+		$id = base64_decode($encodedId);
+		$data = Marquees::where('id', $id)
+			->where('gp_user_id', $this->gp_user_id)
+			->firstOrFail();
+		return view('gpadmin.marques.edit', compact('data', 'encodedId'));
 	}
 
 	public function update(Request $req)
@@ -92,8 +84,8 @@ class MarqueeController extends Controller
 			'id' => 'required',
 			'is_active' => 'required'
 		], [
-			'message.required' => 'Enter Role Name',
-			'message.max' => 'Marque name must not exceed 255 characters.',
+			'message.required' => 'Enter marquee content',
+			'message.max' => 'Marquee name must not exceed 255 characters.',
 			'id.required' => 'ID required',
 			'is_active.required' => 'Select active or inactive required',
 		]);
@@ -103,18 +95,18 @@ class MarqueeController extends Controller
             $data = [
                 'message' => $req->input('message'),
                 'is_active' => $req->is_active,
-				'gp_name_in_url'=>$this->gp_name_in_url,
-				'gp_user_id'=>$this->gp_user_id,
+				'gp_name_in_url' => $this->gp_name_in_url,
+				'gp_user_id' => $this->gp_user_id,
             ];
-
-			Marquees::where('id', $id)->update($data);
-			return redirect()->route('gpadmin.marquee.list')->with('success', 'Marque updated successfully.');
+			Marquees::where('id', $id)
+				->where('gp_user_id', $this->gp_user_id)
+				->update($data);
+			return redirect()->route('gpadmin.marquee.list')->with('success', 'Marquee updated successfully.');
 		} catch (Exception $e) {
-			dd($e->getMessage());
-			return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+			\Log::error('MarqueeController@update: ' . $e->getMessage());
+			return redirect()->back()->withInput()->with('error', 'Something went wrong. Please try again.');
 		}
 	}
-
 
 	public function delete(Request $req)
 	{
@@ -126,24 +118,27 @@ class MarqueeController extends Controller
 			]);
 
 			$id = base64_decode($req->id);
-            $data = ['is_deleted' => 1];
-			Marquees::where('id', $id)->update($data);
-			return redirect()->route('gpadmin.marquee.list')->with('success', 'Marque deleted successfully.');
+			Marquees::where('id', $id)
+				->where('gp_user_id', $this->gp_user_id)
+				->update(['is_deleted' => 1]);
+			return redirect()->route('gpadmin.marquee.list')->with('success', 'Marquee deleted successfully.');
 		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Failed to delete role: ' . $e->getMessage());
+			\Log::error('MarqueeController@delete: ' . $e->getMessage());
+			return redirect()->back()->with('error', 'Failed to delete. Please try again.');
 		}
 	}
-
 
 	public function updateStatus(Request $req)
 	{
 		try {
-			 $id = base64_decode($req->id);
-            $data = ['is_active' => $req->is_active];
-			Marquees::where('id', $id)->update($data);
-			return redirect()->route('gpadmin.marquee.list')->with('success', 'Marque status updated successfully.');
+			$id = base64_decode($req->id);
+			Marquees::where('id', $id)
+				->where('gp_user_id', $this->gp_user_id)
+				->update(['is_active' => $req->is_active]);
+			return redirect()->route('gpadmin.marquee.list')->with('success', 'Marquee status updated successfully.');
 		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Failed to update status: ' . $e->getMessage());
+			\Log::error('MarqueeController@updateStatus: ' . $e->getMessage());
+			return redirect()->back()->with('error', 'Failed to update status. Please try again.');
 		}
 	}
 }

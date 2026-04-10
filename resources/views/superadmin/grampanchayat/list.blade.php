@@ -13,28 +13,27 @@
     display: flex; align-items: center; justify-content: space-between;
     flex-wrap: wrap; gap: 12px;
     padding: 18px 24px;
-    background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+    background: transparent;
     border-radius: 12px;
     margin-bottom: 24px;
-    box-shadow: 0 4px 20px rgba(26,115,232,0.25);
 }
 .gp-page-title h3 {
-    margin: 0; color: #fff; font-size: 1.35rem; font-weight: 700;
+    margin: 0; color: #0D3D47; font-size: 1.35rem; font-weight: 700;
     display: flex; align-items: center; gap: 8px;
 }
-.gp-page-title h3 i { font-size: 1.5rem; }
+.gp-page-title h3 i { font-size: 1.5rem; color: #00BFC5; }
 .gp-page-title .title-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .gp-page-title .btn-title {
-    border: 1.5px solid rgba(255,255,255,0.55);
-    color: #fff; background: rgba(255,255,255,0.12);
+    border: 1.5px solid #0F5C7B;
+    color: #0F5C7B; background: transparent;
     border-radius: 8px; padding: 6px 14px;
     font-size: 0.82rem; font-weight: 600;
     transition: background 0.2s, border-color 0.2s;
     white-space: nowrap;
 }
-.gp-page-title .btn-title:hover { background: rgba(255,255,255,0.25); border-color: #fff; color: #fff; text-decoration: none; }
-.gp-page-title .btn-title-primary { background: #fff; color: #1a73e8; border-color: #fff; }
-.gp-page-title .btn-title-primary:hover { background: #e8f0fe; color: #1a73e8; }
+.gp-page-title .btn-title:hover { background: #0F5C7B; color: #fff; text-decoration: none; }
+.gp-page-title .btn-title-primary { background: #0F5C7B; color: #fff; border-color: #0F5C7B; }
+.gp-page-title .btn-title-primary:hover { background: #0D3D47; border-color: #0D3D47; color: #fff; }
 
 /* ── Filter card ── */
 .filter-card {
@@ -44,14 +43,15 @@
     box-shadow: 0 1px 6px rgba(0,0,0,0.05);
 }
 .filter-card .filter-title {
-    font-size: 0.78rem; font-weight: 700; color: #888;
+    font-size: 0.78rem; font-weight: 700; color: #374151 !important;
     text-transform: uppercase; letter-spacing: 0.06em;
     margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
 }
-.filter-card label { font-size: 0.82rem; font-weight: 600; color: #444; margin-bottom: 4px; }
+.filter-card label { font-size: 0.82rem !important; font-weight: 600 !important; color: #1a73e8 !important; margin-bottom: 4px !important; }
 .filter-card .form-control {
     border-radius: 7px; border: 1.5px solid #dce3ea;
-    font-size: 0.85rem; color: #2c3e50;
+    font-size: 0.85rem; color: #1e293b !important;
+    height: 44px !important; padding: 10px 13px !important;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 .filter-card .form-control:focus { border-color: #1a73e8; box-shadow: 0 0 0 3px rgba(26,115,232,0.1); }
@@ -225,8 +225,7 @@ input:checked + .toggle-slider:before { transform: translateX(24px); }
         </span>
         <span style="font-size:0.78rem; color:#aaa;">Scroll horizontally on small screens</span>
     </div>
-    <div class="table-responsive">
-        <table id="gpTable" class="table table-hover mb-0" style="width:100%;">
+    <table id="gpTable" class="table table-hover mb-0" style="width:100%;">
             <thead>
                 <tr>
                     <th style="width:42px;">#</th>
@@ -345,7 +344,6 @@ input:checked + .toggle-slider:before { transform: translateX(24px); }
                 @endforeach
             </tbody>
         </table>
-    </div>
 </div>
 
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -357,13 +355,15 @@ $(document).ready(function () {
     var table = $('#gpTable').DataTable({
         responsive: true,
         paging: true,
-        scrollX: true,
         searching: true,
         lengthChange: true,
         pageLength: 25,
         ordering: true,
         columnDefs: [
-            { orderable: false, targets: [6, 9, 10] }
+            { orderable: false, targets: [6, 9, 10] },
+            { responsivePriority: 1, targets: 0 },
+            { responsivePriority: 2, targets: 5 },
+            { responsivePriority: 3, targets: 10 },
         ],
         language: { url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/en-GB.json" },
         drawCallback: function () {

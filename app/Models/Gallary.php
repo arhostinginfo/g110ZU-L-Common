@@ -11,6 +11,6 @@ class Gallary extends Model
 
    protected $fillable = ['name','attachment','type_attachment'
                             ,'gp_name_in_url',
-                            'gp_user_id'];
+                            'gp_user_id','is_active','is_deleted'];
 
 }

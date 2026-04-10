@@ -76,7 +76,7 @@
                          <div class="section-title">{{ $welcomenote->title ?? 'Welcome' }}</div>
                          <p>
                              @if (!empty($welcomenote) && !empty($welcomenote->content))
-                                 {!! $welcomenote->content !!}
+                                 {!! strip_tags($welcomenote->content, '<p><br><b><strong><i><em><u><ul><ol><li><h1><h2><h3><h4><h5><h6><span><a>') !!}
                              @else
                                  <p>No welcome note available.</p>
                              @endif

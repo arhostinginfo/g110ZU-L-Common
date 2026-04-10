@@ -11,7 +11,7 @@ class Slider extends Model
 
     protected $fillable = ['name','photo'
                             ,'gp_name_in_url',
-                            'gp_user_id'];
+                            'gp_user_id','is_active','is_deleted'];
                             
 
 }

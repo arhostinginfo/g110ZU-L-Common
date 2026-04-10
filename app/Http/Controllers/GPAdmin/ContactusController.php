@@ -36,7 +36,6 @@ class ContactusController extends Controller
                 ->get();
 			return view('gpadmin.contact.list', compact('abhiyans'));
 		} catch (Exception $e) {
-			dd($e->getMessage());
 			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
 		}
 	}
@@ -153,7 +152,6 @@ class ContactusController extends Controller
 			ContactDakhala::where('id', $id)->update($data);
 			return redirect()->route('gpadmin.contact.list')->with('success', 'Dakhala status updated successfully.');
 		} catch (Exception $e) {
-			dd($e->getMessage());
 			return redirect()->back()->with('error', 'Failed to update status: ' . $e->getMessage());
 		}
 	}

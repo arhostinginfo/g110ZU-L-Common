@@ -28,6 +28,7 @@
                                     <th>मागणी रक्कम (₹)</th>
                                     <th>वसूल रक्कम (₹)</th>
                                     <th>टक्केवारी %</th>
+                                    <th>स्थिती</th>
                                     <th>कृती</th>
                                 </tr>
                             </thead>
@@ -47,6 +48,17 @@
                                         <td>{{ number_format($demand->collected_amount, 2) }}</td>
                                         <td>{{ $demand->percentage }}%</td>
                                         <td>
+                                            <form action="{{ route('gpadmin.gp-tax.demands.updateStatus', $demand->id) }}" method="POST" class="d-inline-block status-form">
+                                                @csrf
+                                                <label class="switch">
+                                                    <input type="checkbox" class="toggle-status"
+                                                        {{ $demand->is_active ? 'checked' : '' }}>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <input type="hidden" name="is_active" value="{{ $demand->is_active ? 1 : 0 }}">
+                                            </form>
+                                        </td>
+                                        <td>
                                             <a href="{{ route('gpadmin.gp-tax.demands.edit', $demand->id) }}"
                                                 class="btn btn-sm btn-outline-primary">संपादन</a>
 
@@ -60,7 +72,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center">कोणतीही कर मागणी आढळली नाही.</td>
+                                        <td colspan="9" class="text-center">कोणतीही कर मागणी आढळली नाही.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -81,9 +93,40 @@
     <script>
         $(document).ready(function () {
             $('.delete-form').on('submit', function (e) {
-                if (!confirm('तुम्हाला ही कर मागणी नक्की हटवायची आहे का?')) {
-                    e.preventDefault();
-                }
+                e.preventDefault();
+                const form = $(this);
+                Swal.fire({
+                    title: 'हटवायचे आहे का?',
+                    text: 'ही कर मागणी कायमची हटवली जाईल.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#E54545',
+                    cancelButtonColor: '#708090',
+                    confirmButtonText: 'हो, हटवा',
+                    cancelButtonText: 'रद्द करा'
+                }).then(result => { if (result.isConfirmed) form.submit(); });
+            });
+
+            $(document).on('change', '.toggle-status', function () {
+                const cb = $(this);
+                const form = cb.closest('form');
+                const newVal = cb.is(':checked') ? 1 : 0;
+                Swal.fire({
+                    title: 'स्थिती बदलायची आहे का?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#27ae60',
+                    cancelButtonColor: '#708090',
+                    confirmButtonText: 'हो, बदला',
+                    cancelButtonText: 'रद्द करा'
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        form.find('input[name="is_active"]').val(newVal);
+                        form.submit();
+                    } else {
+                        cb.prop('checked', !cb.is(':checked'));
+                    }
+                });
             });
         });
     </script>

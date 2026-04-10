@@ -29,38 +29,25 @@ use App\Http\Controllers\SuperAdmin\SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdmin\SuperAdminChangePasswordController;
 use App\Http\Controllers\SuperAdmin\AdminLoginController;
 use App\Http\Controllers\SuperAdmin\AdminGPController;
+use App\Http\Controllers\TalukaController;
 
 use Illuminate\Support\Facades\Artisan;
 
-Route::get('/link', function () {
-    Artisan::call('storage:link');
-    return 'Storage link created successfully!';
-});
+// Maintenance routes — superadmin authenticated only
+Route::middleware(['SuperAdmin'])->group(function () {
+    Route::get('/link', function () {
+        Artisan::call('storage:link');
+        return 'Storage link created successfully!';
+    });
 
-
-Route::get('/debug-gp/{gpname}', function ($gpname) {
-    $gp = \DB::table('gpdetails')->where('gp_name_in_url', $gpname)->first();
-    if (!$gp) return response()->json(['error' => 'GP not found in gpdetails table']);
-    return response()->json([
-        'gp_name_in_url' => $gp->gp_name_in_url,
-        'is_active'      => $gp->is_active,
-        'is_active_type' => gettype($gp->is_active),
-        'is_deleted'     => $gp->is_deleted,
-        'gp_valid_till'  => $gp->gp_valid_till,
-        'today'          => \Carbon\Carbon::today()->toDateString(),
-        'is_expired'     => \Carbon\Carbon::parse($gp->gp_valid_till)->lt(\Carbon\Carbon::today()),
-    ]);
-});
-
-Route::get('/clear', function () {
-    Artisan::call('optimize:clear');
-    Artisan::call('cache:clear');
-    Artisan::call('config:cache');
-    // Artisan::call('route:cache');
-    Artisan::call('view:cache');
-    Artisan::call('event:cache');
-
-    return "All optimized and cleared!";
+    Route::get('/clear', function () {
+        Artisan::call('optimize:clear');
+        Artisan::call('cache:clear');
+        Artisan::call('config:cache');
+        Artisan::call('view:cache');
+        Artisan::call('event:cache');
+        return 'All optimized and cleared!';
+    });
 });
 
 
@@ -72,11 +59,14 @@ Route::post('/frontwebsitecontact', [FrontwebsitecontactController::class, 'stor
 
 
 Route::get('adminlogin', [AdminLoginController::class, 'loginsuper'])->name('adminlogin');
-Route::post('adminlogin', [AdminLoginController::class, 'validateSuperLogin'])->name('adminlogin');
-
+Route::post('adminlogin', [AdminLoginController::class, 'validateSuperLogin'])
+    ->middleware('throttle:5,1')
+    ->name('adminlogin');
 
 Route::get('login', [LoginController::class, 'loginsuper'])->name('login');
-Route::post('gplogin', [LoginController::class, 'validateSuperLogin'])->name('gplogin');
+Route::post('gplogin', [LoginController::class, 'validateSuperLogin'])
+    ->middleware('throttle:5,1')
+    ->name('gplogin');
 
 Route::get('/{gpname}/gallery/{type}', [WebSiteController::class, 'gallery'])
     ->name('gallery')
@@ -197,6 +187,7 @@ Route::group([
 
     Route::prefix('gp-tax')->name('gp-tax.')->group(function () {
         Route::resource('demands', TaxDemandController::class);
+        Route::post('demands/{demand}/status', [TaxDemandController::class, 'updateStatus'])->name('demands.updateStatus');
         Route::resource('documents', TaxDocumentController::class)->except(['show', 'edit', 'update']);
         Route::delete('documents/{document}/delete', [TaxDocumentController::class, 'destroy'])->name('documents.destroy');
         Route::resource('tips', TaxTipController::class)->except(['show']);
@@ -229,5 +220,14 @@ Route::group([
     Route::get('logout', [AdminLoginController::class, 'logout'])->name('logout');
 
     Route::post('supergpautologin', [AdminLoginController::class, 'supergpautologin'])->name('supergpautologin');
+
+    // Talukas CRUD
+    Route::get('/talukas', [TalukaController::class, 'index'])->name('talukas.index');
+    Route::get('/talukas/create', [TalukaController::class, 'create'])->name('talukas.create');
+    Route::post('/talukas', [TalukaController::class, 'store'])->name('talukas.store');
+    Route::get('/talukas/{taluka}/edit', [TalukaController::class, 'edit'])->name('talukas.edit');
+    Route::put('/talukas/{taluka}', [TalukaController::class, 'update'])->name('talukas.update');
+    Route::delete('/talukas/{taluka}', [TalukaController::class, 'destroy'])->name('talukas.destroy');
+    Route::post('/talukas/{taluka}/status', [TalukaController::class, 'updateStatus'])->name('talukas.updateStatus');
 
 });

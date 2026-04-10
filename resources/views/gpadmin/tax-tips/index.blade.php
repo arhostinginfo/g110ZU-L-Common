@@ -18,7 +18,7 @@
                     @endif
 
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped datatables">
                             <thead>
                                 <tr>
                                     <th>अ.नं.</th>
@@ -33,11 +33,16 @@
                                         <td>{{ $tips->firstItem() + $i }}</td>
                                         <td>{{ $tip->tip_text }}</td>
                                         <td>
-                                            @if ($tip->is_active)
-                                                <span class="badge badge-success">सक्रिय</span>
-                                            @else
-                                                <span class="badge badge-secondary">निष्क्रिय</span>
-                                            @endif
+                                            <form action="{{ route('gpadmin.gp-tax.tips.update', $tip->id) }}" method="POST" class="d-inline-block status-toggle-form">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="tip_text" value="{{ $tip->tip_text }}">
+                                                <label class="switch">
+                                                    <input type="checkbox" class="toggle-status"
+                                                        {{ $tip->is_active ? 'checked' : '' }}>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </form>
                                         </td>
                                         <td>
                                             <a href="{{ route('gpadmin.gp-tax.tips.edit', $tip->id) }}"
@@ -47,7 +52,7 @@
                                                 method="POST" class="d-inline delete-form">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">हटवा</button>
+                                                <button type="submit" class="btn btn-sm btn-outline-danger delete-btn">हटवा</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -68,16 +73,34 @@
             </div>
         </div>
     </div>
-@endsection
 
-@push('scripts')
     <script>
-        $(document).ready(function () {
-            $('.delete-form').on('submit', function (e) {
-                if (!confirm('तुम्हाला ही टीप नक्की हटवायची आहे का?')) {
-                    e.preventDefault();
+        $(document).on("change", ".toggle-status", function(e) {
+            e.preventDefault();
+            let checkbox = $(this);
+            let form = checkbox.closest("form");
+            let is_active = checkbox.is(":checked") ? 1 : 0;
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you want to change the status?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, change it!",
+                cancelButtonText: "No, cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (form.find("input[name='is_active']").length) {
+                        form.find("input[name='is_active']").val(is_active);
+                    } else {
+                        form.append(`<input type="hidden" name="is_active" value="${is_active}">`);
+                    }
+                    form.submit();
+                } else {
+                    checkbox.prop("checked", !checkbox.is(":checked"));
                 }
             });
         });
     </script>
-@endpush
+@endsection

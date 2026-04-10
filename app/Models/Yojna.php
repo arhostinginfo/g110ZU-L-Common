@@ -11,5 +11,5 @@ class Yojna extends Model
 
     protected $fillable = ['name','attachment','type_attachment', 'attachment_link'
                             ,'gp_name_in_url',
-                            'gp_user_id'];
+                            'gp_user_id','is_active','is_deleted'];
 }

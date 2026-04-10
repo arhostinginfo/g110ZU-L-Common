@@ -1,170 +1,155 @@
-<!-- Right sidebar -->
-<!-- ============================================================== -->
-<!-- .right-sidebar -->
-<div class="right-sidebar">
-    <div class="slimscrollright">
-        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
-        <div class="r-panel-body">
-            <ul id="themecolors" class="mt-3">
-                <li><b>With Light sidebar</b></li>
-                <li><a href="javascript:void(0)" data-theme="default" class="default-theme">1</a></li>
-                <li><a href="javascript:void(0)" data-theme="green" class="green-theme">2</a></li>
-                <li><a href="javascript:void(0)" data-theme="red" class="red-theme">3</a></li>
-                <li><a href="javascript:void(0)" data-theme="blue" class="blue-theme working">4</a></li>
-                <li><a href="javascript:void(0)" data-theme="purple" class="purple-theme">5</a></li>
-                <li><a href="javascript:void(0)" data-theme="megna" class="megna-theme">6</a></li>
-                <li class="d-block mt-4"><b>With Dark sidebar</b></li>
-                <li><a href="javascript:void(0)" data-theme="default-dark" class="default-dark-theme">7</a></li>
-                <li><a href="javascript:void(0)" data-theme="green-dark" class="green-dark-theme">8</a></li>
-                <li><a href="javascript:void(0)" data-theme="red-dark" class="red-dark-theme">9</a></li>
-                <li><a href="javascript:void(0)" data-theme="blue-dark" class="blue-dark-theme">10</a></li>
-                <li><a href="javascript:void(0)" data-theme="purple-dark" class="purple-dark-theme">11</a></li>
-                <li><a href="javascript:void(0)" data-theme="megna-dark" class="megna-dark-theme ">12</a></li>
-            </ul>
-            <ul class="mt-3 chatonline">
-                <li><b>Chat option</b></li>
-                <li>
-                    <a href="javascript:void(0)"><img src="{{ asset('asset/images/users/1.jpg') }}" alt="user-img"
-                            class="rounded-circle"> <span>Varun Dhavan <small
-                                class="text-success">online</small></span></a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)"><img src="{{ asset('asset/images/users/2.jpg') }}" alt="user-img"
-                            class="rounded-circle"> <span>Genelia Deshmukh <small
-                                class="text-warning">Away</small></span></a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)"><img src="{{ asset('asset/images/users/3.jpg') }}" alt="user-img"
-                            class="rounded-circle"> <span>Ritesh Deshmukh <small
-                                class="text-danger">Busy</small></span></a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)"><img src="{{ asset('asset/images/users/4.jpg') }}" alt="user-img"
-                            class="rounded-circle"> <span>Arijit Sinh <small
-                                class="text-muted">Offline</small></span></a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)"><img src="{{ asset('asset/images/users/5.jpg') }}" alt="user-img"
-                            class="rounded-circle"> <span>Govinda Star <small
-                                class="text-success">online</small></span></a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)"><img src="{{ asset('asset/images/users/6.jpg') }}" alt="user-img"
-                            class="rounded-circle"> <span>John Abraham<small
-                                class="text-success">online</small></span></a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)"><img src="{{ asset('asset/images/users/7.jpg') }}" alt="user-img"
-                            class="rounded-circle"> <span>Hritik Roshan<small
-                                class="text-success">online</small></span></a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)"><img src="{{ asset('asset/images/users/8.jpg') }}" alt="user-img"
-                            class="rounded-circle"> <span>Pwandeep rajan <small
-                                class="text-success">online</small></span></a>
-                </li>
-            </ul>
-        </div>
+    </div>{{-- /#page-body --}}
+</div>{{-- /#page-main --}}
+
+{{-- ── Global Image Preview Modal ─────────────────── --}}
+<div id="img-preview-modal"
+     style="display:none; position:fixed; inset:0; z-index:9999;
+            background:rgba(0,0,0,.80); align-items:center; justify-content:center;"
+     onclick="closeImgModal(event)">
+    <div style="position:relative; max-width:720px; max-height:90vh; width:90%;">
+        <button onclick="closeImgModalBtn()"
+            style="position:absolute; top:-14px; right:-14px; z-index:10;
+                   width:32px; height:32px; border-radius:50%; border:none; cursor:pointer;
+                   background:#fff; color:#111; font-size:16px; line-height:1;
+                   display:flex; align-items:center; justify-content:center;
+                   box-shadow:0 2px 8px rgba(0,0,0,.3);">
+            <i class="mdi mdi-close"></i>
+        </button>
+        <img id="img-preview-src"
+             src=""
+             alt="Preview"
+             style="width:100%; max-height:80vh; object-fit:contain;
+                    border-radius:12px; box-shadow:0 8px 40px rgba(0,0,0,.5);
+                    display:block;">
     </div>
 </div>
-<!-- ============================================================== -->
-<!-- End Right sidebar -->
-<!-- ============================================================== -->
-</div>
-<!-- ============================================================== -->
-<!-- End Container fluid  -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
-<!-- footer -->
-<!-- ============================================================== -->
-<footer class="footer">
-    © {{date('Y') }} Admin Login 
+
+{{-- Fixed footer bar --}}
+<footer class="fixed bottom-0 right-0 z-10 flex items-center justify-between px-6"
+        style="left:256px; height:48px; background:#fff; border-top:1px solid #E5E7EB;
+               font-size:12px; color:#6B7280; transition:left .25s;" id="page-footer">
+    <span>&copy; {{ date('Y') }} ग्रामपंचायत Admin Panel. All rights reserved.</span>
+    <span>Powered by GP CMS</span>
 </footer>
-<!-- ============================================================== -->
-<!-- End footer -->
-<!-- ============================================================== -->
-</div>
-<!-- ============================================================== -->
-<!-- End Page wrapper  -->
-<!-- ============================================================== -->
-</div>
-<!-- ============================================================== -->
-<!-- End Wrapper -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
-<!-- All Jquery -->
-<!-- ============================================================== -->
 
-
-<!-- <script src="{{ asset('asset/plugins/jquery/jquery.min.js') }}"></script> -->
-<!-- Bootstrap tether Core JavaScript -->
-
-
-<script>
-    $(document).ready(function() {
-        console.log("jQuery version:", $.fn.jquery);
-        $('.datatables').DataTable({
-            responsive: true,
-            pageLength: 10, // show 10 by default
-            ordering: true,
-            language: {
-                search: "Search:",
-                lengthMenu: "Show _MENU_ entries",
-                info: "Showing _START_ to _END_ of _TOTAL_ rows",
-                paginate: {
-                    next: "Next",
-                    previous: "Previous"
-                }
-            }
-        });
-    });
-
-    // SweetAlert Delete Confirmation
-    $(document).ready(function() {
-        document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                let form = this.closest('form');
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "This action cannot be undone!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-    });
-</script>
-
+{{-- Scripts --}}
 <script src="{{ asset('asset/plugins/popper/popper.min.js') }}"></script>
 <script src="{{ asset('asset/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-<!-- slimscrollbar scrollbar JavaScript -->
 <script src="{{ asset('asset/js/jquery.slimscroll.js') }}"></script>
-<!--Wave Effects -->
 <script src="{{ asset('asset/js/waves.js') }}"></script>
-<!--Menu sidebar -->
-<script src="{{ asset('asset/js/sidebarmenu.js') }}"></script>
-<!--stickey kit -->
 <script src="{{ asset('asset/plugins/sticky-kit-master/dist/sticky-kit.min.js') }}"></script>
-<script src="{{ asset('asset/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
-<!--Custom JavaScript -->
-<script src="{{ asset('asset/js/custom.min.js') }}"></script>
-<!-- ============================================================== -->
-<!-- Style switcher -->
-<!-- ============================================================== -->
-<script src="{{ asset('asset/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
 <script src="{{ asset('asset/plugins/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-
 <script src="{{ asset('asset/plugins/sweetalert/sweetalert2@11.js') }}"></script>
 
-</body>
+<script>
+/* ── Image preview modal ─────────────────────── */
+function openImgModal(src) {
+    const modal = document.getElementById('img-preview-modal');
+    document.getElementById('img-preview-src').src = src;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+function closeImgModal(e) {
+    if (e.target === document.getElementById('img-preview-modal')) closeImgModalBtn();
+}
+function closeImgModalBtn() {
+    document.getElementById('img-preview-modal').style.display = 'none';
+    document.getElementById('img-preview-src').src = '';
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeImgModalBtn(); });
 
+/* ── Sidebar toggle ─────────────────────────── */
+function toggleSidebar() {
+    const sidebar  = document.getElementById('sidebar');
+    const overlay  = document.getElementById('sidebar-overlay');
+    const open = sidebar.style.transform === 'translateX(0px)' || sidebar.style.transform === 'translateX(0)';
+    if (open) {
+        sidebar.style.transform = 'translateX(-256px)';
+        overlay.classList.remove('active');
+    } else {
+        sidebar.style.transform = 'translateX(0)';
+        overlay.classList.add('active');
+    }
+}
+
+function closeSidebar() {
+    document.getElementById('sidebar').style.transform = 'translateX(-256px)';
+    document.getElementById('sidebar-overlay').classList.remove('active');
+}
+
+function toggleSidebarDesktop() {
+    const sidebar  = document.getElementById('sidebar');
+    const main     = document.getElementById('page-main');
+    const topbar   = document.getElementById('topbar');
+    const footer   = document.getElementById('page-footer');
+    const collapsed = sidebar.style.width === '64px';
+
+    if (collapsed) {
+        sidebar.style.width = '256px';
+        main.style.marginLeft   = '256px';
+        topbar.style.left       = '256px';
+        footer.style.left       = '256px';
+        sidebar.querySelectorAll('.nav-label, .brand-text').forEach(el => el.style.display = '');
+    } else {
+        sidebar.style.width = '64px';
+        main.style.marginLeft   = '64px';
+        topbar.style.left       = '64px';
+        footer.style.left       = '64px';
+        sidebar.querySelectorAll('.nav-label, .brand-text').forEach(el => el.style.display = 'none');
+    }
+}
+
+/* ── Profile dropdown ───────────────────────── */
+function toggleProfile() {
+    document.getElementById('profile-menu').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+    const menu = document.getElementById('profile-menu');
+    if (menu && !menu.closest('.relative').contains(e.target)) {
+        menu.classList.remove('open');
+    }
+});
+
+/* ── Preloader ──────────────────────────────── */
+window.addEventListener('load', function () {
+    const loader = document.getElementById('gp-preloader');
+    if (loader) { loader.style.opacity = '0'; setTimeout(() => loader.remove(), 400); }
+});
+
+/* ── DataTables ─────────────────────────────── */
+$(document).ready(function () {
+    $('.datatables').DataTable({
+        responsive: true,
+        pageLength: 10,
+        ordering: true,
+        language: {
+            search: "",
+            searchPlaceholder: "Search...",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ rows",
+            paginate: { next: "Next →", previous: "← Prev" }
+        }
+    });
+
+    /* SweetAlert delete confirmation */
+    $(document).on('click', '.delete-btn', function () {
+        let form = $(this).closest('form');
+        Swal.fire({
+            title: 'Delete this record?',
+            text: "This action cannot be undone.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#E54545',
+            cancelButtonColor: '#708090',
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'Cancel',
+        }).then((result) => { if (result.isConfirmed) form.submit(); });
+    });
+});
+</script>
+
+@stack('scripts')
+
+</body>
 </html>

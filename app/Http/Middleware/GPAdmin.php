@@ -8,17 +8,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GPAdmin
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
         if (!($request->session()->has('gp_user_id'))) {
             return redirect()->route('login');
         }
 
-        return $next($request);
+        $response = $next($request);
+
+        // Prevent authenticated pages from being stored in browser/proxy cache
+        $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+        $response->headers->set('Pragma', 'no-cache');
+
+        return $response;
     }
 }

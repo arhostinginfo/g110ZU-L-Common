@@ -9,14 +9,14 @@ class TalukaController extends Controller
 {
     public function index()
     {
-        $talukas = Taluka::with('district')->get();
-        return view('talukas.index', compact('talukas'));
+        $talukas = Taluka::with('district')->where('is_deleted', 0)->get();
+        return view('superadmin.talukas.index', compact('talukas'));
     }
 
     public function create()
     {
         $districts = District::where('is_active', true)->where('is_deleted', false)->get();
-        return view('talukas.create', compact('districts'));
+        return view('superadmin.talukas.create', compact('districts'));
     }
 
     public function store(Request $request)
@@ -26,14 +26,20 @@ class TalukaController extends Controller
             'district_id' => 'required|exists:districts,id',
         ]);
 
-        Taluka::create($request->all());
+        Taluka::create([
+            'taluka_name' => $request->taluka_name,
+            'district_id' => $request->district_id,
+            'is_active'   => $request->input('is_active', 1),
+            'is_deleted'  => 0,
+        ]);
+
         return redirect()->route('talukas.index')->with('success', 'Taluka created successfully.');
     }
 
     public function edit(Taluka $taluka)
     {
         $districts = District::where('is_active', true)->where('is_deleted', false)->get();
-        return view('talukas.edit', compact('taluka', 'districts'));
+        return view('superadmin.talukas.edit', compact('taluka', 'districts'));
     }
 
     public function update(Request $request, Taluka $taluka)
@@ -43,13 +49,24 @@ class TalukaController extends Controller
             'district_id' => 'required|exists:districts,id',
         ]);
 
-        $taluka->update($request->all());
+        $taluka->update([
+            'taluka_name' => $request->taluka_name,
+            'district_id' => $request->district_id,
+            'is_active'   => $request->input('is_active', 1),
+        ]);
+
         return redirect()->route('talukas.index')->with('success', 'Taluka updated successfully.');
     }
 
     public function destroy(Taluka $taluka)
     {
-        $taluka->delete();
+        $taluka->update(['is_deleted' => 1]);
         return redirect()->route('talukas.index')->with('success', 'Taluka deleted successfully.');
+    }
+
+    public function updateStatus(Request $request, Taluka $taluka)
+    {
+        $taluka->update(['is_active' => $request->input('is_active', 0)]);
+        return redirect()->route('talukas.index')->with('success', 'Status updated successfully.');
     }
 }

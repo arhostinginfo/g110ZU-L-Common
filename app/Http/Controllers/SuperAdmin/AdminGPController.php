@@ -142,17 +142,9 @@ class AdminGPController extends Controller
             ->select('gpdetails.*', 'districts.district_name', 'talukas.taluka_name', 'navbars.name as navbar_name')
             ->get();
 
-        // Decrypt passwords and calculate days before passing to closure
         $today = Carbon::today();
         $data = $rows->map(function ($gp) use ($today) {
-            try {
-                $password = Crypt::decryptString($gp->employee_password);
-            } catch (\Exception $e) {
-                $password = $gp->employee_password;
-            }
-
             $validTill = Carbon::parse($gp->gp_valid_till);
-            // positive = days remaining, negative = days expired
             $daysLeft  = $today->diffInDays($validTill, false);
 
             return [
@@ -162,7 +154,6 @@ class AdminGPController extends Controller
                 'navbar_name'    => $gp->navbar_name     ?? '',
                 'gp_name'        => $gp->gp_name         ?? '',
                 'email'          => $gp->employee_email  ?? '',
-                'password'       => $password,
                 'valid_till'     => $validTill->format('d-m-Y'),
                 'days_left'      => (int)$daysLeft . ' days',
                 'status'         => (int)$gp->is_active === 1 ? 'Active' : 'Inactive',
@@ -181,7 +172,7 @@ class AdminGPController extends Controller
 
         $columns = [
             '#', 'District', 'Taluka', 'GP Name In URL', 'GP Name (Navbar)',
-            'GP Name', 'GP Name In URL', 'Email', 'Password',
+            'GP Name', 'GP Name In URL', 'Email',
             'Valid Till', 'Days Left', 'Status',
         ];
 
@@ -203,7 +194,6 @@ class AdminGPController extends Controller
                     $row['gp_name'],
                     $row['gp_name_in_url'],
                     $row['email'],
-                    $row['password'],
                     $row['valid_till'],
                     $row['days_left'],
                     $row['status'],
@@ -322,7 +312,7 @@ class AdminGPController extends Controller
         $gpdetail = Gpdetails::findOrFail($id);
         $newStatus = ((int)$gpdetail->is_active === 1) ? 0 : 1;
 
-        \DB::table('gpdetails')->where('id', $id)->update(['is_active' => $newStatus]);
+        $gpdetail->update(['is_active' => $newStatus]);
 
         $status = $newStatus ? 'Active' : 'Inactive';
         return redirect()->route('superadmin.admin-gp.list')->with('success', "GP \"{$gpdetail->gp_name_in_url}\" status updated to {$status}.");

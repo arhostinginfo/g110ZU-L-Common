@@ -67,6 +67,7 @@ class NavbarController extends Controller
 
         $data['gp_name_in_url']= $this->gp_name_in_url;
         $data['gp_user_id']= $this->gp_user_id;
+        $data['is_active'] = $request->input('is_active', 1);
         Navbars::create($data);
 
         return redirect()->route('gpadmin.navbar.list')->with('success', 'Officer added successfully.');
@@ -75,7 +76,9 @@ class NavbarController extends Controller
     public function edit($encodedId)
     {
         $id = base64_decode($encodedId);
-        $navbar = Navbars::where('id', $id)->first();
+        $navbar = Navbars::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         return view('gpadmin.navbar.edit', compact('navbar','encodedId'));
     }
 
@@ -91,7 +94,7 @@ class NavbarController extends Controller
             'name' => 'required|string|max:255',
             'lat' => 'required|string|max:255',
             'lon' => 'required|string|max:255',
-            'photo' => 'nullable|image|mimes:jpeg,jpg,png|max:3072'
+            'logo' => 'nullable|image|mimes:jpeg,jpg,png|max:3072'
         ]);
 
 
@@ -105,18 +108,20 @@ class NavbarController extends Controller
 				'color' =>$request->color,
 				'lat' =>$request->lat,
 				'lon' =>$request->lon,
-                // 'is_active' => $req->is_active
+                'is_active' => $request->input('is_active', 1),
                 'gp_name_in_url'=>$this->gp_name_in_url,
 				'gp_user_id'=>$this->gp_user_id,
             ];
 
-        $officer = Navbars::where('id', $id)->first();
-        if ($request->hasFile('photo')) {
+        $officer = Navbars::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
+        if ($request->hasFile('logo')) {
             // remove old if exists
-            if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
-                Storage::disk('public')->delete($officer->photo);
+            if ($officer->logo && Storage::disk('public')->exists($officer->logo)) {
+                Storage::disk('public')->delete($officer->logo);
             }
-            $data['photo'] = $request->file('photo')->store($this->gp_name_in_url.'/navbar', 'public');
+            $data['logo'] = $request->file('logo')->store($this->gp_name_in_url.'/navbar', 'public');
         }
 
         $officer->update($data);
@@ -127,14 +132,27 @@ class NavbarController extends Controller
     public function delete(Request $request)
     {
         $id = base64_decode($request->encodedId);
-        $officer = Navbars::findOrFail($id);
-        // delete file from storage if present
-        if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
-            Storage::disk('public')->delete($officer->photo);
+        $officer = Navbars::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
+        if ($officer->logo && Storage::disk('public')->exists($officer->logo)) {
+            Storage::disk('public')->delete($officer->logo);
         }
+        Navbars::where('id', $id)->update(['is_deleted' => 1]);
+        return redirect()->route('gpadmin.navbar.list')->with('success', 'Website details deleted successfully.');
+    }
 
-        $officer = Navbars::where ('id', $id)->update(['is_deleted' => 1]);
-
-        return redirect()->route('gpadmin.navbar.list')->with('success', 'Officer deleted successfully.');
+    public function updateStatus(Request $request)
+    {
+        try {
+            $id = base64_decode($request->id);
+            Navbars::where('id', $id)
+                ->where('gp_user_id', $this->gp_user_id)
+                ->update(['is_active' => $request->is_active]);
+            return redirect()->route('gpadmin.navbar.list')->with('success', 'Status updated successfully.');
+        } catch (\Exception $e) {
+            \Log::error('NavbarController@updateStatus: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update status. Please try again.');
+        }
     }
 }

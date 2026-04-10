@@ -64,6 +64,14 @@
                             @enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">स्थिती</label>
+                            <select name="is_active" class="form-control">
+                                <option value="1" {{ old('is_active', '1') == '1' ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                        </div>
+
                         <div class="form-group d-flex justify-content-end">
                             <a href="{{ route('gpadmin.gp-tax.demands.index') }}" class="btn btn-secondary mr-2">रद्द करा</a>
                             <button class="btn btn-sm btn-outline-primary">जतन करा</button>

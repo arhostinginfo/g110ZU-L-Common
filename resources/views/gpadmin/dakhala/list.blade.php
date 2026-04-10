@@ -55,7 +55,7 @@
                                                     <input type="checkbox" class="toggle-status"
                                                         data-id="{{ base64_encode($abhiyan->id) }}"
                                                         {{ $abhiyan->is_action_completed == 1 ? 'checked' : '' }}>
-                                                    <span class="slider"></span>
+                                                    <span class="slider round"></span>
                                                 </label>
                                                 <input type="hidden" name="id"
                                                     value="{{ base64_encode($abhiyan->id) }}">

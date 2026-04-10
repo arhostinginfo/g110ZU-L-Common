@@ -57,6 +57,7 @@ class OfficerController extends Controller
 
         $data['gp_name_in_url']= $this->gp_name_in_url;
         $data['gp_user_id']= $this->gp_user_id;
+        $data['is_active'] = $request->input('is_active', 1);
         Officers::create($data);
 
         return redirect()->route('gpadmin.officers.list')->with('success', 'Officer added successfully.');
@@ -65,7 +66,9 @@ class OfficerController extends Controller
     public function edit($encodedId)
     {
         $id = base64_decode($encodedId);
-        $officer = Officers::where('id', $id)->first();
+        $officer = Officers::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         return view('gpadmin.officers.edit', compact('officer','encodedId'));
     }
 
@@ -92,12 +95,14 @@ class OfficerController extends Controller
                 'type' => $request->input('type'),
                 'sequence_officer' => $request->input('sequence_officer'),
                 'sequence_general' => $request->input('sequence_general'),
-                // 'is_active' => $req->is_active,
+                'is_active' => $request->input('is_active', 1),
                 'gp_name_in_url'=>$this->gp_name_in_url,
 				'gp_user_id'=>$this->gp_user_id,
             ];
 
-        $officer = Officers::where('id', $id)->first();
+        $officer = Officers::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         if ($request->hasFile('photo')) {
             // remove old if exists
             if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
@@ -114,13 +119,27 @@ class OfficerController extends Controller
     public function delete(Request $request)
     {
         $id = base64_decode($request->encodedId);
-        $officer = Officers::findOrFail($id);
-        // delete file from storage if present
+        $officer = Officers::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
             Storage::disk('public')->delete($officer->photo);
         }
-
-        $officer = Officers::where ('id', $id)->update(['is_deleted' => 1]);
+        Officers::where('id', $id)->update(['is_deleted' => 1]);
         return redirect()->route('gpadmin.officers.list')->with('success', 'Officer deleted successfully.');
+    }
+
+    public function updateStatus(Request $request)
+    {
+        try {
+            $id = base64_decode($request->id);
+            Officers::where('id', $id)
+                ->where('gp_user_id', $this->gp_user_id)
+                ->update(['is_active' => $request->is_active]);
+            return redirect()->route('gpadmin.officers.list')->with('success', 'Status updated successfully.');
+        } catch (\Exception $e) {
+            \Log::error('OfficerController@updateStatus: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update status. Please try again.');
+        }
     }
 }

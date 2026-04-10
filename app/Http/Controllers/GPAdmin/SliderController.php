@@ -51,6 +51,7 @@ class SliderController extends Controller
         }
         $data['gp_name_in_url']= $this->gp_name_in_url;
         $data['gp_user_id']= $this->gp_user_id;
+        $data['is_active'] = $request->input('is_active', 1);
         Slider::create($data);
 
         return redirect()->route('gpadmin.slider.list')->with('success', 'Officer added successfully.');
@@ -59,7 +60,9 @@ class SliderController extends Controller
     public function edit($encodedId)
     {
         $id = base64_decode($encodedId);
-        $slider = Slider::where('id', $id)->first();
+        $slider = Slider::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         return view('gpadmin.slider.edit', compact('slider','encodedId'));
     }
 
@@ -74,11 +77,13 @@ class SliderController extends Controller
 
             $id = base64_decode($request->encodedId);
             $data = [
-                'name' => $request->name
-                // 'is_active' => $req->is_active
+                'name' => $request->name,
+                'is_active' => $request->input('is_active', 1),
             ];
 
-        $officer = Slider::where('id', $id)->first();
+        $officer = Slider::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         if ($request->hasFile('photo')) {
             // remove old if exists
 
@@ -103,14 +108,27 @@ class SliderController extends Controller
     public function delete(Request $request)
     {
         $id = base64_decode($request->encodedId);
-        $officer = Slider::findOrFail($id);
-        // delete file from storage if present
+        $officer = Slider::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
             Storage::disk('public')->delete($officer->photo);
         }
+        Slider::where('id', $id)->update(['is_deleted' => 1]);
+        return redirect()->route('gpadmin.slider.list')->with('success', 'Slider deleted successfully.');
+    }
 
-        $officer = Slider::where ('id', $id)->update(['is_deleted' => 1]);
-
-        return redirect()->route('gpadmin.slider.list')->with('success', 'Officer deleted successfully.');
+    public function updateStatus(Request $request)
+    {
+        try {
+            $id = base64_decode($request->id);
+            Slider::where('id', $id)
+                ->where('gp_user_id', $this->gp_user_id)
+                ->update(['is_active' => $request->is_active]);
+            return redirect()->route('gpadmin.slider.list')->with('success', 'Status updated successfully.');
+        } catch (\Exception $e) {
+            \Log::error('SliderController@updateStatus: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update status. Please try again.');
+        }
     }
 }

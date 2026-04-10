@@ -43,7 +43,7 @@ class TaxTipController extends Controller
             'gp_name_in_url' => $this->gp_name_in_url,
             'gp_user_id'     => $this->gp_user_id,
             'tip_text'       => $request->tip_text,
-            'is_active'      => 1,
+            'is_active'      => $request->input('is_active', 1),
             'is_deleted'     => 0,
         ]);
 
@@ -73,7 +73,7 @@ class TaxTipController extends Controller
 
         $tip->update([
             'tip_text'  => $request->tip_text,
-            'is_active' => $request->has('is_active') ? 1 : 0,
+            'is_active' => $request->input('is_active', 1),
         ]);
 
         return redirect()->route('gpadmin.gp-tax.tips.index')->with('success', 'टीप यशस्वीरित्या अद्यतनित केली.');

@@ -53,6 +53,7 @@ class FamousLocationController extends Controller
 
         $data['gp_name_in_url']= $this->gp_name_in_url;
         $data['gp_user_id']= $this->gp_user_id;
+        $data['is_active'] = $request->input('is_active', 1);
 
         Famouslocations::create($data);
 
@@ -62,7 +63,9 @@ class FamousLocationController extends Controller
     public function edit($encodedId)
     {
         $id = base64_decode($encodedId);
-        $famouslocations = Famouslocations::where('id', $id)->first();
+        $famouslocations = Famouslocations::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         return view('gpadmin.famous-locations.edit', compact('famouslocations','encodedId'));
     }
 
@@ -80,12 +83,14 @@ class FamousLocationController extends Controller
             $data = [
                 'name' => $request->name,
                 'desc' => $request->desc,
-                // 'is_active' => $req->is_active
+                'is_active' => $request->input('is_active', 1),
                 'gp_name_in_url'=>$this->gp_name_in_url,
 				'gp_user_id'=>$this->gp_user_id,
             ];
 
-        $officer = Famouslocations::where('id', $id)->first();
+        $officer = Famouslocations::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         if ($request->hasFile('photo')) {
             // remove old if exists
              $data = $request->validate([
@@ -106,14 +111,27 @@ class FamousLocationController extends Controller
     public function delete(Request $request)
     {
         $id = base64_decode($request->encodedId);
-        $officer = Famouslocations::findOrFail($id);
-        // delete file from storage if present
+        $officer = Famouslocations::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         if ($officer->photo && Storage::disk('public')->exists($officer->photo)) {
             Storage::disk('public')->delete($officer->photo);
         }
+        Famouslocations::where('id', $id)->update(['is_deleted' => 1]);
+        return redirect()->route('gpadmin.famous-locations.list')->with('success', 'Location deleted successfully.');
+    }
 
-        $officer = Famouslocations::where ('id', $id)->update(['is_deleted' => 1]);
-
-        return redirect()->route('gpadmin.famous-locations.list')->with('success', 'Officer deleted successfully.');
+    public function updateStatus(Request $request)
+    {
+        try {
+            $id = base64_decode($request->id);
+            Famouslocations::where('id', $id)
+                ->where('gp_user_id', $this->gp_user_id)
+                ->update(['is_active' => $request->is_active]);
+            return redirect()->route('gpadmin.famous-locations.list')->with('success', 'Status updated successfully.');
+        } catch (\Exception $e) {
+            \Log::error('FamousLocationController@updateStatus: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update status. Please try again.');
+        }
     }
 }

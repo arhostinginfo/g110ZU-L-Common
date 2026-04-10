@@ -57,6 +57,7 @@ class TaxDemandController extends Controller
             'demand_amount'    => $request->demand_amount,
             'collected_amount' => $request->collected_amount,
             'percentage'       => $percentage,
+            'is_active'        => $request->input('is_active', 1),
         ]);
 
         return redirect()->route('gpadmin.gp-tax.demands.index')->with('success', 'कर मागणी यशस्वीरित्या जोडली.');
@@ -97,6 +98,7 @@ class TaxDemandController extends Controller
             'demand_amount'    => $request->demand_amount,
             'collected_amount' => $request->collected_amount,
             'percentage'       => $percentage,
+            'is_active'        => $request->input('is_active', 1),
         ]);
 
         return redirect()->route('gpadmin.gp-tax.demands.index')->with('success', 'कर मागणी यशस्वीरित्या अद्यतनित केली.');
@@ -111,5 +113,16 @@ class TaxDemandController extends Controller
         $demand->delete();
 
         return redirect()->route('gpadmin.gp-tax.demands.index')->with('success', 'कर मागणी यशस्वीरित्या हटवली.');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $demand = TaxDemand::where('id', $id)
+            ->where('gp_name_in_url', $this->gp_name_in_url)
+            ->firstOrFail();
+
+        $demand->update(['is_active' => $request->input('is_active', 0)]);
+
+        return redirect()->route('gpadmin.gp-tax.demands.index')->with('success', 'स्थिती यशस्वीरित्या बदलली.');
     }
 }

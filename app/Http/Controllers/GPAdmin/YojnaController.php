@@ -59,6 +59,7 @@ class YojnaController extends Controller
         }
         $data['gp_name_in_url']= $this->gp_name_in_url;
         $data['gp_user_id']= $this->gp_user_id;
+        $data['is_active'] = $request->input('is_active', 1);
 
         Yojna::create($data);
 
@@ -68,7 +69,9 @@ class YojnaController extends Controller
     public function edit($encodedId)
     {
         $id = base64_decode($encodedId);
-        $yojna = Yojna::where('id', $id)->first();
+        $yojna = Yojna::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         return view('gpadmin.yojna.edit', compact('yojna','encodedId'));
     }
 
@@ -87,12 +90,14 @@ class YojnaController extends Controller
                 'name' => $request->input('name'),
                 'type_attachment' => $request->input('type_attachment'), 
                 'attachment_link' => $request->input('attachment_link'), 
-                // 'is_active' => $req->is_active,
+                'is_active' => $request->input('is_active', 1),
                 'gp_name_in_url'=>$this->gp_name_in_url,
 				'gp_user_id'=>$this->gp_user_id,
             ];
 
-        $officer = Yojna::where('id', $id)->first();
+        $officer = Yojna::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         if ($request->hasFile('attachment')) {
             // remove old if exists
             if ($officer->attachment && Storage::disk('public')->exists($officer->attachment)) {
@@ -109,13 +114,27 @@ class YojnaController extends Controller
     public function delete(Request $request)
     {
         $id = base64_decode($request->encodedId);
-        $officer = Yojna::findOrFail($id);
-        // delete file from storage if present
+        $officer = Yojna::where('id', $id)
+            ->where('gp_user_id', $this->gp_user_id)
+            ->firstOrFail();
         if ($officer->attachment && Storage::disk('public')->exists($officer->attachment)) {
             Storage::disk('public')->delete($officer->attachment);
         }
+        Yojna::where('id', $id)->update(['is_deleted' => 1]);
+        return redirect()->route('gpadmin.yojna.list')->with('success', 'Yojana deleted successfully.');
+    }
 
-        $officer = Yojna::where ('id', $id)->update(['is_deleted' => 1]);
-        return redirect()->route('gpadmin.yojna.list')->with('success', 'Officer deleted successfully.');
+    public function updateStatus(Request $request)
+    {
+        try {
+            $id = base64_decode($request->id);
+            Yojna::where('id', $id)
+                ->where('gp_user_id', $this->gp_user_id)
+                ->update(['is_active' => $request->is_active]);
+            return redirect()->route('gpadmin.yojna.list')->with('success', 'Status updated successfully.');
+        } catch (\Exception $e) {
+            \Log::error('YojnaController@updateStatus: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update status. Please try again.');
+        }
     }
 }

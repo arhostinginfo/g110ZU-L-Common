@@ -210,11 +210,11 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <div class="status-check-wrap">
-                                    <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1"
-                                        {{ old('is_active', $gpdetail->is_active ?? 1) ? 'checked' : '' }}>
-                                    <label for="is_active">Mark as Active</label>
-                                </div>
+                                <label for="is_active">Status</label>
+                                <select name="is_active" id="is_active" class="form-control">
+                                    <option value="1" {{ old('is_active', $gpdetail->is_active ?? 1) == '1' ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ old('is_active', $gpdetail->is_active ?? 1) == '0' ? 'selected' : '' }}>Inactive</option>
+                                </select>
                             </div>
                         </div>
                     </div>

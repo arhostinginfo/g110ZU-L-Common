@@ -26,7 +26,6 @@ class AbhiyansController extends Controller
 	public function index()
 	{
 		try {
-
 			$abhiyans = Abhiyans::where([
 					'is_deleted'=>0,
 					'gp_name_in_url'=>$this->gp_name_in_url,
@@ -36,23 +35,18 @@ class AbhiyansController extends Controller
                 ->get();
 			return view('gpadmin.abhiyan.list', compact('abhiyans'));
 		} catch (Exception $e) {
-			dd($e->getMessage());
-			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
+			\Log::error('AbhiyansController@index: ' . $e->getMessage());
+			return redirect()->back()->with('error', 'Something went wrong. Please try again.');
 		}
 	}
 
 	public function create(Request $req)
 	{
-		try {
-			return view('gpadmin.abhiyan.create');
-		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
-		}
+		return view('gpadmin.abhiyan.create');
 	}
 
 	public function save(Request $req)
 	{
-
 		$req->validate([
 			 'abhiyan_name' => 'required|max:255',
 			 'abhiyan_date' => 'required|max:255',
@@ -66,27 +60,25 @@ class AbhiyansController extends Controller
 			$data = [
                 'abhiyan_name' => $req->input('abhiyan_name'),
                 'abhiyan_date' => $req->input('abhiyan_date'),
+                'is_active' => $req->input('is_active', 1),
 				'gp_name_in_url'=>$this->gp_name_in_url,
 				'gp_user_id'=>$this->gp_user_id,
             ];
 			Abhiyans::create($data);
 			return redirect()->route('gpadmin.abhiyan.list')->with('success', 'Abhiyan added successfully.');
 		} catch (Exception $e) {
-			dd($e->getMessage());
-			return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+			\Log::error('AbhiyansController@save: ' . $e->getMessage());
+			return redirect()->back()->withInput()->with('error', 'Something went wrong. Please try again.');
 		}
-
 	}
 
 	public function edit($encodedId)
 	{
-		try {
-			$id = base64_decode($encodedId);
-			$data = Abhiyans::where('id', $id)->first();;
-			return view('gpadmin.abhiyan.edit', compact('data', 'encodedId'));
-		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
-		}
+		$id = base64_decode($encodedId);
+		$data = Abhiyans::where('id', $id)
+			->where('gp_user_id', $this->gp_user_id)
+			->firstOrFail();
+		return view('gpadmin.abhiyan.edit', compact('data', 'encodedId'));
 	}
 
 	public function update(Request $req)
@@ -113,15 +105,15 @@ class AbhiyansController extends Controller
 				'gp_user_id'=>$this->gp_user_id,
                 'is_active' => $req->is_active
             ];
-
-			Abhiyans::where('id', $id)->update($data);
+			Abhiyans::where('id', $id)
+				->where('gp_user_id', $this->gp_user_id)
+				->update($data);
 			return redirect()->route('gpadmin.abhiyan.list')->with('success', 'Abhiyan updated successfully.');
 		} catch (Exception $e) {
-			dd($e->getMessage());
-			return redirect()->back()->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+			\Log::error('AbhiyansController@update: ' . $e->getMessage());
+			return redirect()->back()->withInput()->with('error', 'Something went wrong. Please try again.');
 		}
 	}
-
 
 	public function delete(Request $req)
 	{
@@ -133,24 +125,27 @@ class AbhiyansController extends Controller
 			]);
 
 			$id = base64_decode($req->id);
-            $data = ['is_deleted' => 1];
-			Abhiyans::where('id', $id)->update($data);
+			Abhiyans::where('id', $id)
+				->where('gp_user_id', $this->gp_user_id)
+				->update(['is_deleted' => 1]);
 			return redirect()->route('gpadmin.abhiyan.list')->with('success', 'Abhiyan deleted successfully.');
 		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Failed to delete role: ' . $e->getMessage());
+			\Log::error('AbhiyansController@delete: ' . $e->getMessage());
+			return redirect()->back()->with('error', 'Failed to delete. Please try again.');
 		}
 	}
-
 
 	public function updateStatus(Request $req)
 	{
 		try {
-			 $id = base64_decode($req->id);
-            $data = ['is_active' => $req->is_active];
-			Abhiyans::where('id', $id)->update($data);
+			$id = base64_decode($req->id);
+			Abhiyans::where('id', $id)
+				->where('gp_user_id', $this->gp_user_id)
+				->update(['is_active' => $req->is_active]);
 			return redirect()->route('gpadmin.abhiyan.list')->with('success', 'Abhiyan status updated successfully.');
 		} catch (Exception $e) {
-			return redirect()->back()->with('error', 'Failed to update status: ' . $e->getMessage());
+			\Log::error('AbhiyansController@updateStatus: ' . $e->getMessage());
+			return redirect()->back()->with('error', 'Failed to update status. Please try again.');
 		}
 	}
 }

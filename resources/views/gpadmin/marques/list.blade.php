@@ -37,7 +37,7 @@
                                                     <input type="checkbox" class="toggle-status"
                                                         data-id="{{ base64_encode($role->id) }}"
                                                         {{ $role->is_active == '1' ? 'checked' : '' }}>
-                                                    <span class="slider"></span>
+                                                    <span class="slider round"></span>
                                                 </label>
                                                 <input type="hidden" name="id" value="{{ base64_encode($role->id) }}">
                                             </form>

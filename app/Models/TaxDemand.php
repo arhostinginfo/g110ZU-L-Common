@@ -17,6 +17,7 @@ class TaxDemand extends Model
         'demand_amount',
         'collected_amount',
         'percentage',
+        'is_active',
     ];
 
     public function getPercentageAttribute()

@@ -1,20 +1,20 @@
 @extends('gpadmin.layout.master')
 
-@section('title', 'Slider Edit')
+@section('title', 'Edit Slider')
 
 @section('content')
     <div class="row">
         <div class="col-lg-6 col-md-8 mx-auto">
             <div class="card">
                 <div class="card-body">
-
+                    <h3>Edit Slider — {{ $slider->name }}</h3>
 
                     <form action="{{ route('gpadmin.slider.update') }}" method="POST" enctype="multipart/form-data" class="mt-3">
                         @csrf
-                        <input type="hidden" name="encodedId" class="form-control" value="{{ $encodedId }}">
+                        <input type="hidden" name="encodedId" value="{{ $encodedId }}">
 
                         <div class="mb-3">
-                            <label class="form-label">Title</label>
+                            <label class="form-label">Title <span class="text-danger">*</span></label>
                             <input type="text" name="name" value="{{ old('name', $slider->name) }}"
                                 class="form-control @error('name') is-invalid @enderror">
                             @error('name')
@@ -25,8 +25,11 @@
                         @if ($slider->photo)
                             <div class="mb-3">
                                 <label class="form-label d-block">Current Photo</label>
-                                <img style="height: 250px;width: 250px;" src="{{ asset('storage/' . $slider->photo) }}"
-                                    alt="photo" class="table-img mb-2">
+                                <img src="{{ asset('storage/' . $slider->photo) }}"
+                                    alt="photo"
+                                    style="height:120px;width:120px;object-fit:cover;border-radius:8px;cursor:pointer;"
+                                    onclick="openImgModal('{{ asset('storage/' . $slider->photo) }}')"
+                                    class="table-img mb-2">
                             </div>
                         @endif
 
@@ -37,9 +40,21 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Status <span class="text-danger">*</span></label>
+                            <select name="is_active" class="form-control @error('is_active') is-invalid @enderror">
+                                <option value="1" {{ old('is_active', $slider->is_active) == '1' ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ old('is_active', $slider->is_active) == '0' ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                            @error('is_active')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="form-group d-flex justify-content-end">
                             <a href="{{ route('gpadmin.slider.list') }}" class="btn btn-secondary mr-2">Cancel</a>
-                            <button class="btn btn-sm btn-outline-primary" >Update</button>
+                            <button class="btn btn-sm btn-outline-primary">Update</button>
                         </div>
                     </form>
 
@@ -47,5 +62,4 @@
             </div>
         </div>
     </div>
-
 @endsection
