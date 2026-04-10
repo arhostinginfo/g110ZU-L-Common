@@ -48,7 +48,7 @@ input:checked + .toggle-slider:before { transform: translateX(20px); }
 
 <div class="gp-page-title">
     <h3><i class="mdi mdi-map"></i> Talukas</h3>
-    <a href="{{ route('talukas.create') }}" class="btn-title btn-title-primary">
+    <a href="{{ route('superadmin.talukas.create') }}" class="btn-title btn-title-primary">
         <i class="mdi mdi-plus"></i> Add Taluka
     </a>
 </div>
@@ -78,7 +78,7 @@ input:checked + .toggle-slider:before { transform: translateX(20px); }
                     </span>
                 </td>
                 <td>
-                    <form action="{{ route('talukas.updateStatus', $taluka->id) }}" method="POST" class="d-inline-block status-form">
+                    <form action="{{ route('superadmin.talukas.updateStatus', $taluka->id) }}" method="POST" class="d-inline-block status-form">
                         @csrf
                         <label class="toggle-switch">
                             <input type="checkbox" class="toggle-status-cb"
@@ -90,10 +90,10 @@ input:checked + .toggle-slider:before { transform: translateX(20px); }
                 </td>
                 <td>
                     <div class="d-flex gap-2">
-                        <a href="{{ route('talukas.edit', $taluka->id) }}" class="btn btn-action btn-outline-primary">
+                        <a href="{{ route('superadmin.talukas.edit', $taluka->id) }}" class="btn btn-action btn-outline-primary">
                             <i class="mdi mdi-pencil"></i> Edit
                         </a>
-                        <form action="{{ route('talukas.destroy', $taluka->id) }}" method="POST" class="d-inline delete-form">
+                        <form action="{{ route('superadmin.talukas.destroy', $taluka->id) }}" method="POST" class="d-inline delete-form">
                             @csrf @method('DELETE')
                             <button type="submit" class="btn btn-action btn-outline-danger">
                                 <i class="mdi mdi-delete"></i>

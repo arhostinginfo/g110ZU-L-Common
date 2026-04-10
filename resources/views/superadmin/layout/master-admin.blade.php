@@ -316,8 +316,8 @@
                 <span class="sa-nav-label">GP List</span>
             </a>
 
-            <a href="{{ route('talukas.index') }}"
-               class="sa-nav-link {{ request()->routeIs('talukas.*') ? 'active' : '' }}">
+            <a href="{{ route('superadmin.talukas.index') }}"
+               class="sa-nav-link {{ request()->routeIs('superadmin.talukas.*') ? 'active' : '' }}">
                 <i class="mdi mdi-map-marker-multiple-outline"></i>
                 <span class="sa-nav-label">Talukas</span>
             </a>

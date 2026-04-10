@@ -33,7 +33,7 @@ class TalukaController extends Controller
             'is_deleted'  => 0,
         ]);
 
-        return redirect()->route('talukas.index')->with('success', 'Taluka created successfully.');
+        return redirect()->route('superadmin.talukas.index')->with('success', 'Taluka created successfully.');
     }
 
     public function edit(Taluka $taluka)
@@ -55,18 +55,18 @@ class TalukaController extends Controller
             'is_active'   => $request->input('is_active', 1),
         ]);
 
-        return redirect()->route('talukas.index')->with('success', 'Taluka updated successfully.');
+        return redirect()->route('superadmin.talukas.index')->with('success', 'Taluka updated successfully.');
     }
 
     public function destroy(Taluka $taluka)
     {
         $taluka->update(['is_deleted' => 1]);
-        return redirect()->route('talukas.index')->with('success', 'Taluka deleted successfully.');
+        return redirect()->route('superadmin.talukas.index')->with('success', 'Taluka deleted successfully.');
     }
 
     public function updateStatus(Request $request, Taluka $taluka)
     {
         $taluka->update(['is_active' => $request->input('is_active', 0)]);
-        return redirect()->route('talukas.index')->with('success', 'Status updated successfully.');
+        return redirect()->route('superadmin.talukas.index')->with('success', 'Status updated successfully.');
     }
 }

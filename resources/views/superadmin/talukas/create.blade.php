@@ -35,7 +35,7 @@
             <p>Create a new taluka under a district</p>
         </div>
     </div>
-    <a href="{{ route('talukas.index') }}" class="btn-back"><i class="mdi mdi-arrow-left"></i> Back</a>
+    <a href="{{ route('superadmin.talukas.index') }}" class="btn-back"><i class="mdi mdi-arrow-left"></i> Back</a>
 </div>
 
 @if ($errors->any())
@@ -47,7 +47,7 @@
 <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
         <div class="form-card">
-            <form action="{{ route('talukas.store') }}" method="POST">
+            <form action="{{ route('superadmin.talukas.store') }}" method="POST">
                 @csrf
                 <div class="form-card-body">
                     <div class="form-group">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="form-footer">
-                    <a href="{{ route('talukas.index') }}" class="btn-cancel"><i class="mdi mdi-close"></i> Cancel</a>
+                    <a href="{{ route('superadmin.talukas.index') }}" class="btn-cancel"><i class="mdi mdi-close"></i> Cancel</a>
                     <button type="submit" class="btn-save"><i class="mdi mdi-content-save-outline"></i> Save Taluka</button>
                 </div>
             </form>
